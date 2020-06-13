@@ -11,14 +11,18 @@
 class Chip8 {
 
 private:
-    const short int programStartAddress = 0x200;
+    const uint16_t programStartAddress = 0x200;
     static const short int memorySize = 4096;
 
     uint8_t memory[memorySize]{};
     uint8_t registersV[16]{};
     uint16_t registerI;
+    uint16_t programCounter;
+    uint16_t opcode;
+    uint8_t frameBuffer[64 * 32];
 
 public:
+    
     bool LoadProgramIntoMemory(const char *filename) {
         FILE *file = fopen(filename, "rb");
         if (file == nullptr) {
@@ -36,6 +40,60 @@ public:
 
         return true;
     }
+    
+    void processInstruction() {
+        // Fetch instruction
+        opcode = memory[programCounter] << 8 & memory[programCounter + 1];
+        
+        switch (opcode & 0xF000) {
+            case 0x0000:
+                switch (opcode & 0x00FF) {
+                    // 00E0 - CLS
+                    case 0x00E0:
+                        memset(frameBuffer, 64 * 32, sizeof(uint8_t));
+                        programCounter += 2;
+                        break;
+                        
+                    default:
+                        break;
+                }
+                break;
+                
+            // LD I, addr
+            case 0xA000:
+                registerI = opcode & 0x0FFF;
+                programCounter += 2;
+                break;
+                
+            // DRW Vx, Vy, height
+            case 0xD000:
+                uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                uint8_t x = registersV[registerVxIndex];
+                uint8_t y = registersV[registerVyIndex];
+                uint8_t spriteHeight = opcode & 0x000F;
+                uint8_t pixel;
+                
+                registersV[0xF] = 0;
+                
+                for (uint8_t lineY = 0; lineY < spriteHeight; lineY++) {
+                    uint8_t line = memory[registerI + lineY];
+                    
+                    for (uint8_t lineX = 0; lineX < 8; lineX++) {
+                        pixel = line & (0x80 >> lineX);
+                        uint8_t bufferIndex = x + lineX + (y + lineY) * 64;
+                        uint8_t currentPixel = frameBuffer[bufferIndex];
+                        frameBuffer[bufferIndex] = currentPixel ^ pixel;
+                        if (currentPixel != 0 && frameBuffer[bufferIndex] == 0) {
+                            registersV[0xF] = 1;
+                        }
+                    }
+                }
+                
+                programCounter += 2;
+                break;
+        }
+    }
 };
 
 int main(int argc, const char * argv[]) {
@@ -45,7 +103,7 @@ int main(int argc, const char * argv[]) {
     }
 
     Chip8 *chip8 = new Chip8();
-
+    
     if (!chip8->LoadProgramIntoMemory(argv[1])) {
         std::cerr << "Program couldn't be loaded" << std::endl;
         exit(EXIT_FAILURE);

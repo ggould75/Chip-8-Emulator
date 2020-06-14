@@ -40,7 +40,7 @@ void Chip8::processInstruction() {
             switch (opcode & 0x00FF) {
                 // 00E0 - CLS
                 case 0x00E0:
-                    memset(frameBuffer, 64 * 32, sizeof(uint8_t));
+                    memset(&frameBuffer, 64 * 32, sizeof(uint8_t));
                     programCounter += 2;
                     break;
                 

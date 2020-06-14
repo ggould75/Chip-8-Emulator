@@ -15,10 +15,17 @@ private:
     static const short int memorySize = 4096;
 
     uint8_t memory[memorySize]{};
+    
     uint8_t registersV[16]{};
     uint16_t registerI;
+    
     uint16_t programCounter;
+    
+    uint8_t stack[64]{};
+    uint8_t stackIndex;
+    
     uint16_t opcode;
+    
     uint8_t frameBuffer[64 * 32];
 
 public:
@@ -46,6 +53,8 @@ public:
         opcode = memory[programCounter] << 8 & memory[programCounter + 1];
         
         switch (opcode & 0xF000) {
+            // 0nnn - SYS addr. Ignored, not implemented in modern interpreters.
+            
             case 0x0000:
                 switch (opcode & 0x00FF) {
                     // 00E0 - CLS
@@ -53,11 +62,87 @@ public:
                         memset(frameBuffer, 64 * 32, sizeof(uint8_t));
                         programCounter += 2;
                         break;
+                    
+                    // 00EE - RET
+                    case 0x00EE:
+                        stackIndex--;
+                        programCounter = stack[stackIndex];
+                        programCounter += 2;
+                        break;
                         
                     default:
                         break;
                 }
                 break;
+                
+            // 1nnn - JP addr
+            case 0x1000:
+                programCounter = opcode & 0x0FFF;
+                break;
+                
+            // 2nnn - CALL addr
+            case 0x2000:
+                stack[stackIndex] = programCounter;
+                stackIndex++;
+                programCounter = opcode & 0x0FFF;
+                break;
+               
+            // 3xkk - SE Vx, byte
+            case 0x3000: {
+                uint8_t registerIndex = (opcode & 0x0F00) >> 8;
+                uint8_t registerValue = registersV[registerIndex];
+                
+                if (registerValue == (opcode & 0x00FF)) {
+                    programCounter += 4;
+                } else {
+                    programCounter += 2;
+                }
+                break;
+            }
+            
+            // 4xkk - SNE Vx, byte
+            case 0x4000: {
+                uint8_t registerIndex = (opcode & 0x0F00) >> 8;
+                uint8_t registerValue = registersV[registerIndex];
+                
+                if (registerValue != (opcode & 0x00FF)) {
+                    programCounter += 4;
+                } else {
+                    programCounter += 2;
+                }
+                break;
+            }
+            
+            // 5xy0 - SE Vx, Vy
+            case 0x5000: {
+                uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                uint8_t registerVyIndex = (opcode & 0x00F0) >> 8;
+                uint8_t registerVxValue = registersV[registerVxIndex];
+                uint8_t registerVyValue = registersV[registerVyIndex];
+                
+                if (registerVxValue == registerVyValue) {
+                    programCounter += 4;
+                } else {
+                    programCounter += 2;
+                }
+                break;
+            }
+            
+            // 6xkk - LD Vx, byte
+            case 0x6000: {
+                uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                registersV[registerVxIndex] = opcode & 0x00FF;
+                programCounter += 2;
+                break;
+            }
+            
+            // 7xkk - ADD Vx, byte
+            case 0x7000: {
+                uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                registersV[registerVxIndex] += opcode & 0x00FF;
+                programCounter += 2;
+                break;
+            }
                 
             // LD I, addr
             case 0xA000:

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		02359B0824891F7900BC8E19 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02359B0724891F7900BC8E19 /* main.cpp */; };
 		02F8869D24960C7D0090BA53 /* Chip8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02F8869B24960C7D0090BA53 /* Chip8.cpp */; };
+		02F886A62498AB3D0090BA53 /* libSDL2-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		02359B0724891F7900BC8E19 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		02F8869B24960C7D0090BA53 /* Chip8.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Chip8.cpp; sourceTree = "<group>"; };
 		02F8869C24960C7D0090BA53 /* Chip8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Chip8.hpp; sourceTree = "<group>"; };
+		02F8869F24989B090090BA53 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL2-2.0.0.dylib"; path = "../../../../usr/local/Cellar/sdl2/2.0.12_1/lib/libSDL2-2.0.0.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02F886A62498AB3D0090BA53 /* libSDL2-2.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +50,7 @@
 			children = (
 				02359B0624891F7900BC8E19 /* Chip-8-Emulator */,
 				02359B0524891F7900BC8E19 /* Products */,
+				02F8869E24989B090090BA53 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,6 +70,15 @@
 				02F8869C24960C7D0090BA53 /* Chip8.hpp */,
 			);
 			path = "Chip-8-Emulator";
+			sourceTree = "<group>";
+		};
+		02F8869E24989B090090BA53 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */,
+				02F8869F24989B090090BA53 /* SDL2.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,6 +261,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5UY5PDQS;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/sdl2/2.0.12_1/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -257,6 +280,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5UY5PDQS;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/sdl2/2.0.12_1/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

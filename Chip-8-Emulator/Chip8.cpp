@@ -124,6 +124,71 @@ void Chip8::processInstruction() {
             programCounter += 2;
             break;
         }
+           
+        case 0x8000:
+            switch (opcode & 0x000F) {
+                // 8xy0 - LD Vx, Vy
+                case 0x0000: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    registersV[registerVxIndex] = registersV[registerVyIndex];
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // 8xy1 -  OR Vx, Vy
+                case 0x0001: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    registersV[registerVxIndex] |= registersV[registerVyIndex];
+                    programCounter += 2;
+                    break;
+                }
+                
+                // 8xy2 -  AND Vx, Vy
+                case 0x0002: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    registersV[registerVxIndex] &= registersV[registerVyIndex];
+                    programCounter += 2;
+                    break;
+                }
+                
+                // 8xy3 -  XOR Vx, Vy
+                case 0x0003: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    registersV[registerVxIndex] ^= registersV[registerVyIndex];
+                    programCounter += 2;
+                    break;
+                }
+                 
+                // 8xy4 -  ADD Vx, Vy
+                case 0x0004: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    uint16_t result = (uint16_t)registersV[registerVxIndex] + (uint16_t)registersV[registerVyIndex];
+                    registersV[registerVxIndex] = (uint8_t)result;
+                    registersV[0xF] = result >= 0x100;
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // 8xy5 - SUB Vx, Vy
+                case 0x0005: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    uint16_t result = (uint16_t)registersV[registerVxIndex] - (uint16_t)registersV[registerVyIndex];
+                    registersV[registerVxIndex] = (uint8_t)result;
+                    registersV[0xF] = result >= 0;
+                    programCounter += 2;
+                    break;
+                }
+                    
+                default:
+                    break;
+            }
+            break;
             
         // LD I, addr
         case 0xA000:

@@ -97,7 +97,7 @@ void Chip8::processInstruction() {
         // 5xy0 - SE Vx, Vy
         case 0x5000: {
             uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-            uint8_t registerVyIndex = (opcode & 0x00F0) >> 8;
+            uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
             uint8_t registerVxValue = registersV[registerVxIndex];
             uint8_t registerVyValue = registersV[registerVyIndex];
             

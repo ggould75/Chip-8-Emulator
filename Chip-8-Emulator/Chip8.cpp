@@ -184,17 +184,65 @@ void Chip8::processInstruction() {
                     programCounter += 2;
                     break;
                 }
+                
+                // 8xy6 - SHR Vx {, Vy}
+                case 0x0006: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    registersV[0xF] = registersV[registerVxIndex] & 0x1;
+                    registersV[registerVxIndex] >>= 1;
+                    programCounter += 2;
+                    break;
+                }
+                
+                // 8xy7 - SUBN Vx, Vy
+                case 0x0007: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    uint16_t result = (uint16_t)registersV[registerVyIndex] - (uint16_t)registersV[registerVxIndex];
+                    registersV[registerVxIndex] = (uint8_t)result;
+                    registersV[0xF] = result >= 0;
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // 8xyE - SHL Vx {, Vy}
+                case 0x0008: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    registersV[0xF] = registersV[registerVxIndex] & 0x1;
+                    registersV[registerVxIndex] <<= 1;
+                    programCounter += 2;
+                    break;
+                }
                     
                 default:
                     break;
             }
             break;
+           
+        // 9xy0 - SNE Vx, Vy
+        case 0x9000: {
+            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+            uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+            if (registersV[registerVxIndex] != registersV[registerVyIndex]) {
+                programCounter += 4;
+            } else {
+                programCounter += 2;
+            }
+            break;
+        }
             
         // LD I, addr
         case 0xA000:
             registerI = opcode & 0x0FFF;
             programCounter += 2;
             break;
+        
+        // Bnnn - JP V0, addr
+        case 0xB000: {
+            uint16_t nnn = opcode & 0x0FFF;
+            programCounter = nnn + registersV[0];
+            break;
+        }
             
         // DRW Vx, Vy, height
         case 0xD000:

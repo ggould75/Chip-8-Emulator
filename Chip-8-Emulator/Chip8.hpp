@@ -30,6 +30,7 @@ private:
     uint16_t opcode;
     
     uint8_t frameBuffer[64 * 32];
+    bool pressedKeys[0x10]{}; // 16 keys
 
 public:
     

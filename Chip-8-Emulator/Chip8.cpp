@@ -10,6 +10,7 @@
 
 #include <string.h> // FIXME: for memset
 #include <stdio.h>
+#include <stdlib.h>
 
 bool Chip8::LoadProgramIntoMemory(const char *filename) {
     FILE *file = fopen(filename, "rb");
@@ -243,9 +244,16 @@ void Chip8::processInstruction() {
             programCounter = nnn + registersV[0];
             break;
         }
+        
+        // Cxkk - RND Vx, byte
+        case 0xC000: {
+            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+            registersV[registerVxIndex] = (rand() % 0xFF) & (opcode & 0x00FF);
+            break;
+        }
             
         // DRW Vx, Vy, height
-        case 0xD000:
+        case 0xD000: {
             uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
             uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
             uint8_t x = registersV[registerVxIndex];
@@ -270,6 +278,37 @@ void Chip8::processInstruction() {
             }
             
             programCounter += 2;
+            break;
+        }
+    
+        // Ex9E - SKP Vx
+        case 0xE000:
+            switch (opcode & 0x00FF) {
+                
+                // Ex9E - SKP Vx
+                case 0x009E: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t keyIndex = registersV[registerVxIndex];
+                    if (pressedKeys[keyIndex]) {
+                        programCounter += 4;
+                    } else {
+                        programCounter += 2;
+                    }
+                    break;
+                }
+                    
+                // ExA1 - SKNP Vx
+                case 0x00A1: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t keyIndex = registersV[registerVxIndex];
+                    if (!pressedKeys[keyIndex]) {
+                        programCounter += 4;
+                    } else {
+                        programCounter += 2;
+                    }
+                    break;
+                }
+            }
             break;
     }
 }

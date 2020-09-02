@@ -30,6 +30,8 @@ private:
     uint16_t opcode;
     
     uint8_t frameBuffer[64 * 32];
+    uint8_t delayTimer = 0;
+    uint8_t soundTimer = 0;
     bool pressedKeys[0x10]{}; // 16 keys
 
 public:

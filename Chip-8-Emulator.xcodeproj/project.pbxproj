@@ -107,7 +107,7 @@
 		02359AFC24891F7900BC8E19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Marco Mussini";
 				TargetAttributes = {
 					02359B0324891F7900BC8E19 = {
@@ -258,6 +258,7 @@
 		02359B0C24891F7900BC8E19 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5UY5PDQS;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -277,6 +278,7 @@
 		02359B0D24891F7900BC8E19 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5UY5PDQS;
 				ENABLE_HARDENED_RUNTIME = YES;

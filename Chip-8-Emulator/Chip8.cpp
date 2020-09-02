@@ -281,7 +281,6 @@ void Chip8::processInstruction() {
             break;
         }
     
-        // Ex9E - SKP Vx
         case 0xE000:
             switch (opcode & 0x00FF) {
                 
@@ -306,6 +305,111 @@ void Chip8::processInstruction() {
                     } else {
                         programCounter += 2;
                     }
+                    break;
+                }
+            }
+            break;
+            
+        case 0xF000:
+            switch (opcode & 0x00FF) {
+            
+                // Fx07 - LD Vx, DT
+                case 0x0007: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    registersV[registerVxIndex] = delayTimer;
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // Fx0A - LD Vx, K
+                case 0x000A: {
+                    bool keyPress = false;
+                    
+                    // TODO: store 16 into a const?
+                    for (int i = 0; i < 16; ++i) {
+                        if (pressedKeys[i]) {
+                            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                            registersV[registerVxIndex] = i;
+                            keyPress = true;
+                        }
+                    }
+                    
+                    // No key was pressed, skip this cycle
+                    if (!keyPress) { return; }
+                    
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // Fx15 - LD DT, Vx
+                case 0x0015: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    delayTimer = registersV[registerVxIndex];
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // Fx18 - LD ST, Vx
+                case 0x0018: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    soundTimer = registersV[registerVxIndex];
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // Fx1E - ADD I, Vx
+                case 0x001E: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    registerI += registersV[registerVxIndex];
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // Fx29 - LD F, Vx
+                case 0x0029: {
+                    // Vx register contains the index of the digit/char that has to be loaded
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    // register I should point to the location in memory of the requested symbol
+                    registerI = registersV[registerVxIndex] * 0x5;
+                    programCounter += 2;
+                    break;
+                }
+             
+                // Fx33 - LD B, Vx
+                case 0x0033: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    // Given a number with 3 digits stored in registersV[registerVxIndex],
+                    // stores hundred-digit in location I, tens-digit in I+1, ones-digit in I+2
+                    memory[registerI] = registersV[registerVxIndex] / 100;
+                    memory[registerI + 1] = (registersV[registerVxIndex] / 10) % 10;
+                    memory[registerI + 2] = registersV[registerVxIndex] % 10;
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // Fx55 - LD [I], Vx
+                case 0x0055: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    
+                    for (int i = 0; i <= registerVxIndex; i++) {
+                        memory[registerI + i] = registersV[registerVxIndex];
+                    }
+                    
+                    registerI += registerVxIndex + 1;
+                    programCounter += 2;
+                    break;
+                }
+                    
+                // Fx65 - LD Vx, [I]
+                case 0x0065: {
+                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    
+                    for (int i = 0, j = 0; i <= registerVxIndex; i++, j++) {
+                        registersV[i] = memory[registerI + i];
+                    }
+                    
+                    registerI += registerVxIndex + 1;
+                    programCounter += 2;
                     break;
                 }
             }

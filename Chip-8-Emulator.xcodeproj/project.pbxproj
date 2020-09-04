@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		02359B0824891F7900BC8E19 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02359B0724891F7900BC8E19 /* main.cpp */; };
 		02F8869D24960C7D0090BA53 /* Chip8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02F8869B24960C7D0090BA53 /* Chip8.cpp */; };
-		02F886A62498AB3D0090BA53 /* libSDL2-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,7 +37,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02F886A62498AB3D0090BA53 /* libSDL2-2.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,10 +265,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = /usr/local/include;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/sdl2/2.0.12_1/lib,
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -287,10 +282,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = /usr/local/include;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/sdl2/2.0.12_1/lib,
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -8,9 +8,35 @@
 
 #include "Chip8.hpp"
 
+#include <iostream>
 #include <string.h> // FIXME: for memset
 #include <stdio.h>
 #include <stdlib.h>
+
+Chip8::Chip8() {
+    Reset();
+}
+
+void Chip8::Reset() {
+    memset(memory, 0, memorySize);
+    memset(registersV, 0, numberOfRegisters);
+    
+    registerI = 0;
+    stackIndex = 0;
+    
+    programCounter = programStartAddress;
+    
+    for (int i = 0; i < stackSize; i++) {
+        stack[i] = 0;
+    }
+    
+    delayTimer = 0;
+    soundTimer = 0;
+    
+    for (int i = 0; i < numberOfKeys; i++) {
+        pressedKeys[i] = false;
+    }
+}
 
 bool Chip8::LoadProgramIntoMemory(const char *filename) {
     FILE *file = fopen(filename, "rb");
@@ -30,9 +56,18 @@ bool Chip8::LoadProgramIntoMemory(const char *filename) {
     return true;
 }
 
-void Chip8::processInstruction() {
+void Chip8::RunLoop() {
+    for (;;) {
+        Chip8::ProcessInstruction();
+        // TODO: update display, timers etc...
+    }
+}
+
+void Chip8::ProcessInstruction() {
     // Fetch instruction
-    opcode = memory[programCounter] << 8 & memory[programCounter + 1];
+    opcode = memory[programCounter] << 8 | memory[programCounter + 1];
+    
+    std::cout << "Processing " << opcode << ", PC: " << programCounter << std::endl;
     
     switch (opcode & 0xF000) {
         // 0nnn - SYS addr. Ignored, not implemented in modern interpreters.
@@ -43,13 +78,13 @@ void Chip8::processInstruction() {
                 case 0x00E0:
                     memset(&frameBuffer, 64 * 32, sizeof(uint8_t));
                     programCounter += 2;
+                    // TODO: redraw screen
                     break;
                 
                 // 00EE - RET
                 case 0x00EE:
                     stackIndex--;
                     programCounter = stack[stackIndex];
-                    programCounter += 2;
                     break;
                     
                 default:
@@ -278,6 +313,7 @@ void Chip8::processInstruction() {
             }
             
             programCounter += 2;
+            // TODO: redraw screen
             break;
         }
     
@@ -325,8 +361,7 @@ void Chip8::processInstruction() {
                 case 0x000A: {
                     bool keyPress = false;
                     
-                    // TODO: store 16 into a const?
-                    for (int i = 0; i < 16; ++i) {
+                    for (int i = 0; i < numberOfRegisters; ++i) {
                         if (pressedKeys[i]) {
                             uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
                             registersV[registerVxIndex] = i;

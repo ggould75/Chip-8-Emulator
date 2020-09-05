@@ -63,6 +63,26 @@ void Chip8::RunLoop() {
     }
 }
 
+uint16_t Chip8::ArgVx(uint16_t opcode) const {
+    return (opcode & 0x0F00) >> 8;
+}
+
+uint16_t Chip8::ArgVy(uint16_t opcode) const {
+    return (opcode & 0x00F0) >> 4;
+}
+
+uint16_t Chip8::ArgN(uint16_t opcode) const {
+    return opcode & 0x000F;
+}
+
+uint16_t Chip8::ArgNN(uint16_t opcode) const {
+  return opcode & 0x00FF;
+}
+
+uint16_t Chip8::ArgNNN(uint16_t opcode) const {
+  return opcode & 0x0FFF;
+}
+
 void Chip8::ProcessInstruction() {
     // Fetch instruction
     opcode = memory[programCounter] << 8 | memory[programCounter + 1];
@@ -73,10 +93,10 @@ void Chip8::ProcessInstruction() {
         // 0nnn - SYS addr. Ignored, not implemented in modern interpreters.
         
         case 0x0000:
-            switch (opcode & 0x00FF) {
+            switch (ArgNN(opcode)) {
                 // 00E0 - CLS
                 case 0x00E0:
-                    memset(&frameBuffer, 64 * 32, sizeof(uint8_t));
+                    memset(frameBuffer, 0, sizeof(uint8_t) * 64 * 32);
                     programCounter += 2;
                     // TODO: redraw screen
                     break;
@@ -94,22 +114,21 @@ void Chip8::ProcessInstruction() {
             
         // 1nnn - JP addr
         case 0x1000:
-            programCounter = opcode & 0x0FFF;
+            programCounter = ArgNNN(opcode);
             break;
             
         // 2nnn - CALL addr
         case 0x2000:
             stack[stackIndex] = programCounter;
             stackIndex++;
-            programCounter = opcode & 0x0FFF;
+            programCounter = ArgNNN(opcode);
             break;
            
         // 3xkk - SE Vx, byte
         case 0x3000: {
-            uint8_t registerIndex = (opcode & 0x0F00) >> 8;
-            uint8_t registerValue = registersV[registerIndex];
+            uint8_t registerVxValue = registersV[ArgVx(opcode)];
             
-            if (registerValue == (opcode & 0x00FF)) {
+            if (registerVxValue == ArgNN(opcode)) {
                 programCounter += 4;
             } else {
                 programCounter += 2;
@@ -119,10 +138,9 @@ void Chip8::ProcessInstruction() {
         
         // 4xkk - SNE Vx, byte
         case 0x4000: {
-            uint8_t registerIndex = (opcode & 0x0F00) >> 8;
-            uint8_t registerValue = registersV[registerIndex];
+            uint8_t registerVxValue = registersV[ArgVx(opcode)];
             
-            if (registerValue != (opcode & 0x00FF)) {
+            if (registerVxValue != ArgNN(opcode)) {
                 programCounter += 4;
             } else {
                 programCounter += 2;
@@ -132,10 +150,8 @@ void Chip8::ProcessInstruction() {
         
         // 5xy0 - SE Vx, Vy
         case 0x5000: {
-            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-            uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
-            uint8_t registerVxValue = registersV[registerVxIndex];
-            uint8_t registerVyValue = registersV[registerVyIndex];
+            uint8_t registerVxValue = registersV[ArgVx(opcode)];
+            uint8_t registerVyValue = registersV[ArgVy(opcode)];
             
             if (registerVxValue == registerVyValue) {
                 programCounter += 4;
@@ -147,62 +163,52 @@ void Chip8::ProcessInstruction() {
         
         // 6xkk - LD Vx, byte
         case 0x6000: {
-            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-            registersV[registerVxIndex] = opcode & 0x00FF;
+            registersV[ArgVx(opcode)] = ArgNN(opcode);
             programCounter += 2;
             break;
         }
         
         // 7xkk - ADD Vx, byte
         case 0x7000: {
-            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-            registersV[registerVxIndex] += opcode & 0x00FF;
+            registersV[ArgVx(opcode)] += ArgNN(opcode);
             programCounter += 2;
             break;
         }
            
         case 0x8000:
-            switch (opcode & 0x000F) {
+            switch (ArgN(opcode)) {
                 // 8xy0 - LD Vx, Vy
                 case 0x0000: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
-                    registersV[registerVxIndex] = registersV[registerVyIndex];
+                    registersV[ArgVx(opcode)] = registersV[ArgVy(opcode)];
                     programCounter += 2;
                     break;
                 }
                     
                 // 8xy1 -  OR Vx, Vy
                 case 0x0001: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
-                    registersV[registerVxIndex] |= registersV[registerVyIndex];
+                    registersV[ArgVx(opcode)] |= registersV[ArgVy(opcode)];
                     programCounter += 2;
                     break;
                 }
                 
                 // 8xy2 -  AND Vx, Vy
                 case 0x0002: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
-                    registersV[registerVxIndex] &= registersV[registerVyIndex];
+                    registersV[ArgVx(opcode)] &= registersV[ArgVy(opcode)];
                     programCounter += 2;
                     break;
                 }
                 
                 // 8xy3 -  XOR Vx, Vy
                 case 0x0003: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
-                    registersV[registerVxIndex] ^= registersV[registerVyIndex];
+                    registersV[ArgVx(opcode)] ^= registersV[ArgVy(opcode)];
                     programCounter += 2;
                     break;
                 }
                  
                 // 8xy4 -  ADD Vx, Vy
                 case 0x0004: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    uint8_t registerVxIndex = ArgVx(opcode);
+                    uint8_t registerVyIndex = ArgVy(opcode);
                     uint16_t result = (uint16_t)registersV[registerVxIndex] + (uint16_t)registersV[registerVyIndex];
                     registersV[registerVxIndex] = (uint8_t)result;
                     registersV[0xF] = result >= 0x100;
@@ -212,8 +218,8 @@ void Chip8::ProcessInstruction() {
                     
                 // 8xy5 - SUB Vx, Vy
                 case 0x0005: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    uint8_t registerVxIndex = ArgVx(opcode);
+                    uint8_t registerVyIndex = ArgVy(opcode);
                     uint16_t result = (uint16_t)registersV[registerVxIndex] - (uint16_t)registersV[registerVyIndex];
                     registersV[registerVxIndex] = (uint8_t)result;
                     registersV[0xF] = result >= 0;
@@ -223,7 +229,7 @@ void Chip8::ProcessInstruction() {
                 
                 // 8xy6 - SHR Vx {, Vy}
                 case 0x0006: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVxIndex = ArgVx(opcode);
                     registersV[0xF] = registersV[registerVxIndex] & 0x1;
                     registersV[registerVxIndex] >>= 1;
                     programCounter += 2;
@@ -232,8 +238,8 @@ void Chip8::ProcessInstruction() {
                 
                 // 8xy7 - SUBN Vx, Vy
                 case 0x0007: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
+                    uint8_t registerVxIndex = ArgVx(opcode);
+                    uint8_t registerVyIndex = ArgVy(opcode);
                     uint16_t result = (uint16_t)registersV[registerVyIndex] - (uint16_t)registersV[registerVxIndex];
                     registersV[registerVxIndex] = (uint8_t)result;
                     registersV[0xF] = result >= 0;
@@ -243,7 +249,7 @@ void Chip8::ProcessInstruction() {
                     
                 // 8xyE - SHL Vx {, Vy}
                 case 0x0008: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVxIndex = ArgVx(opcode);
                     registersV[0xF] = registersV[registerVxIndex] & 0x1;
                     registersV[registerVxIndex] <<= 1;
                     programCounter += 2;
@@ -257,9 +263,7 @@ void Chip8::ProcessInstruction() {
            
         // 9xy0 - SNE Vx, Vy
         case 0x9000: {
-            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-            uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
-            if (registersV[registerVxIndex] != registersV[registerVyIndex]) {
+            if (registersV[ArgVx(opcode)] != registersV[ArgVy(opcode)]) {
                 programCounter += 4;
             } else {
                 programCounter += 2;
@@ -269,31 +273,28 @@ void Chip8::ProcessInstruction() {
             
         // LD I, addr
         case 0xA000:
-            registerI = opcode & 0x0FFF;
+            registerI = ArgNNN(opcode);
             programCounter += 2;
             break;
         
         // Bnnn - JP V0, addr
         case 0xB000: {
-            uint16_t nnn = opcode & 0x0FFF;
+            uint16_t nnn = ArgNNN(opcode);
             programCounter = nnn + registersV[0];
             break;
         }
         
         // Cxkk - RND Vx, byte
         case 0xC000: {
-            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-            registersV[registerVxIndex] = (rand() % 0xFF) & (opcode & 0x00FF);
+            registersV[ArgVx(opcode)] = (rand() % 0xFF) & ArgNN(opcode);
             break;
         }
             
         // DRW Vx, Vy, height
         case 0xD000: {
-            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-            uint8_t registerVyIndex = (opcode & 0x00F0) >> 4;
-            uint8_t x = registersV[registerVxIndex];
-            uint8_t y = registersV[registerVyIndex];
-            uint8_t spriteHeight = opcode & 0x000F;
+            uint8_t x = registersV[ArgVx(opcode)];
+            uint8_t y = registersV[ArgVy(opcode)];
+            uint8_t spriteHeight = ArgN(opcode);
             uint8_t pixel;
             
             registersV[0xF] = 0;
@@ -318,12 +319,11 @@ void Chip8::ProcessInstruction() {
         }
     
         case 0xE000:
-            switch (opcode & 0x00FF) {
+            switch (ArgNN(opcode)) {
                 
                 // Ex9E - SKP Vx
                 case 0x009E: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t keyIndex = registersV[registerVxIndex];
+                    uint8_t keyIndex = registersV[ArgVx(opcode)];
                     if (pressedKeys[keyIndex]) {
                         programCounter += 4;
                     } else {
@@ -334,8 +334,7 @@ void Chip8::ProcessInstruction() {
                     
                 // ExA1 - SKNP Vx
                 case 0x00A1: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    uint8_t keyIndex = registersV[registerVxIndex];
+                    uint8_t keyIndex = registersV[ArgVx(opcode)];
                     if (!pressedKeys[keyIndex]) {
                         programCounter += 4;
                     } else {
@@ -347,12 +346,11 @@ void Chip8::ProcessInstruction() {
             break;
             
         case 0xF000:
-            switch (opcode & 0x00FF) {
+            switch (ArgNN(opcode)) {
             
                 // Fx07 - LD Vx, DT
                 case 0x0007: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    registersV[registerVxIndex] = delayTimer;
+                    registersV[ArgVx(opcode)] = delayTimer;
                     programCounter += 2;
                     break;
                 }
@@ -363,8 +361,7 @@ void Chip8::ProcessInstruction() {
                     
                     for (int i = 0; i < numberOfRegisters; ++i) {
                         if (pressedKeys[i]) {
-                            uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                            registersV[registerVxIndex] = i;
+                            registersV[ArgVx(opcode)] = i;
                             keyPress = true;
                         }
                     }
@@ -378,41 +375,37 @@ void Chip8::ProcessInstruction() {
                     
                 // Fx15 - LD DT, Vx
                 case 0x0015: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    delayTimer = registersV[registerVxIndex];
+                    delayTimer = registersV[ArgVx(opcode)];
                     programCounter += 2;
                     break;
                 }
                     
                 // Fx18 - LD ST, Vx
                 case 0x0018: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    soundTimer = registersV[registerVxIndex];
+                    soundTimer = registersV[ArgVx(opcode)];
                     programCounter += 2;
                     break;
                 }
                     
                 // Fx1E - ADD I, Vx
                 case 0x001E: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    registerI += registersV[registerVxIndex];
+                    registerI += registersV[ArgVx(opcode)];
                     programCounter += 2;
                     break;
                 }
                     
                 // Fx29 - LD F, Vx
                 case 0x0029: {
-                    // Vx register contains the index of the digit/char that has to be loaded
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
-                    // register I should point to the location in memory of the requested symbol
-                    registerI = registersV[registerVxIndex] * 0x5;
+                    // Vx register contains the index of the digit/char that has to be loaded.
+                    // Register I should point to the location in memory of the requested symbol
+                    registerI = registersV[ArgVx(opcode)] * 0x5;
                     programCounter += 2;
                     break;
                 }
              
                 // Fx33 - LD B, Vx
                 case 0x0033: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVxIndex = ArgVx(opcode);
                     // Given a number with 3 digits stored in registersV[registerVxIndex],
                     // stores hundred-digit in location I, tens-digit in I+1, ones-digit in I+2
                     memory[registerI] = registersV[registerVxIndex] / 100;
@@ -424,7 +417,7 @@ void Chip8::ProcessInstruction() {
                     
                 // Fx55 - LD [I], Vx
                 case 0x0055: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVxIndex = ArgVx(opcode);
                     
                     for (int i = 0; i <= registerVxIndex; i++) {
                         memory[registerI + i] = registersV[registerVxIndex];
@@ -437,7 +430,7 @@ void Chip8::ProcessInstruction() {
                     
                 // Fx65 - LD Vx, [I]
                 case 0x0065: {
-                    uint8_t registerVxIndex = (opcode & 0x0F00) >> 8;
+                    uint8_t registerVxIndex = ArgVx(opcode);
                     
                     for (int i = 0, j = 0; i <= registerVxIndex; i++, j++) {
                         registersV[i] = memory[registerI + i];

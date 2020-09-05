@@ -39,6 +39,12 @@ private:
 
     void Reset();
     
+    uint16_t ArgVx(uint16_t opcode) const;
+    uint16_t ArgVy(uint16_t opcode) const;
+    uint16_t ArgN(uint16_t opcode) const;
+    uint16_t ArgNN(uint16_t opcode) const;
+    uint16_t ArgNNN(uint16_t opcode) const;
+    
 public:
     Chip8();
     

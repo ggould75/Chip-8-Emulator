@@ -27,7 +27,8 @@ private:
     
     uint16_t programCounter;
     
-    uint16_t stack[stackSize]{}; // 16 bits stack instead of 8
+    // Using 16 bits stack instead of 8 bits, otherwise some values will not be stored properly
+    uint16_t stack[stackSize]{};
     uint8_t stackIndex = 0;
     
     uint16_t opcode;

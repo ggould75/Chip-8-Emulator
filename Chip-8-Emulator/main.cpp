@@ -30,7 +30,7 @@ int main(int argc, const char * argv[]) {
         printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
         exit(EXIT_FAILURE);
     }
-    
+        
     int screenWidth = 64 * PIXEL_SIZE;
     int screenHeight = 32 * PIXEL_SIZE;
     
@@ -41,7 +41,7 @@ int main(int argc, const char * argv[]) {
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
-  
+      
 /**
     // 1/3) Test draw a pixel using renderer
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -50,7 +50,6 @@ int main(int argc, const char * argv[]) {
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
-
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDrawPoint(renderer, 100, 100);
     SDL_RenderPresent(renderer);
@@ -103,6 +102,8 @@ int main(int argc, const char * argv[]) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+    
+//    chip8->RunLoop();
     
     return 0;
 }

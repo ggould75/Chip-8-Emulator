@@ -7,29 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021560542504F0C400621310 /* SDL2.framework in Copy Bundle Frameworks */ = {isa = PBXBuildFile; fileRef = 021560532504F0C400621310 /* SDL2.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		02359B0824891F7900BC8E19 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02359B0724891F7900BC8E19 /* main.cpp */; };
 		02F8869D24960C7D0090BA53 /* Chip8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02F8869B24960C7D0090BA53 /* Chip8.cpp */; };
-		02F886A62498AB3D0090BA53 /* libSDL2-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		02359B0224891F7900BC8E19 /* CopyFiles */ = {
+		021560522504F07300621310 /* Copy Bundle Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = "";
+			dstSubfolderSpec = 10;
 			files = (
+				021560542504F0C400621310 /* SDL2.framework in Copy Bundle Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			name = "Copy Bundle Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		021560532504F0C400621310 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = "ThirdParty/SDL2-2.0.12/SDL2.framework"; sourceTree = "<group>"; };
+		021560562504F40B00621310 /* Chip-8-Emulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Chip-8-Emulator.entitlements"; sourceTree = "<group>"; };
 		02359B0424891F7900BC8E19 /* Chip-8-Emulator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Chip-8-Emulator"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02359B0724891F7900BC8E19 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		02F8869B24960C7D0090BA53 /* Chip8.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Chip8.cpp; sourceTree = "<group>"; };
 		02F8869C24960C7D0090BA53 /* Chip8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Chip8.hpp; sourceTree = "<group>"; };
-		02F8869F24989B090090BA53 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL2-2.0.0.dylib"; path = "../../../../usr/local/Cellar/sdl2/2.0.12_1/lib/libSDL2-2.0.0.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -38,7 +41,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02F886A62498AB3D0090BA53 /* libSDL2-2.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +50,7 @@
 		02359AFB24891F7900BC8E19 = {
 			isa = PBXGroup;
 			children = (
+				021560532504F0C400621310 /* SDL2.framework */,
 				02359B0624891F7900BC8E19 /* Chip-8-Emulator */,
 				02359B0524891F7900BC8E19 /* Products */,
 				02F8869E24989B090090BA53 /* Frameworks */,
@@ -65,6 +68,7 @@
 		02359B0624891F7900BC8E19 /* Chip-8-Emulator */ = {
 			isa = PBXGroup;
 			children = (
+				021560562504F40B00621310 /* Chip-8-Emulator.entitlements */,
 				02359B0724891F7900BC8E19 /* main.cpp */,
 				02F8869B24960C7D0090BA53 /* Chip8.cpp */,
 				02F8869C24960C7D0090BA53 /* Chip8.hpp */,
@@ -76,7 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */,
-				02F8869F24989B090090BA53 /* SDL2.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -90,7 +93,7 @@
 			buildPhases = (
 				02359B0024891F7900BC8E19 /* Sources */,
 				02359B0124891F7900BC8E19 /* Frameworks */,
-				02359B0224891F7900BC8E19 /* CopyFiles */,
+				021560522504F07300621310 /* Copy Bundle Frameworks */,
 			);
 			buildRules = (
 			);
@@ -182,6 +185,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/ThirdParty/SDL2-2.0.12/SDL2.framework\"";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -200,6 +204,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SDL2,
+				);
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -240,6 +248,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/ThirdParty/SDL2-2.0.12/SDL2.framework\"";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -251,6 +260,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SDL2,
+				);
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -258,6 +271,7 @@
 		02359B0C24891F7900BC8E19 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Chip-8-Emulator/Chip-8-Emulator.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5UY5PDQS;
@@ -265,12 +279,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/ThirdParty/SDL2-2.0.12",
 				);
 				HEADER_SEARCH_PATHS = /usr/local/include;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/sdl2/2.0.12_1/lib,
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -278,6 +290,7 @@
 		02359B0D24891F7900BC8E19 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Chip-8-Emulator/Chip-8-Emulator.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5UY5PDQS;
@@ -285,12 +298,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/ThirdParty/SDL2-2.0.12",
 				);
 				HEADER_SEARCH_PATHS = /usr/local/include;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/sdl2/2.0.12_1/lib,
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

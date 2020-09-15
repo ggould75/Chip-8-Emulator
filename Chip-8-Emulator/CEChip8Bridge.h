@@ -1,5 +1,5 @@
 //
-//  ObjectiveCppBridge.hpp
+//  CEChip8Bridge.hpp
 //  Chip-8-Emulator
 //
 //  Created by Marco Mussini on 06/09/2020.
@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-NS_SWIFT_NAME(ObjectiveCppBridge)
-@interface CEObjectiveCppBridge : NSObject
+NS_SWIFT_NAME(Chip8Bridge)
+@interface CEChip8Bridge : NSObject
 
-- (void)testLoadingRom;
+- (void)reset;
+- (void)loadRomWithName:(NSString *)name;
 
 @end

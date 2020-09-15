@@ -18,7 +18,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let chip8 = ObjectiveCppBridge()
-        chip8.testLoadingRom()
+        let chip8 = Chip8Bridge()
+        chip8.loadRom(withName: "tetris")
     }
 }

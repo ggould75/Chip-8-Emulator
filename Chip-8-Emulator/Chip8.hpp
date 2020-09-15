@@ -9,6 +9,7 @@
 #ifndef Chip8_hpp
 #define Chip8_hpp
 
+#include <stdio.h>
 #include <stdint.h>
 
 class Chip8 {

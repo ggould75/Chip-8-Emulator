@@ -7,37 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		021560542504F0C400621310 /* SDL2.framework in Copy Bundle Frameworks */ = {isa = PBXBuildFile; fileRef = 021560532504F0C400621310 /* SDL2.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		02359B0824891F7900BC8E19 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02359B0724891F7900BC8E19 /* main.cpp */; };
-		02F8869D24960C7D0090BA53 /* Chip8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02F8869B24960C7D0090BA53 /* Chip8.cpp */; };
+		021560642505479600621310 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021560632505479600621310 /* AppDelegate.swift */; };
+		021560662505479600621310 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021560652505479600621310 /* ViewController.swift */; };
+		021560682505479800621310 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 021560672505479800621310 /* Assets.xcassets */; };
+		0215607625054BDF00621310 /* Chip8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215607425054BDF00621310 /* Chip8.cpp */; };
+		0215607E25055BF100621310 /* CEObjectiveCppBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0215607C25055BF100621310 /* CEObjectiveCppBridge.mm */; };
+		02262A9C2510DA7900C9F28C /* Roms in Resources */ = {isa = PBXBuildFile; fileRef = 02262A9B2510DA7900C9F28C /* Roms */; };
+		02AE57962510EC0F002AC8BD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AE57952510EC0F002AC8BD /* main.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		021560522504F07300621310 /* Copy Bundle Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				021560542504F0C400621310 /* SDL2.framework in Copy Bundle Frameworks */,
-			);
-			name = "Copy Bundle Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		021560532504F0C400621310 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = "ThirdParty/SDL2-2.0.12/SDL2.framework"; sourceTree = "<group>"; };
-		021560562504F40B00621310 /* Chip-8-Emulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Chip-8-Emulator.entitlements"; sourceTree = "<group>"; };
-		02359B0424891F7900BC8E19 /* Chip-8-Emulator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Chip-8-Emulator"; sourceTree = BUILT_PRODUCTS_DIR; };
-		02359B0724891F7900BC8E19 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		02F8869B24960C7D0090BA53 /* Chip8.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Chip8.cpp; sourceTree = "<group>"; };
-		02F8869C24960C7D0090BA53 /* Chip8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Chip8.hpp; sourceTree = "<group>"; };
-		02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL2-2.0.0.dylib"; path = "../../../../usr/local/Cellar/sdl2/2.0.12_1/lib/libSDL2-2.0.0.dylib"; sourceTree = "<group>"; };
+		021560602505479600621310 /* Chip-8-Emulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chip-8-Emulator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		021560632505479600621310 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		021560652505479600621310 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		021560672505479800621310 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0215606C2505479800621310 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0215606D2505479800621310 /* Chip_8_Emulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Chip_8_Emulator.entitlements; sourceTree = "<group>"; };
+		0215607325054BDE00621310 /* Chip-8-Emulator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Chip-8-Emulator-Bridging-Header.h"; sourceTree = "<group>"; };
+		0215607425054BDF00621310 /* Chip8.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Chip8.cpp; sourceTree = "<group>"; };
+		0215607525054BDF00621310 /* Chip8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Chip8.hpp; sourceTree = "<group>"; };
+		0215607C25055BF100621310 /* CEObjectiveCppBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CEObjectiveCppBridge.mm; sourceTree = "<group>"; };
+		0215607D25055BF100621310 /* CEObjectiveCppBridge.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = CEObjectiveCppBridge.h; sourceTree = "<group>"; };
+		02262A9B2510DA7900C9F28C /* Roms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Roms; sourceTree = SOURCE_ROOT; };
+		02AE57952510EC0F002AC8BD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		02359B0124891F7900BC8E19 /* Frameworks */ = {
+		0215605D2505479600621310 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -47,53 +43,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		02359AFB24891F7900BC8E19 = {
+		021560572505479600621310 = {
 			isa = PBXGroup;
 			children = (
-				021560532504F0C400621310 /* SDL2.framework */,
-				02359B0624891F7900BC8E19 /* Chip-8-Emulator */,
-				02359B0524891F7900BC8E19 /* Products */,
-				02F8869E24989B090090BA53 /* Frameworks */,
+				021560622505479600621310 /* Chip-8-Emulator */,
+				021560612505479600621310 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		02359B0524891F7900BC8E19 /* Products */ = {
+		021560612505479600621310 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				02359B0424891F7900BC8E19 /* Chip-8-Emulator */,
+				021560602505479600621310 /* Chip-8-Emulator.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		02359B0624891F7900BC8E19 /* Chip-8-Emulator */ = {
+		021560622505479600621310 /* Chip-8-Emulator */ = {
 			isa = PBXGroup;
 			children = (
-				021560562504F40B00621310 /* Chip-8-Emulator.entitlements */,
-				02359B0724891F7900BC8E19 /* main.cpp */,
-				02F8869B24960C7D0090BA53 /* Chip8.cpp */,
-				02F8869C24960C7D0090BA53 /* Chip8.hpp */,
+				02262A9B2510DA7900C9F28C /* Roms */,
+				021560632505479600621310 /* AppDelegate.swift */,
+				021560652505479600621310 /* ViewController.swift */,
+				021560672505479800621310 /* Assets.xcassets */,
+				0215606D2505479800621310 /* Chip_8_Emulator.entitlements */,
+				0215606C2505479800621310 /* Info.plist */,
+				0215607425054BDF00621310 /* Chip8.cpp */,
+				0215607525054BDF00621310 /* Chip8.hpp */,
+				0215607325054BDE00621310 /* Chip-8-Emulator-Bridging-Header.h */,
+				0215607C25055BF100621310 /* CEObjectiveCppBridge.mm */,
+				0215607D25055BF100621310 /* CEObjectiveCppBridge.h */,
+				02AE57952510EC0F002AC8BD /* main.swift */,
 			);
 			path = "Chip-8-Emulator";
-			sourceTree = "<group>";
-		};
-		02F8869E24989B090090BA53 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				02F886A22498A15B0090BA53 /* libSDL2-2.0.0.dylib */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		02359B0324891F7900BC8E19 /* Chip-8-Emulator */ = {
+		0215605F2505479600621310 /* Chip-8-Emulator */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 02359B0B24891F7900BC8E19 /* Build configuration list for PBXNativeTarget "Chip-8-Emulator" */;
+			buildConfigurationList = 021560702505479800621310 /* Build configuration list for PBXNativeTarget "Chip-8-Emulator" */;
 			buildPhases = (
-				02359B0024891F7900BC8E19 /* Sources */,
-				02359B0124891F7900BC8E19 /* Frameworks */,
-				021560522504F07300621310 /* Copy Bundle Frameworks */,
+				0215605C2505479600621310 /* Sources */,
+				0215605D2505479600621310 /* Frameworks */,
+				0215605E2505479600621310 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -101,24 +95,26 @@
 			);
 			name = "Chip-8-Emulator";
 			productName = "Chip-8-Emulator";
-			productReference = 02359B0424891F7900BC8E19 /* Chip-8-Emulator */;
-			productType = "com.apple.product-type.tool";
+			productReference = 021560602505479600621310 /* Chip-8-Emulator.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		02359AFC24891F7900BC8E19 /* Project object */ = {
+		021560582505479600621310 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1160;
+				LastSwiftUpdateCheck = 1170;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Marco Mussini";
 				TargetAttributes = {
-					02359B0324891F7900BC8E19 = {
-						CreatedOnToolsVersion = 11.5;
+					0215605F2505479600621310 = {
+						CreatedOnToolsVersion = 11.7;
+						LastSwiftMigration = 1170;
 					};
 				};
 			};
-			buildConfigurationList = 02359AFF24891F7900BC8E19 /* Build configuration list for PBXProject "Chip-8-Emulator" */;
+			buildConfigurationList = 0215605B2505479600621310 /* Build configuration list for PBXProject "Chip-8-Emulator" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -126,30 +122,45 @@
 				en,
 				Base,
 			);
-			mainGroup = 02359AFB24891F7900BC8E19;
-			productRefGroup = 02359B0524891F7900BC8E19 /* Products */;
+			mainGroup = 021560572505479600621310;
+			productRefGroup = 021560612505479600621310 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				02359B0324891F7900BC8E19 /* Chip-8-Emulator */,
+				0215605F2505479600621310 /* Chip-8-Emulator */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		0215605E2505479600621310 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				021560682505479800621310 /* Assets.xcassets in Resources */,
+				02262A9C2510DA7900C9F28C /* Roms in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		02359B0024891F7900BC8E19 /* Sources */ = {
+		0215605C2505479600621310 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02F8869D24960C7D0090BA53 /* Chip8.cpp in Sources */,
-				02359B0824891F7900BC8E19 /* main.cpp in Sources */,
+				021560662505479600621310 /* ViewController.swift in Sources */,
+				02AE57962510EC0F002AC8BD /* main.swift in Sources */,
+				0215607625054BDF00621310 /* Chip8.cpp in Sources */,
+				0215607E25055BF100621310 /* CEObjectiveCppBridge.mm in Sources */,
+				021560642505479600621310 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		02359B0924891F7900BC8E19 /* Debug */ = {
+		0215606E2505479800621310 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -175,6 +186,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -185,7 +197,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/ThirdParty/SDL2-2.0.12/SDL2.framework\"";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -200,19 +211,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.16;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-framework",
-					SDL2,
-				);
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		02359B0A24891F7900BC8E19 /* Release */ = {
+		0215606F2505479800621310 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -238,6 +247,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -248,7 +258,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/ThirdParty/SDL2-2.0.12/SDL2.framework\"";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -257,77 +266,86 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.16;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = (
-					"-framework",
-					SDL2,
-				);
 				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
-		02359B0C24891F7900BC8E19 /* Debug */ = {
+		021560712505479800621310 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Chip-8-Emulator/Chip-8-Emulator.entitlements";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Chip-8-Emulator/Chip_8_Emulator.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 9A5UY5PDQS;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
+				INFOPLIST_FILE = "Chip-8-Emulator/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)/ThirdParty/SDL2-2.0.12",
+					"@executable_path/../Frameworks",
 				);
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.luckysoftware.Chip-8-Emulator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Chip-8-Emulator/Chip-8-Emulator-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		02359B0D24891F7900BC8E19 /* Release */ = {
+		021560722505479800621310 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Chip-8-Emulator/Chip-8-Emulator.entitlements";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Chip-8-Emulator/Chip_8_Emulator.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 9A5UY5PDQS;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
+				INFOPLIST_FILE = "Chip-8-Emulator/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(PROJECT_DIR)/ThirdParty/SDL2-2.0.12",
+					"@executable_path/../Frameworks",
 				);
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.luckysoftware.Chip-8-Emulator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Chip-8-Emulator/Chip-8-Emulator-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		02359AFF24891F7900BC8E19 /* Build configuration list for PBXProject "Chip-8-Emulator" */ = {
+		0215605B2505479600621310 /* Build configuration list for PBXProject "Chip-8-Emulator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				02359B0924891F7900BC8E19 /* Debug */,
-				02359B0A24891F7900BC8E19 /* Release */,
+				0215606E2505479800621310 /* Debug */,
+				0215606F2505479800621310 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		02359B0B24891F7900BC8E19 /* Build configuration list for PBXNativeTarget "Chip-8-Emulator" */ = {
+		021560702505479800621310 /* Build configuration list for PBXNativeTarget "Chip-8-Emulator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				02359B0C24891F7900BC8E19 /* Debug */,
-				02359B0D24891F7900BC8E19 /* Release */,
+				021560712505479800621310 /* Debug */,
+				021560722505479800621310 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 02359AFC24891F7900BC8E19 /* Project object */;
+	rootObject = 021560582505479600621310 /* Project object */;
 }

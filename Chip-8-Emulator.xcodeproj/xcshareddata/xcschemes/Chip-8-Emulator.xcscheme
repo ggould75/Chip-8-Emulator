@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1160"
+   LastUpgradeVersion = "1200"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "02359B0324891F7900BC8E19"
-               BuildableName = "Chip-8-Emulator"
+               BlueprintIdentifier = "0215605F2505479600621310"
+               BuildableName = "Chip-8-Emulator.app"
                BlueprintName = "Chip-8-Emulator"
                ReferencedContainer = "container:Chip-8-Emulator.xcodeproj">
             </BuildableReference>
@@ -36,6 +36,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
+      customWorkingDirectory = "/Users/ludwig/Downloads/Chip-8-Emulator/Roms/"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -44,18 +45,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "02359B0324891F7900BC8E19"
-            BuildableName = "Chip-8-Emulator"
+            BlueprintIdentifier = "0215605F2505479600621310"
+            BuildableName = "Chip-8-Emulator.app"
             BlueprintName = "Chip-8-Emulator"
             ReferencedContainer = "container:Chip-8-Emulator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "/Users/ludwig/Dev/Chip-8-Emulator/Roms/tetris.c8"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -67,8 +62,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "02359B0324891F7900BC8E19"
-            BuildableName = "Chip-8-Emulator"
+            BlueprintIdentifier = "0215605F2505479600621310"
+            BuildableName = "Chip-8-Emulator.app"
             BlueprintName = "Chip-8-Emulator"
             ReferencedContainer = "container:Chip-8-Emulator.xcodeproj">
          </BuildableReference>

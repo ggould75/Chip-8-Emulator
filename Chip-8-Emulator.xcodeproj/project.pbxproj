@@ -15,6 +15,7 @@
 		0244806E25110C0D00F7664A /* invaders.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806B25110C0D00F7664A /* invaders.c8 */; };
 		0244806F25110C0D00F7664A /* tetris.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806C25110C0D00F7664A /* tetris.c8 */; };
 		0244807025110C0D00F7664A /* pong2.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806D25110C0D00F7664A /* pong2.c8 */; };
+		02448072251164B900F7664A /* DrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02448071251164B900F7664A /* DrawingLayer.swift */; };
 		02AE57962510EC0F002AC8BD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AE57952510EC0F002AC8BD /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		0244806B25110C0D00F7664A /* invaders.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = invaders.c8; sourceTree = "<group>"; };
 		0244806C25110C0D00F7664A /* tetris.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tetris.c8; sourceTree = "<group>"; };
 		0244806D25110C0D00F7664A /* pong2.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pong2.c8; sourceTree = "<group>"; };
+		02448071251164B900F7664A /* DrawingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingLayer.swift; sourceTree = "<group>"; };
 		02AE57952510EC0F002AC8BD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,6 +80,7 @@
 				0215607C25055BF100621310 /* CEChip8Bridge.mm */,
 				0215607D25055BF100621310 /* CEChip8Bridge.h */,
 				02AE57952510EC0F002AC8BD /* main.swift */,
+				02448071251164B900F7664A /* DrawingLayer.swift */,
 			);
 			path = "Chip-8-Emulator";
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 				02AE57962510EC0F002AC8BD /* main.swift in Sources */,
 				0215607625054BDF00621310 /* Chip8.cpp in Sources */,
 				0215607E25055BF100621310 /* CEChip8Bridge.mm in Sources */,
+				02448072251164B900F7664A /* DrawingLayer.swift in Sources */,
 				021560642505479600621310 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

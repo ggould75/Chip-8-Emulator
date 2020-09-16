@@ -6,23 +6,28 @@
 //  Copyright © 2020 Marco Mussini. All rights reserved.
 //
 
-#include <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 
-#include "CEChip8Bridge.h"
-#include "Chip8.hpp"
+#import <Cocoa/Cocoa.h>
+#import "Chip_8_Emulator-Swift.h"
+#import "CEChip8Bridge.h"
+#import "Chip8.hpp"
 
 @interface CEChip8Bridge () {
     Chip8 *chip8;
 }
 
+@property (nonatomic, strong) id<CERenderer> screenRenderer;
+
 @end
 
 @implementation CEChip8Bridge
 
-- (instancetype)init
+- (instancetype)initWithScreenRenderer:(id<CERenderer>)renderer
 {
     if (self = [super init]) {
         chip8 = new Chip8;
+        self.screenRenderer = renderer;
     }
     
     return self;
@@ -39,6 +44,11 @@
     const char *romFileCString = [romFilePath cStringUsingEncoding:NSUTF8StringEncoding];
     
     chip8->LoadProgramIntoMemory(romFileCString);
+}
+
+- (void)redrawScreen
+{
+    
 }
 
 @end

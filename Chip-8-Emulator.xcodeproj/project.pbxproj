@@ -35,6 +35,7 @@
 		0244806C25110C0D00F7664A /* tetris.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tetris.c8; sourceTree = "<group>"; };
 		0244806D25110C0D00F7664A /* pong2.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pong2.c8; sourceTree = "<group>"; };
 		02448071251164B900F7664A /* DrawingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingLayer.swift; sourceTree = "<group>"; };
+		02A953352513D98500E83D9E /* CBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBridge.h; sourceTree = "<group>"; };
 		02AE57952510EC0F002AC8BD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +82,7 @@
 				0215607D25055BF100621310 /* CEChip8Bridge.h */,
 				02AE57952510EC0F002AC8BD /* main.swift */,
 				02448071251164B900F7664A /* DrawingLayer.swift */,
+				02A953352513D98500E83D9E /* CBridge.h */,
 			);
 			path = "Chip-8-Emulator";
 			sourceTree = "<group>";

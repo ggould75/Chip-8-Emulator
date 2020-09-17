@@ -39,8 +39,6 @@ private:
     uint8_t soundTimer = 0;
     bool pressedKeys[numberOfKeys]{};
 
-    void Reset();
-    
     uint16_t ArgVx(uint16_t opcode) const;
     uint16_t ArgVy(uint16_t opcode) const;
     uint16_t ArgN(uint16_t opcode) const;
@@ -53,6 +51,7 @@ public:
     bool LoadProgramIntoMemory(const char *filename);
     void ProcessInstruction();
     void RunLoop();
+    void Reset();
 };
 
 #endif /* Chip8_hpp */

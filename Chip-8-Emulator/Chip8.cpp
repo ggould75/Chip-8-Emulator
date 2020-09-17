@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <sys/errno.h>
 
+#include "CBridge.h"
+
 Chip8::Chip8() {
     Reset();
 }
@@ -316,7 +318,7 @@ void Chip8::ProcessInstruction() {
             }
             
             programCounter += 2;
-            // TODO: redraw screen
+            redrawScreen(frameBuffer);
             break;
         }
     

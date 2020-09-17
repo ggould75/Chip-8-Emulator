@@ -6,12 +6,16 @@
 //  Copyright © 2020 Marco Mussini. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #import <Cocoa/Cocoa.h>
+
 #import "Chip_8_Emulator-Swift.h"
 #import "CEChip8Bridge.h"
 #import "Chip8.hpp"
+
+void redrawScreen(uint8_t *frameBuffer)
+{
+    // TODO: get instance of CEChip8Bridge (initialized from VC) and call screenRenderer.draw()
+}
 
 @interface CEChip8Bridge () {
     Chip8 *chip8;
@@ -35,7 +39,7 @@
 
 - (void)reset
 {
-    
+    chip8->Reset();
 }
 
 - (void)loadRomWithName:(NSString *)name
@@ -48,7 +52,7 @@
 
 - (void)redrawScreen
 {
-    
+    [self.screenRenderer draw];
 }
 
 @end

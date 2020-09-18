@@ -16,7 +16,8 @@
 
 #include "CBridge.h"
 
-Chip8::Chip8() {
+Chip8::Chip8(void *objCppBridge) {
+    objCppBridge = objCppBridge;
     Reset();
 }
 
@@ -318,7 +319,7 @@ void Chip8::ProcessInstruction() {
             }
             
             programCounter += 2;
-            redrawScreen(frameBuffer);
+            redraw_screen(objCppBridge, frameBuffer);
             break;
         }
     

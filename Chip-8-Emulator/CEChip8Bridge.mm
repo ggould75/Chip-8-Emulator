@@ -12,9 +12,11 @@
 #import "CEChip8Bridge.h"
 #import "Chip8.hpp"
 
-void redrawScreen(uint8_t *frameBuffer)
+void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
 {
-    // TODO: get instance of CEChip8Bridge (initialized from VC) and call screenRenderer.draw()
+    assert(objCppBridge);
+    CEChip8Bridge *bridge = (__bridge CEChip8Bridge *)objCppBridge;
+    [bridge redrawScreenWithBuffer:frameBuffer];
 }
 
 @interface CEChip8Bridge () {
@@ -30,11 +32,16 @@ void redrawScreen(uint8_t *frameBuffer)
 - (instancetype)initWithScreenRenderer:(id<CERenderer>)renderer
 {
     if (self = [super init]) {
-        chip8 = new Chip8;
+        chip8 = new Chip8((__bridge void *)self);
         self.screenRenderer = renderer;
     }
-    
+
     return self;
+}
+
+- (void)dealloc
+{
+    delete chip8;
 }
 
 - (void)reset
@@ -50,8 +57,10 @@ void redrawScreen(uint8_t *frameBuffer)
     chip8->LoadProgramIntoMemory(romFileCString);
 }
 
-- (void)redrawScreen
+- (void)redrawScreenWithBuffer:(uint8_t *)frameBuffer
 {
+    NSAssert(self.screenRenderer, @"Cannot render screen without a renderer.");
+    
     [self.screenRenderer draw];
 }
 

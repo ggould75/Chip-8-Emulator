@@ -9,6 +9,6 @@
 #ifndef CBridge_h
 #define CBridge_h
 
-void redrawScreen(uint8_t *frameBuffer);
+void redraw_screen(void *objCppBridge, uint8_t *frameBuffer);
 
 #endif /* CBridge_h */

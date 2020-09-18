@@ -70,9 +70,9 @@
 		021560622505479600621310 /* Chip-8-Emulator */ = {
 			isa = PBXGroup;
 			children = (
+				021560672505479800621310 /* Assets.xcassets */,
 				021560632505479600621310 /* AppDelegate.swift */,
 				021560652505479600621310 /* ViewController.swift */,
-				021560672505479800621310 /* Assets.xcassets */,
 				0215606D2505479800621310 /* Chip_8_Emulator.entitlements */,
 				0215606C2505479800621310 /* Info.plist */,
 				0215607425054BDF00621310 /* Chip8.cpp */,

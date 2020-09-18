@@ -17,6 +17,6 @@ NS_SWIFT_NAME(Chip8Bridge)
 
 - (void)reset;
 - (void)loadRomWithName:(NSString *)name;
-- (void)redrawScreen;
+- (void)redrawScreenWithBuffer:(uint8_t *)frameBuffer;
 
 @end

@@ -12,48 +12,48 @@
 #include <stdio.h>
 #include <stdint.h>
 
-class Chip8 {
-
-private:
-    const uint16_t programStartAddress = 0x200;
-    static const uint16_t memorySize = 4096;
-    static const uint8_t stackSize = 64;
-    static const uint8_t numberOfRegisters = 16;
-    static const uint8_t numberOfKeys = 0x10; // 16 keys
-    
-    uint8_t memory[memorySize]{};
-    
-    uint8_t registersV[numberOfRegisters]{};
-    uint16_t registerI;
-    
-    uint16_t programCounter;
-    
-    // Using 16 bits stack instead of 8 bits, otherwise some values will not be stored properly
-    uint16_t stack[stackSize]{};
-    uint8_t stackIndex = 0;
-    
-    uint16_t opcode;
-    
-    uint8_t frameBuffer[64 * 32];
-    uint8_t delayTimer = 0;
-    uint8_t soundTimer = 0;
-    bool pressedKeys[numberOfKeys]{};
-
-    uint16_t ArgVx(uint16_t opcode) const;
-    uint16_t ArgVy(uint16_t opcode) const;
-    uint16_t ArgN(uint16_t opcode) const;
-    uint16_t ArgNN(uint16_t opcode) const;
-    uint16_t ArgNNN(uint16_t opcode) const;
-    
-    void *objCppBridge;
-    
+class Chip8
+{
 public:
     Chip8(void *objCppBridge);
     
-    bool LoadProgramIntoMemory(const char *filename);
-    void ProcessInstruction();
-    void RunLoop();
-    void Reset();
+    bool loadProgramIntoMemory(const char *filename);
+    void processInstruction();
+    void runLoop();
+    void reset();
+
+private:
+    static const uint16_t kProgramStartAddress = 0x200;
+    static const uint16_t kMemorySize = 4096;
+    static const uint8_t kStackSize = 64;
+    static const uint8_t kNumberOfRegisters = 16;
+    static const uint8_t kNumberOfKeys = 0x10; // 16 keys
+    
+    uint8_t m_memory[kMemorySize]{};
+    
+    uint8_t m_registersV[kNumberOfRegisters]{};
+    uint16_t m_registerI;
+    
+    uint16_t m_programCounter;
+    
+    // Using 16 bits stack instead of 8 bits, otherwise some values will not be stored properly
+    uint16_t m_stack[kStackSize]{};
+    uint8_t m_stackIndex = 0;
+    
+    uint16_t m_opcode;
+    
+    uint8_t m_frameBuffer[64 * 32];
+    uint8_t m_delayTimer = 0;
+    uint8_t m_soundTimer = 0;
+    bool pressedKeys[kNumberOfKeys]{};
+
+    uint16_t argVx(const uint16_t opcode) const;
+    uint16_t argVy(const uint16_t opcode) const;
+    uint16_t argN(const uint16_t opcode) const;
+    uint16_t argNN(const uint16_t opcode) const;
+    uint16_t argNNN(const uint16_t opcode) const;
+    
+    void *objCppBridge;
 };
 
 #endif /* Chip8_hpp */

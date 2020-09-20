@@ -18,38 +18,38 @@
 
 Chip8::Chip8(void *objCppBridge) {
     objCppBridge = objCppBridge;
-    Reset();
+    reset();
 }
 
-void Chip8::Reset() {
-    memset(memory, 0, memorySize);
-    memset(registersV, 0, numberOfRegisters);
+void Chip8::reset() {
+    memset(m_memory, 0, kMemorySize);
+    memset(m_registersV, 0, kNumberOfRegisters);
     
-    registerI = 0;
-    stackIndex = 0;
+    m_registerI = 0;
+    m_stackIndex = 0;
     
-    programCounter = programStartAddress;
+    m_programCounter = kProgramStartAddress;
     
-    for (int i = 0; i < stackSize; i++) {
-        stack[i] = 0;
+    for (int i = 0; i < kStackSize; i++) {
+        m_stack[i] = 0;
     }
     
-    delayTimer = 0;
-    soundTimer = 0;
+    m_delayTimer = 0;
+    m_soundTimer = 0;
     
-    for (int i = 0; i < numberOfKeys; i++) {
+    for (int i = 0; i < kNumberOfKeys; i++) {
         pressedKeys[i] = false;
     }
 }
 
-bool Chip8::LoadProgramIntoMemory(const char *filename) {
+bool Chip8::loadProgramIntoMemory(const char *filename) {
     FILE *file = fopen(filename, "rb");
     if (file == nullptr) {
         printf("%s\n", strerror(errno));
         return false;
     }
 
-    size_t result = fread(memory + programStartAddress, 1, memorySize - programStartAddress, file);
+    size_t result = fread(m_memory + kProgramStartAddress, 1, kMemorySize - kProgramStartAddress, file);
     if (result == 0 || ferror(file))
     {
         fclose(file);
@@ -61,55 +61,55 @@ bool Chip8::LoadProgramIntoMemory(const char *filename) {
     return true;
 }
 
-void Chip8::RunLoop() {
+void Chip8::runLoop() {
     for (;;) {
-        Chip8::ProcessInstruction();
+        Chip8::processInstruction();
         // TODO: update display, timers etc...
     }
 }
 
-uint16_t Chip8::ArgVx(uint16_t opcode) const {
+uint16_t Chip8::argVx(const uint16_t opcode) const {
     return (opcode & 0x0F00) >> 8;
 }
 
-uint16_t Chip8::ArgVy(uint16_t opcode) const {
+uint16_t Chip8::argVy(const uint16_t opcode) const {
     return (opcode & 0x00F0) >> 4;
 }
 
-uint16_t Chip8::ArgN(uint16_t opcode) const {
+uint16_t Chip8::argN(const uint16_t opcode) const {
     return opcode & 0x000F;
 }
 
-uint16_t Chip8::ArgNN(uint16_t opcode) const {
+uint16_t Chip8::argNN(const uint16_t opcode) const {
     return opcode & 0x00FF;
 }
 
-uint16_t Chip8::ArgNNN(uint16_t opcode) const {
+uint16_t Chip8::argNNN(const uint16_t opcode) const {
     return opcode & 0x0FFF;
 }
 
-void Chip8::ProcessInstruction() {
+void Chip8::processInstruction() {
     // Fetch instruction
-    opcode = memory[programCounter] << 8 | memory[programCounter + 1];
+    m_opcode = m_memory[m_programCounter] << 8 | m_memory[m_programCounter + 1];
     
-    std::cout << "Processing " << opcode << ", PC: " << programCounter << std::endl;
+    std::cout << "Processing " << m_opcode << ", PC: " << m_programCounter << std::endl;
     
-    switch (opcode & 0xF000) {
+    switch (m_opcode & 0xF000) {
         // 0nnn - SYS addr. Ignored, not implemented in modern interpreters.
         
         case 0x0000:
-            switch (ArgNN(opcode)) {
+            switch (argNN(m_opcode)) {
                 // 00E0 - CLS
                 case 0x00E0:
-                    memset(frameBuffer, 0, sizeof(uint8_t) * 64 * 32);
-                    programCounter += 2;
+                    memset(m_frameBuffer, 0, sizeof(uint8_t) * 64 * 32);
+                    m_programCounter += 2;
                     // TODO: redraw screen
                     break;
                 
                 // 00EE - RET
                 case 0x00EE:
-                    stackIndex--;
-                    programCounter = stack[stackIndex];
+                    m_stackIndex--;
+                    m_programCounter = m_stack[m_stackIndex];
                     break;
                     
                 default:
@@ -119,145 +119,145 @@ void Chip8::ProcessInstruction() {
             
         // 1nnn - JP addr
         case 0x1000:
-            programCounter = ArgNNN(opcode);
+            m_programCounter = argNNN(m_opcode);
             break;
             
         // 2nnn - CALL addr
         case 0x2000:
-            stack[stackIndex] = programCounter;
-            stackIndex++;
-            programCounter = ArgNNN(opcode);
+            m_stack[m_stackIndex] = m_programCounter;
+            m_stackIndex++;
+            m_programCounter = argNNN(m_opcode);
             break;
            
         // 3xkk - SE Vx, byte
         case 0x3000: {
-            uint8_t registerVxValue = registersV[ArgVx(opcode)];
+            uint8_t registerVxValue = m_registersV[argVx(m_opcode)];
             
-            if (registerVxValue == ArgNN(opcode)) {
-                programCounter += 4;
+            if (registerVxValue == argNN(m_opcode)) {
+                m_programCounter += 4;
             } else {
-                programCounter += 2;
+                m_programCounter += 2;
             }
             break;
         }
         
         // 4xkk - SNE Vx, byte
         case 0x4000: {
-            uint8_t registerVxValue = registersV[ArgVx(opcode)];
+            uint8_t registerVxValue = m_registersV[argVx(m_opcode)];
             
-            if (registerVxValue != ArgNN(opcode)) {
-                programCounter += 4;
+            if (registerVxValue != argNN(m_opcode)) {
+                m_programCounter += 4;
             } else {
-                programCounter += 2;
+                m_programCounter += 2;
             }
             break;
         }
         
         // 5xy0 - SE Vx, Vy
         case 0x5000: {
-            uint8_t registerVxValue = registersV[ArgVx(opcode)];
-            uint8_t registerVyValue = registersV[ArgVy(opcode)];
+            uint8_t registerVxValue = m_registersV[argVx(m_opcode)];
+            uint8_t registerVyValue = m_registersV[argVy(m_opcode)];
             
             if (registerVxValue == registerVyValue) {
-                programCounter += 4;
+                m_programCounter += 4;
             } else {
-                programCounter += 2;
+                m_programCounter += 2;
             }
             break;
         }
         
         // 6xkk - LD Vx, byte
         case 0x6000: {
-            registersV[ArgVx(opcode)] = ArgNN(opcode);
-            programCounter += 2;
+            m_registersV[argVx(m_opcode)] = argNN(m_opcode);
+            m_programCounter += 2;
             break;
         }
         
         // 7xkk - ADD Vx, byte
         case 0x7000: {
-            registersV[ArgVx(opcode)] += ArgNN(opcode);
-            programCounter += 2;
+            m_registersV[argVx(m_opcode)] += argNN(m_opcode);
+            m_programCounter += 2;
             break;
         }
            
         case 0x8000:
-            switch (ArgN(opcode)) {
+            switch (argN(m_opcode)) {
                 // 8xy0 - LD Vx, Vy
                 case 0x0000: {
-                    registersV[ArgVx(opcode)] = registersV[ArgVy(opcode)];
-                    programCounter += 2;
+                    m_registersV[argVx(m_opcode)] = m_registersV[argVy(m_opcode)];
+                    m_programCounter += 2;
                     break;
                 }
                     
                 // 8xy1 -  OR Vx, Vy
                 case 0x0001: {
-                    registersV[ArgVx(opcode)] |= registersV[ArgVy(opcode)];
-                    programCounter += 2;
+                    m_registersV[argVx(m_opcode)] |= m_registersV[argVy(m_opcode)];
+                    m_programCounter += 2;
                     break;
                 }
                 
                 // 8xy2 -  AND Vx, Vy
                 case 0x0002: {
-                    registersV[ArgVx(opcode)] &= registersV[ArgVy(opcode)];
-                    programCounter += 2;
+                    m_registersV[argVx(m_opcode)] &= m_registersV[argVy(m_opcode)];
+                    m_programCounter += 2;
                     break;
                 }
                 
                 // 8xy3 -  XOR Vx, Vy
                 case 0x0003: {
-                    registersV[ArgVx(opcode)] ^= registersV[ArgVy(opcode)];
-                    programCounter += 2;
+                    m_registersV[argVx(m_opcode)] ^= m_registersV[argVy(m_opcode)];
+                    m_programCounter += 2;
                     break;
                 }
                  
                 // 8xy4 -  ADD Vx, Vy
                 case 0x0004: {
-                    uint8_t registerVxIndex = ArgVx(opcode);
-                    uint8_t registerVyIndex = ArgVy(opcode);
-                    uint16_t result = (uint16_t)registersV[registerVxIndex] + (uint16_t)registersV[registerVyIndex];
-                    registersV[registerVxIndex] = (uint8_t)result;
-                    registersV[0xF] = result >= 0x100;
-                    programCounter += 2;
+                    uint8_t registerVxIndex = argVx(m_opcode);
+                    uint8_t registerVyIndex = argVy(m_opcode);
+                    uint16_t result = (uint16_t)m_registersV[registerVxIndex] + (uint16_t)m_registersV[registerVyIndex];
+                    m_registersV[registerVxIndex] = (uint8_t)result;
+                    m_registersV[0xF] = result >= 0x100;
+                    m_programCounter += 2;
                     break;
                 }
                     
                 // 8xy5 - SUB Vx, Vy
                 case 0x0005: {
-                    uint8_t registerVxIndex = ArgVx(opcode);
-                    uint8_t registerVyIndex = ArgVy(opcode);
-                    uint16_t result = (uint16_t)registersV[registerVxIndex] - (uint16_t)registersV[registerVyIndex];
-                    registersV[registerVxIndex] = (uint8_t)result;
-                    registersV[0xF] = result >= 0;
-                    programCounter += 2;
+                    uint8_t registerVxIndex = argVx(m_opcode);
+                    uint8_t registerVyIndex = argVy(m_opcode);
+                    uint16_t result = (uint16_t)m_registersV[registerVxIndex] - (uint16_t)m_registersV[registerVyIndex];
+                    m_registersV[registerVxIndex] = (uint8_t)result;
+                    m_registersV[0xF] = result >= 0;
+                    m_programCounter += 2;
                     break;
                 }
                 
                 // 8xy6 - SHR Vx {, Vy}
                 case 0x0006: {
-                    uint8_t registerVxIndex = ArgVx(opcode);
-                    registersV[0xF] = registersV[registerVxIndex] & 0x1;
-                    registersV[registerVxIndex] >>= 1;
-                    programCounter += 2;
+                    uint8_t registerVxIndex = argVx(m_opcode);
+                    m_registersV[0xF] = m_registersV[registerVxIndex] & 0x1;
+                    m_registersV[registerVxIndex] >>= 1;
+                    m_programCounter += 2;
                     break;
                 }
                 
                 // 8xy7 - SUBN Vx, Vy
                 case 0x0007: {
-                    uint8_t registerVxIndex = ArgVx(opcode);
-                    uint8_t registerVyIndex = ArgVy(opcode);
-                    uint16_t result = (uint16_t)registersV[registerVyIndex] - (uint16_t)registersV[registerVxIndex];
-                    registersV[registerVxIndex] = (uint8_t)result;
-                    registersV[0xF] = result >= 0;
-                    programCounter += 2;
+                    uint8_t registerVxIndex = argVx(m_opcode);
+                    uint8_t registerVyIndex = argVy(m_opcode);
+                    uint16_t result = (uint16_t)m_registersV[registerVyIndex] - (uint16_t)m_registersV[registerVxIndex];
+                    m_registersV[registerVxIndex] = (uint8_t)result;
+                    m_registersV[0xF] = result >= 0;
+                    m_programCounter += 2;
                     break;
                 }
                     
                 // 8xyE - SHL Vx {, Vy}
                 case 0x0008: {
-                    uint8_t registerVxIndex = ArgVx(opcode);
-                    registersV[0xF] = registersV[registerVxIndex] & 0x1;
-                    registersV[registerVxIndex] <<= 1;
-                    programCounter += 2;
+                    uint8_t registerVxIndex = argVx(m_opcode);
+                    m_registersV[0xF] = m_registersV[registerVxIndex] & 0x1;
+                    m_registersV[registerVxIndex] <<= 1;
+                    m_programCounter += 2;
                     break;
                 }
                     
@@ -268,82 +268,82 @@ void Chip8::ProcessInstruction() {
            
         // 9xy0 - SNE Vx, Vy
         case 0x9000: {
-            if (registersV[ArgVx(opcode)] != registersV[ArgVy(opcode)]) {
-                programCounter += 4;
+            if (m_registersV[argVx(m_opcode)] != m_registersV[argVy(m_opcode)]) {
+                m_programCounter += 4;
             } else {
-                programCounter += 2;
+                m_programCounter += 2;
             }
             break;
         }
             
         // LD I, addr
         case 0xA000:
-            registerI = ArgNNN(opcode);
-            programCounter += 2;
+            m_registerI = argNNN(m_opcode);
+            m_programCounter += 2;
             break;
         
         // Bnnn - JP V0, addr
         case 0xB000: {
-            uint16_t nnn = ArgNNN(opcode);
-            programCounter = nnn + registersV[0];
+            uint16_t nnn = argNNN(m_opcode);
+            m_programCounter = nnn + m_registersV[0];
             break;
         }
         
         // Cxkk - RND Vx, byte
         case 0xC000: {
-            registersV[ArgVx(opcode)] = (rand() % 0xFF) & ArgNN(opcode);
+            m_registersV[argVx(m_opcode)] = (rand() % 0xFF) & argNN(m_opcode);
             break;
         }
             
         // DRW Vx, Vy, height
         case 0xD000: {
-            uint8_t x = registersV[ArgVx(opcode)];
-            uint8_t y = registersV[ArgVy(opcode)];
-            uint8_t spriteHeight = ArgN(opcode);
+            uint8_t x = m_registersV[argVx(m_opcode)];
+            uint8_t y = m_registersV[argVy(m_opcode)];
+            uint8_t spriteHeight = argN(m_opcode);
             uint8_t pixel;
             
-            registersV[0xF] = 0;
+            m_registersV[0xF] = 0;
             
             for (uint8_t lineY = 0; lineY < spriteHeight; lineY++) {
-                uint8_t line = memory[registerI + lineY];
+                uint8_t line = m_memory[m_registerI + lineY];
                 
                 for (uint8_t lineX = 0; lineX < 8; lineX++) {
                     pixel = line & (0x80 >> lineX);
                     uint8_t bufferIndex = x + lineX + (y + lineY) * 64;
-                    uint8_t currentPixel = frameBuffer[bufferIndex];
-                    frameBuffer[bufferIndex] = currentPixel ^ pixel;
-                    if (currentPixel != 0 && frameBuffer[bufferIndex] == 0) {
-                        registersV[0xF] = 1;
+                    uint8_t currentPixel = m_frameBuffer[bufferIndex];
+                    m_frameBuffer[bufferIndex] = currentPixel ^ pixel;
+                    if (currentPixel != 0 && m_frameBuffer[bufferIndex] == 0) {
+                        m_registersV[0xF] = 1;
                     }
                 }
             }
             
-            programCounter += 2;
-            redraw_screen(objCppBridge, frameBuffer);
+            m_programCounter += 2;
+            redraw_screen(objCppBridge, m_frameBuffer);
             break;
         }
     
         case 0xE000:
-            switch (ArgNN(opcode)) {
+            switch (argNN(m_opcode)) {
                 
                 // Ex9E - SKP Vx
                 case 0x009E: {
-                    uint8_t keyIndex = registersV[ArgVx(opcode)];
+                    uint8_t keyIndex = m_registersV[argVx(m_opcode)];
                     if (pressedKeys[keyIndex]) {
-                        programCounter += 4;
+                        m_programCounter += 4;
                     } else {
-                        programCounter += 2;
+                        m_programCounter += 2;
                     }
                     break;
                 }
                     
                 // ExA1 - SKNP Vx
                 case 0x00A1: {
-                    uint8_t keyIndex = registersV[ArgVx(opcode)];
+                    uint8_t keyIndex = m_registersV[argVx(m_opcode)];
                     if (!pressedKeys[keyIndex]) {
-                        programCounter += 4;
+                        m_programCounter += 4;
                     } else {
-                        programCounter += 2;
+                        m_programCounter += 2;
                     }
                     break;
                 }
@@ -351,12 +351,12 @@ void Chip8::ProcessInstruction() {
             break;
             
         case 0xF000:
-            switch (ArgNN(opcode)) {
+            switch (argNN(m_opcode)) {
             
                 // Fx07 - LD Vx, DT
                 case 0x0007: {
-                    registersV[ArgVx(opcode)] = delayTimer;
-                    programCounter += 2;
+                    m_registersV[argVx(m_opcode)] = m_delayTimer;
+                    m_programCounter += 2;
                     break;
                 }
                     
@@ -364,9 +364,9 @@ void Chip8::ProcessInstruction() {
                 case 0x000A: {
                     bool keyPress = false;
                     
-                    for (int i = 0; i < numberOfRegisters; ++i) {
+                    for (int i = 0; i < kNumberOfRegisters; ++i) {
                         if (pressedKeys[i]) {
-                            registersV[ArgVx(opcode)] = i;
+                            m_registersV[argVx(m_opcode)] = i;
                             keyPress = true;
                         }
                     }
@@ -374,28 +374,28 @@ void Chip8::ProcessInstruction() {
                     // No key was pressed, skip this cycle
                     if (!keyPress) { return; }
                     
-                    programCounter += 2;
+                    m_programCounter += 2;
                     break;
                 }
                     
                 // Fx15 - LD DT, Vx
                 case 0x0015: {
-                    delayTimer = registersV[ArgVx(opcode)];
-                    programCounter += 2;
+                    m_delayTimer = m_registersV[argVx(m_opcode)];
+                    m_programCounter += 2;
                     break;
                 }
                     
                 // Fx18 - LD ST, Vx
                 case 0x0018: {
-                    soundTimer = registersV[ArgVx(opcode)];
-                    programCounter += 2;
+                    m_soundTimer = m_registersV[argVx(m_opcode)];
+                    m_programCounter += 2;
                     break;
                 }
                     
                 // Fx1E - ADD I, Vx
                 case 0x001E: {
-                    registerI += registersV[ArgVx(opcode)];
-                    programCounter += 2;
+                    m_registerI += m_registersV[argVx(m_opcode)];
+                    m_programCounter += 2;
                     break;
                 }
                     
@@ -403,46 +403,46 @@ void Chip8::ProcessInstruction() {
                 case 0x0029: {
                     // Vx register contains the index of the digit/char that has to be loaded.
                     // Register I should point to the location in memory of the requested symbol
-                    registerI = registersV[ArgVx(opcode)] * 0x5;
-                    programCounter += 2;
+                    m_registerI = m_registersV[argVx(m_opcode)] * 0x5;
+                    m_programCounter += 2;
                     break;
                 }
              
                 // Fx33 - LD B, Vx
                 case 0x0033: {
-                    uint8_t registerVxIndex = ArgVx(opcode);
+                    uint8_t registerVxIndex = argVx(m_opcode);
                     // Given a number with 3 digits stored in registersV[registerVxIndex],
                     // stores hundred-digit in location I, tens-digit in I+1, ones-digit in I+2
-                    memory[registerI] = registersV[registerVxIndex] / 100;
-                    memory[registerI + 1] = (registersV[registerVxIndex] / 10) % 10;
-                    memory[registerI + 2] = registersV[registerVxIndex] % 10;
-                    programCounter += 2;
+                    m_memory[m_registerI] = m_registersV[registerVxIndex] / 100;
+                    m_memory[m_registerI + 1] = (m_registersV[registerVxIndex] / 10) % 10;
+                    m_memory[m_registerI + 2] = m_registersV[registerVxIndex] % 10;
+                    m_programCounter += 2;
                     break;
                 }
                     
                 // Fx55 - LD [I], Vx
                 case 0x0055: {
-                    uint8_t registerVxIndex = ArgVx(opcode);
+                    uint8_t registerVxIndex = argVx(m_opcode);
                     
                     for (int i = 0; i <= registerVxIndex; i++) {
-                        memory[registerI + i] = registersV[registerVxIndex];
+                        m_memory[m_registerI + i] = m_registersV[registerVxIndex];
                     }
                     
-                    registerI += registerVxIndex + 1;
-                    programCounter += 2;
+                    m_registerI += registerVxIndex + 1;
+                    m_programCounter += 2;
                     break;
                 }
                     
                 // Fx65 - LD Vx, [I]
                 case 0x0065: {
-                    uint8_t registerVxIndex = ArgVx(opcode);
+                    uint8_t registerVxIndex = argVx(m_opcode);
                     
                     for (int i = 0, j = 0; i <= registerVxIndex; i++, j++) {
-                        registersV[i] = memory[registerI + i];
+                        m_registersV[i] = m_memory[m_registerI + i];
                     }
                     
-                    registerI += registerVxIndex + 1;
-                    programCounter += 2;
+                    m_registerI += registerVxIndex + 1;
+                    m_programCounter += 2;
                     break;
                 }
             }

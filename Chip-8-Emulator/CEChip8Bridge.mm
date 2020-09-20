@@ -46,7 +46,7 @@ void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
 
 - (void)reset
 {
-    chip8->Reset();
+    chip8->reset();
 }
 
 - (void)loadRomWithName:(NSString *)name
@@ -54,7 +54,7 @@ void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
     NSString *romFilePath = [[NSBundle mainBundle] pathForResource:name ofType:@"c8"];
     const char *romFileCString = [romFilePath cStringUsingEncoding:NSUTF8StringEncoding];
     
-    chip8->LoadProgramIntoMemory(romFileCString);
+    chip8->loadProgramIntoMemory(romFileCString);
 }
 
 - (void)redrawScreenWithBuffer:(uint8_t *)frameBuffer

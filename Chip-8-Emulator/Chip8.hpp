@@ -9,6 +9,7 @@
 #ifndef Chip8_hpp
 #define Chip8_hpp
 
+#include <stdio.h>
 #include <stdint.h>
 
 class Chip8 {
@@ -38,20 +39,21 @@ private:
     uint8_t soundTimer = 0;
     bool pressedKeys[numberOfKeys]{};
 
-    void Reset();
-    
     uint16_t ArgVx(uint16_t opcode) const;
     uint16_t ArgVy(uint16_t opcode) const;
     uint16_t ArgN(uint16_t opcode) const;
     uint16_t ArgNN(uint16_t opcode) const;
     uint16_t ArgNNN(uint16_t opcode) const;
     
+    void *objCppBridge;
+    
 public:
-    Chip8();
+    Chip8(void *objCppBridge);
     
     bool LoadProgramIntoMemory(const char *filename);
     void ProcessInstruction();
     void RunLoop();
+    void Reset();
 };
 
 #endif /* Chip8_hpp */

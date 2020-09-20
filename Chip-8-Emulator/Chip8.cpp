@@ -12,8 +12,12 @@
 #include <string.h> // FIXME: for memset
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/errno.h>
 
-Chip8::Chip8() {
+#include "CBridge.h"
+
+Chip8::Chip8(void *objCppBridge) {
+    objCppBridge = objCppBridge;
     Reset();
 }
 
@@ -41,6 +45,7 @@ void Chip8::Reset() {
 bool Chip8::LoadProgramIntoMemory(const char *filename) {
     FILE *file = fopen(filename, "rb");
     if (file == nullptr) {
+        printf("%s\n", strerror(errno));
         return false;
     }
 
@@ -76,11 +81,11 @@ uint16_t Chip8::ArgN(uint16_t opcode) const {
 }
 
 uint16_t Chip8::ArgNN(uint16_t opcode) const {
-  return opcode & 0x00FF;
+    return opcode & 0x00FF;
 }
 
 uint16_t Chip8::ArgNNN(uint16_t opcode) const {
-  return opcode & 0x0FFF;
+    return opcode & 0x0FFF;
 }
 
 void Chip8::ProcessInstruction() {
@@ -314,7 +319,7 @@ void Chip8::ProcessInstruction() {
             }
             
             programCounter += 2;
-            // TODO: redraw screen
+            redraw_screen(objCppBridge, frameBuffer);
             break;
         }
     

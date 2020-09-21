@@ -10,7 +10,7 @@ The Chip-8 specification requires the use of sixteen 8-bit registers (V0-VF), a 
 For details on the specs:
 https://en.wikipedia.org/wiki/CHIP-8
 
-### Goals
+### Implementation and Goals
 
 The core of the emulator is written in C++, while the UI is aimed to be written in Swift (perhaps leveraging CALayer and/or Core Graphics). That's the idea at the moment.
 

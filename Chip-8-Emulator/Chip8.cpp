@@ -94,6 +94,7 @@ void Chip8::processInstruction() {
     
     std::cout << "Processing " << m_opcode << ", PC: " << m_programCounter << std::endl;
     
+    // TODO: extract instructions out of the switch and refactor
     switch (m_opcode & 0xF000) {
         // 0nnn - SYS addr. Ignored, not implemented in modern interpreters.
         

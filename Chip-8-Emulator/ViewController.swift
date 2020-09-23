@@ -16,6 +16,8 @@ class ViewController: NSViewController {
         return LayerRenderer()
     }()
     
+    lazy var runningQueue = DispatchQueue(label: "com.chip8.running-queue")
+    
     override func loadView() {
         let rect = NSRect(x: 0, y: 0, width: 500, height: 300)
         view = NSView(frame: rect)
@@ -26,6 +28,9 @@ class ViewController: NSViewController {
         
         chip8Bridge = Chip8Bridge(screenRenderer: layerRenderer)
         chip8Bridge?.loadRom(withName: "tetris")
-        chip8Bridge?.run()
+        
+        runningQueue.async {
+            self.chip8Bridge?.run()
+        }
     }
 }

@@ -64,7 +64,8 @@ bool Chip8::loadProgramIntoMemory(const char *filename) {
 void Chip8::runLoop() {
     for (;;) {
         Chip8::processInstruction();
-        // TODO: update display, timers etc...
+        redraw_screen(objCppBridge, m_frameBuffer);
+        // TODO: update timers etc...
     }
 }
 
@@ -104,7 +105,7 @@ void Chip8::processInstruction() {
                 case 0x00E0:
                     memset(m_frameBuffer, 0, sizeof(uint8_t) * 64 * 32);
                     m_programCounter += 2;
-                    // TODO: redraw screen
+                    redraw_screen(objCppBridge, m_frameBuffer);
                     break;
                 
                 // 00EE - RET

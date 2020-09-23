@@ -10,6 +10,8 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    var chip8Bridge: Chip8Bridge?
+    
     lazy var layerRenderer: Renderer = {
         return LayerRenderer()
     }()
@@ -21,8 +23,9 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let chip8 = Chip8Bridge(screenRenderer: layerRenderer)
-        chip8?.loadRom(withName: "tetris")
+        
+        chip8Bridge = Chip8Bridge(screenRenderer: layerRenderer)
+        chip8Bridge?.loadRom(withName: "tetris")
+        chip8Bridge?.run()
     }
 }

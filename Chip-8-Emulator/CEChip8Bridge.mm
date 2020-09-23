@@ -20,10 +20,10 @@ void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
 }
 
 @interface CEChip8Bridge () {
-    Chip8 *chip8;
+    Chip8 *_chip8;
 }
 
-@property (nonatomic, strong) id<CERenderer> screenRenderer;
+@property (nonatomic, weak) id<CERenderer> screenRenderer;
 
 @end
 
@@ -32,8 +32,8 @@ void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
 - (instancetype)initWithScreenRenderer:(id<CERenderer>)renderer
 {
     if (self = [super init]) {
-        chip8 = new Chip8((__bridge void *)self);
-        self.screenRenderer = renderer;
+        _screenRenderer = renderer;
+        _chip8 = new Chip8((__bridge void *)self);
     }
 
     return self;
@@ -41,27 +41,32 @@ void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
 
 - (void)dealloc
 {
-    delete chip8;
+    delete _chip8;
 }
 
 - (void)reset
 {
-    chip8->reset();
+    _chip8->reset();
 }
 
 - (void)loadRomWithName:(NSString *)name
 {
     NSString *romFilePath = [[NSBundle mainBundle] pathForResource:name ofType:@"c8"];
     const char *romFileCString = [romFilePath cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    chip8->loadProgramIntoMemory(romFileCString);
+
+    _chip8->loadProgramIntoMemory(romFileCString);
 }
 
 - (void)redrawScreenWithBuffer:(uint8_t *)frameBuffer
 {
     NSAssert(self.screenRenderer, @"Missing screen renderer");
-    
+
     [self.screenRenderer draw];
+}
+
+- (void)run
+{
+    _chip8->runLoop();
 }
 
 @end

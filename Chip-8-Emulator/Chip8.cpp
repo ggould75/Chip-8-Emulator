@@ -17,7 +17,7 @@
 #include "CBridge.h"
 
 Chip8::Chip8(void *objCppBridge) {
-    objCppBridge = objCppBridge;
+    this->objCppBridge = objCppBridge;
     reset();
 }
 

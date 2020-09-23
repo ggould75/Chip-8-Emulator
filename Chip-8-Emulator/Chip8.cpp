@@ -16,12 +16,19 @@
 
 #include "CBridge.h"
 
-Chip8::Chip8(void *objCppBridge) {
+Chip8::Chip8(void *objCppBridge)
+{
     this->objCppBridge = objCppBridge;
     reset();
 }
 
-void Chip8::reset() {
+Chip8::~Chip8()
+{
+    // TODO
+}
+
+void Chip8::reset()
+{
     memset(m_memory, 0, kMemorySize);
     memset(m_registersV, 0, kNumberOfRegisters);
     
@@ -42,7 +49,8 @@ void Chip8::reset() {
     }
 }
 
-bool Chip8::loadProgramIntoMemory(const char *filename) {
+bool Chip8::loadProgramIntoMemory(const char *filename)
+{
     FILE *file = fopen(filename, "rb");
     if (file == nullptr) {
         printf("%s\n", strerror(errno));
@@ -61,35 +69,43 @@ bool Chip8::loadProgramIntoMemory(const char *filename) {
     return true;
 }
 
-void Chip8::runLoop() {
-    for (;;) {
-        Chip8::processInstruction();
+void Chip8::runLoop()
+{
+    while (true) {
+        processInstruction();
+        // TODO: only draw if flag is set?
         redraw_screen(objCppBridge, m_frameBuffer);
         // TODO: update timers etc...
     }
 }
 
-uint16_t Chip8::argVx(const uint16_t opcode) const {
+uint16_t Chip8::argVx(const uint16_t opcode) const
+{
     return (opcode & 0x0F00) >> 8;
 }
 
-uint16_t Chip8::argVy(const uint16_t opcode) const {
+uint16_t Chip8::argVy(const uint16_t opcode) const
+{
     return (opcode & 0x00F0) >> 4;
 }
 
-uint16_t Chip8::argN(const uint16_t opcode) const {
+uint16_t Chip8::argN(const uint16_t opcode) const
+{
     return opcode & 0x000F;
 }
 
-uint16_t Chip8::argNN(const uint16_t opcode) const {
+uint16_t Chip8::argNN(const uint16_t opcode) const
+{
     return opcode & 0x00FF;
 }
 
-uint16_t Chip8::argNNN(const uint16_t opcode) const {
+uint16_t Chip8::argNNN(const uint16_t opcode) const
+{
     return opcode & 0x0FFF;
 }
 
-void Chip8::processInstruction() {
+void Chip8::processInstruction()
+{
     // Fetch instruction
     m_opcode = m_memory[m_programCounter] << 8 | m_memory[m_programCounter + 1];
     
@@ -105,6 +121,7 @@ void Chip8::processInstruction() {
                 case 0x00E0:
                     memset(m_frameBuffer, 0, sizeof(uint8_t) * 64 * 32);
                     m_programCounter += 2;
+                    // TODO: set redraw flag instead?
                     redraw_screen(objCppBridge, m_frameBuffer);
                     break;
                 
@@ -321,6 +338,7 @@ void Chip8::processInstruction() {
             }
             
             m_programCounter += 2;
+            // TODO: set redraw flag instead?
             redraw_screen(objCppBridge, m_frameBuffer);
             break;
         }

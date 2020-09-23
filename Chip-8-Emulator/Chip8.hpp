@@ -16,6 +16,7 @@ class Chip8
 {
 public:
     Chip8(void *objCppBridge);
+    ~Chip8();
     
     bool loadProgramIntoMemory(const char *filename);
     void processInstruction();

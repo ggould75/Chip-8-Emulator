@@ -12,12 +12,16 @@
 #import "CEChip8Bridge.h"
 #import "Chip8.hpp"
 
+#pragma mark - C code
+
 void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
 {
     assert(objCppBridge);
     CEChip8Bridge *bridge = (__bridge CEChip8Bridge *)objCppBridge;
     [bridge redrawScreenWithBuffer:frameBuffer];
 }
+
+#pragma mark - Objective-C++ code
 
 @interface CEChip8Bridge () {
     Chip8 *_chip8;

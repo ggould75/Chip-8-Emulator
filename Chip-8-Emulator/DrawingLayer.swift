@@ -10,15 +10,23 @@ import Cocoa
 
 @objc(CERenderer)
 protocol Renderer {
-    func draw()
+    func draw(buffer: UnsafePointer<UInt8>)
 }
 
 class LayerRenderer: CALayer {
-    
+
 }
 
 extension LayerRenderer: Renderer {
-    func draw() {
-        
+    func draw(buffer: UnsafePointer<UInt8>) {
+        for y in 0 ..< 32 {
+            for x in 0 ..< 64 {
+                let pixelIndex = x + y * 64
+                let pixelValue = buffer[pixelIndex]
+                if pixelValue > 0 {
+                    // TODO: draw pixel at (x,y)
+                }
+            }
+        }
     }
 }

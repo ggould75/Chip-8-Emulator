@@ -64,8 +64,7 @@ void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
 - (void)redrawScreenWithBuffer:(uint8_t *)frameBuffer
 {
     NSAssert(self.screenRenderer, @"Missing screen renderer");
-
-    [self.screenRenderer draw];
+    [self.screenRenderer drawWithBuffer:frameBuffer];
 }
 
 - (void)run

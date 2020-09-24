@@ -18,6 +18,8 @@ public:
     Chip8(void *objCppBridge);
     ~Chip8();
     
+    bool shouldRedraw = false;
+    
     bool loadProgramIntoMemory(const char *filename);
     void processInstruction();
     void runLoop();
@@ -26,6 +28,7 @@ public:
 private:
     static const uint16_t kProgramStartAddress = 0x200;
     static const uint16_t kMemorySize = 4096;
+    static const uint16_t kFrameBufferSize = 64 * 32;
     static const uint8_t kStackSize = 64;
     static const uint8_t kNumberOfRegisters = 16;
     static const uint8_t kNumberOfKeys = 0x10; // 16 keys
@@ -43,7 +46,7 @@ private:
     
     uint16_t m_opcode;
     
-    uint8_t m_frameBuffer[64 * 32];
+    uint8_t m_frameBuffer[kFrameBufferSize];
     uint8_t m_delayTimer = 0;
     uint8_t m_soundTimer = 0;
     bool pressedKeys[kNumberOfKeys]{};

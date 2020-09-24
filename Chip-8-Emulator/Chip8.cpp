@@ -29,8 +29,9 @@ Chip8::~Chip8()
 
 void Chip8::reset()
 {
-    memset(m_memory, 0, kMemorySize);
-    memset(m_registersV, 0, kNumberOfRegisters);
+    memset(m_memory, 0, sizeof(uint8_t) * kMemorySize);
+    memset(m_registersV, 0, sizeof(uint8_t) * kNumberOfRegisters);
+    memset(m_frameBuffer, 0, sizeof(uint8_t) * kFrameBufferSize);
     
     m_registerI = 0;
     m_stackIndex = 0;
@@ -47,6 +48,8 @@ void Chip8::reset()
     for (int i = 0; i < kNumberOfKeys; i++) {
         pressedKeys[i] = false;
     }
+    
+    shouldRedraw = true;
 }
 
 bool Chip8::loadProgramIntoMemory(const char *filename)
@@ -73,8 +76,10 @@ void Chip8::runLoop()
 {
     while (true) {
         processInstruction();
-        // TODO: only draw if flag is set?
-        redraw_screen(objCppBridge, m_frameBuffer);
+        if (shouldRedraw) {
+            redraw_screen(objCppBridge, m_frameBuffer);
+            shouldRedraw = false;
+        }
         // TODO: update timers etc...
     }
 }
@@ -121,8 +126,7 @@ void Chip8::processInstruction()
                 case 0x00E0:
                     memset(m_frameBuffer, 0, sizeof(uint8_t) * 64 * 32);
                     m_programCounter += 2;
-                    // TODO: set redraw flag instead?
-                    redraw_screen(objCppBridge, m_frameBuffer);
+                    shouldRedraw = true;
                     break;
                 
                 // 00EE - RET
@@ -338,8 +342,7 @@ void Chip8::processInstruction()
             }
             
             m_programCounter += 2;
-            // TODO: set redraw flag instead?
-            redraw_screen(objCppBridge, m_frameBuffer);
+            shouldRedraw = true;
             break;
         }
     

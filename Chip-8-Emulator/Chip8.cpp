@@ -147,7 +147,7 @@ void Chip8::processInstruction()
             
         // 2nnn - CALL addr
         case 0x2000:
-            m_stack[m_stackIndex] = m_programCounter;
+            m_stack[m_stackIndex] = m_programCounter + 2;
             m_stackIndex++;
             m_programCounter = argNNN(m_opcode);
             break;
@@ -315,6 +315,7 @@ void Chip8::processInstruction()
         // Cxkk - RND Vx, byte
         case 0xC000: {
             m_registersV[argVx(m_opcode)] = (rand() % 0xFF) & argNN(m_opcode);
+            m_programCounter += 2;
             break;
         }
             

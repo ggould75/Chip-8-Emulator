@@ -148,7 +148,7 @@ void Chip8::processInstruction()
             switch (argNN(m_opcode)) {
                 // 00E0 - CLS
                 case 0x00E0:
-                    memset(m_frameBuffer, 0, sizeof(uint8_t) * 64 * 32);
+                    memset(m_frameBuffer, 0, sizeof(uint8_t) * kFrameBufferSize);
                     m_programCounter += 2;
                     shouldRedraw = true;
                     break;
@@ -302,7 +302,7 @@ void Chip8::processInstruction()
                 // 8xyE - SHL Vx {, Vy}
                 case 0x0008: {
                     uint8_t registerVxIndex = argVx(m_opcode);
-                    m_registersV[0xF] = m_registersV[registerVxIndex] & 0x1;
+                    m_registersV[0xF] = m_registersV[registerVxIndex] >> 7;
                     m_registersV[registerVxIndex] <<= 1;
                     m_programCounter += 2;
                     break;
@@ -348,7 +348,7 @@ void Chip8::processInstruction()
             uint8_t x = m_registersV[argVx(m_opcode)];
             uint8_t y = m_registersV[argVy(m_opcode)];
             uint8_t spriteHeight = argN(m_opcode);
-            uint8_t pixel;
+            uint8_t pixelValue;
             
             m_registersV[0xF] = 0;
             
@@ -356,11 +356,11 @@ void Chip8::processInstruction()
                 uint8_t line = m_memory[m_registerI + lineY];
                 
                 for (uint8_t lineX = 0; lineX < 8; lineX++) {
-                    pixel = line & (0x80 >> lineX);
+                    pixelValue = line & (0x80 >> lineX);
                     uint8_t bufferIndex = x + lineX + (y + lineY) * 64;
-                    uint8_t currentPixel = m_frameBuffer[bufferIndex];
-                    m_frameBuffer[bufferIndex] = currentPixel ^ pixel;
-                    if (currentPixel != 0 && m_frameBuffer[bufferIndex] == 0) {
+                    uint8_t currentPixelValue = m_frameBuffer[bufferIndex];
+                    m_frameBuffer[bufferIndex] = currentPixelValue ^ pixelValue;
+                    if (currentPixelValue != 0 && m_frameBuffer[bufferIndex] == 0) {
                         m_registersV[0xF] = 1;
                     }
                 }
@@ -412,7 +412,8 @@ void Chip8::processInstruction()
                 case 0x000A: {
                     bool keyPress = false;
                     
-                    for (int i = 0; i < kNumberOfRegisters; ++i) {
+                    // TODO: documentation says it should block until a key is pressed " All instruction halted until next key event"
+                    for (int i = 0; i < kNumberOfKeys; i++) {
                         if (pressedKeys[i]) {
                             m_registersV[argVx(m_opcode)] = i;
                             keyPress = true;
@@ -473,7 +474,7 @@ void Chip8::processInstruction()
                     uint8_t registerVxIndex = argVx(m_opcode);
                     
                     for (int i = 0; i <= registerVxIndex; i++) {
-                        m_memory[m_registerI + i] = m_registersV[registerVxIndex];
+                        m_memory[m_registerI + i] = m_registersV[i];
                     }
                     
                     m_registerI += registerVxIndex + 1;

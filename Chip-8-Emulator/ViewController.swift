@@ -11,11 +11,6 @@ import Cocoa
 class ViewController: NSViewController {
 
     var chip8Bridge: Chip8Bridge?
-    
-    lazy var layerRenderer: Renderer = {
-        return LayerRenderer()
-    }()
-    
     lazy var runningQueue = DispatchQueue(label: "com.chip8.running-queue")
     
     override func loadView() {
@@ -26,8 +21,19 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        chip8Bridge = Chip8Bridge(screenRenderer: layerRenderer)
-        chip8Bridge?.loadRom(withName: "tetris")
+        let viewRenderer = ViewRenderer()
+        viewRenderer.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(viewRenderer)
+        
+        NSLayoutConstraint.activate([
+            viewRenderer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            viewRenderer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            viewRenderer.topAnchor.constraint(equalTo: view.topAnchor),
+            viewRenderer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+        
+        chip8Bridge = Chip8Bridge(screenRenderer: viewRenderer)
+        chip8Bridge?.loadRom(withName: "invaders")
         
         runningQueue.async {
             self.chip8Bridge?.run()

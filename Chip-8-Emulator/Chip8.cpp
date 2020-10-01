@@ -18,22 +18,22 @@
 
 unsigned char chip8_fontset[80] =
 {
-    0xF0, 0x90, 0x90, 0x90, 0xF0, //0
-    0x20, 0x60, 0x20, 0x20, 0x70, //1
-    0xF0, 0x10, 0xF0, 0x80, 0xF0, //2
-    0xF0, 0x10, 0xF0, 0x10, 0xF0, //3
-    0x90, 0x90, 0xF0, 0x10, 0x10, //4
-    0xF0, 0x80, 0xF0, 0x10, 0xF0, //5
-    0xF0, 0x80, 0xF0, 0x90, 0xF0, //6
-    0xF0, 0x10, 0x20, 0x40, 0x40, //7
-    0xF0, 0x90, 0xF0, 0x90, 0xF0, //8
-    0xF0, 0x90, 0xF0, 0x10, 0xF0, //9
-    0xF0, 0x90, 0xF0, 0x90, 0x90, //A
-    0xE0, 0x90, 0xE0, 0x90, 0xE0, //B
-    0xF0, 0x80, 0x80, 0x80, 0xF0, //C
-    0xE0, 0x90, 0x90, 0x90, 0xE0, //D
-    0xF0, 0x80, 0xF0, 0x80, 0xF0, //E
-    0xF0, 0x80, 0xF0, 0x80, 0x80  //F
+    0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+    0x20, 0x60, 0x20, 0x20, 0x70, // 1
+    0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+    0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+    0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+    0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+    0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+    0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+    0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+    0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+    0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+    0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+    0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+    0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+    0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+    0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
 Chip8::Chip8(void *objCppBridge)
@@ -52,26 +52,22 @@ void Chip8::reset()
     memset(m_memory, 0, sizeof(uint8_t) * kMemorySize);
     memset(m_registersV, 0, sizeof(uint8_t) * kNumberOfRegisters);
     memset(m_frameBuffer, 0, sizeof(uint8_t) * kFrameBufferSize);
+    memset(m_stack, 0, sizeof(uint16_t) * kStackSize);
     
     m_registerI = 0;
     m_stackIndex = 0;
     
     m_programCounter = kProgramStartAddress;
     
-    for (int i = 0; i < kStackSize; i++) {
-        m_stack[i] = 0;
+    for (int i = 0; i < kNumberOfKeys; i++) {
+        pressedKeys[i] = false;
+    }
+    for (int i = 0; i < 80; ++i) {
+        m_memory[i] = chip8_fontset[i];
     }
     
     m_delayTimer = 0;
     m_soundTimer = 0;
-    
-    for (int i = 0; i < kNumberOfKeys; i++) {
-        pressedKeys[i] = false;
-    }
-    
-    for (int i = 0; i < 80; ++i) {
-        m_memory[i] = chip8_fontset[i];
-    }
     
     shouldRedraw = true;
 }
@@ -350,19 +346,26 @@ void Chip8::processInstruction()
             uint8_t spriteHeight = argN(m_opcode);
             uint8_t pixelValue;
             
+            printf("Drawing sprite at (%d, %d), height: %d\n", x, y, spriteHeight);
+            
             m_registersV[0xF] = 0;
             
             for (uint8_t lineY = 0; lineY < spriteHeight; lineY++) {
                 uint8_t line = m_memory[m_registerI + lineY];
                 
                 for (uint8_t lineX = 0; lineX < 8; lineX++) {
+                    printf("processing (%d, %d)\n", lineX, lineY);
                     pixelValue = line & (0x80 >> lineX);
-                    uint8_t bufferIndex = x + lineX + (y + lineY) * 64;
-                    uint8_t currentPixelValue = m_frameBuffer[bufferIndex];
-                    m_frameBuffer[bufferIndex] = currentPixelValue ^ pixelValue;
-                    if (currentPixelValue != 0 && m_frameBuffer[bufferIndex] == 0) {
-                        m_registersV[0xF] = 1;
+                    uint16_t bufferIndex = x + lineX + (y + lineY) * 64;
+                    if (pixelValue > 0) {
+                        if (m_frameBuffer[bufferIndex] == 1) {
+                            m_registersV[0xF] = 1;
+                        }
+                        m_frameBuffer[bufferIndex] ^= 1;
                     }
+
+                    printf("(%d, %d): pixelValue: %d, index: %d, buffer: %d\n",
+                           lineX, lineY, pixelValue, bufferIndex, m_frameBuffer[bufferIndex]);
                 }
             }
             
@@ -412,7 +415,8 @@ void Chip8::processInstruction()
                 case 0x000A: {
                     bool keyPress = false;
                     
-                    // TODO: documentation says it should block until a key is pressed " All instruction halted until next key event"
+                    // TODO: documentation says it should block until a key is pressed
+                    // "... All instruction halted until next key event"
                     for (int i = 0; i < kNumberOfKeys; i++) {
                         if (pressedKeys[i]) {
                             m_registersV[argVx(m_opcode)] = i;
@@ -429,6 +433,7 @@ void Chip8::processInstruction()
                     
                 // Fx15 - LD DT, Vx
                 case 0x0015: {
+                    // FIXME: seems to store a weird value
                     m_delayTimer = m_registersV[argVx(m_opcode)];
                     m_programCounter += 2;
                     break;

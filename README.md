@@ -19,3 +19,14 @@ Because of the odd couple (C++/Swift), some boilerplate code is needed in order 
 Normally you wouldn't want to do that because of the bridging complications that are involved, and because this can potentially force you to use "unsafe" Swift for accessing C/C++ data structures. However, this is meant to be a learning project about emulators, but also a playground for brushing up my C++ and Swift interoperability skills. Perhaps this is what makes this fun :-)
 
 Eventually I will be able to load ROM files (mostly little games), have them displayed on a window, plus some basic interactions using the small keyboard set.
+
+### Progress
+
+[01/10/20] Got drawing instruction working correctly!
+
+<table>
+<tr>
+    <td><img src="Screenshots/space_invaders.png" width=500></td>
+    <td><img src="Screenshots/pong.png" width=500></td>
+</tr>
+</table>

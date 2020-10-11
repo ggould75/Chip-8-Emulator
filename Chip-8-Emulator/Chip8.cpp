@@ -9,12 +9,17 @@
 #include "Chip8.hpp"
 
 #include <iostream>
+#include <thread>
+#include <chrono>
+
 #include <string.h> // FIXME: for memset
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/errno.h>
 
 #include "CBridge.h"
+
+using namespace std;
 
 unsigned char chip8_fontset[80] =
 {
@@ -95,12 +100,18 @@ bool Chip8::loadProgramIntoMemory(const char *filename)
 void Chip8::runLoop()
 {
     while (true) {
+        if (m_delayTimer > 0) {
+            m_delayTimer -= 1;
+        }
+        
         processInstruction();
+        
         if (shouldRedraw) {
             redraw_screen(objCppBridge, m_frameBuffer);
             shouldRedraw = false;
         }
-        // TODO: update timers etc...
+        
+        this_thread::sleep_for(chrono::milliseconds(1));
     }
 }
 
@@ -134,7 +145,7 @@ void Chip8::processInstruction()
     // Fetch instruction
     m_opcode = m_memory[m_programCounter] << 8 | m_memory[m_programCounter + 1];
     
-    std::cout << "Processing " << m_opcode << ", PC: " << m_programCounter << std::endl;
+    cout << "Processing " << m_opcode << ", PC: " << m_programCounter << endl;
     
     // TODO: extract instructions out of the switch and refactor
     switch (m_opcode & 0xF000) {
@@ -425,7 +436,9 @@ void Chip8::processInstruction()
                     }
                     
                     // No key was pressed, skip this cycle
-                    if (!keyPress) { return; }
+                    if (!keyPress) {
+                        return;
+                    }
                     
                     m_programCounter += 2;
                     break;

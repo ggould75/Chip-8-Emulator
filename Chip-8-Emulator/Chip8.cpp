@@ -103,6 +103,10 @@ void Chip8::runLoop()
         if (m_delayTimer > 0) {
             m_delayTimer -= 1;
         }
+        if (m_soundTimer > 0) {
+            play_system_beep(objCppBridge);
+            m_soundTimer = 0;
+        }
         
         processInstruction();
         
@@ -425,9 +429,6 @@ void Chip8::processInstruction()
                 // Fx0A - LD Vx, K
                 case 0x000A: {
                     bool keyPress = false;
-                    
-                    // TODO: documentation says it should block until a key is pressed
-                    // "... All instruction halted until next key event"
                     for (int i = 0; i < kNumberOfKeys; i++) {
                         if (pressedKeys[i]) {
                             m_registersV[argVx(m_opcode)] = i;
@@ -446,7 +447,6 @@ void Chip8::processInstruction()
                     
                 // Fx15 - LD DT, Vx
                 case 0x0015: {
-                    // FIXME: seems to store a weird value
                     m_delayTimer = m_registersV[argVx(m_opcode)];
                     m_programCounter += 2;
                     break;

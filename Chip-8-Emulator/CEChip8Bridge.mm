@@ -21,6 +21,13 @@ void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
     [bridge redrawScreenWithBuffer:frameBuffer];
 }
 
+void play_system_beep(void *objCppBridge)
+{
+    assert(objCppBridge);
+    CEChip8Bridge *bridge = (__bridge CEChip8Bridge *)objCppBridge;
+    [bridge playSystemBeep];
+}
+
 #pragma mark - Objective-C++ code
 
 @interface CEChip8Bridge () {
@@ -70,6 +77,11 @@ void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
 - (void)run
 {
     _chip8->runLoop();
+}
+
+- (void)playSystemBeep
+{
+    NSBeep();
 }
 
 @end

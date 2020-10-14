@@ -10,5 +10,6 @@
 #define CBridge_h
 
 void redraw_screen(void *objCppBridge, uint8_t *frameBuffer);
+void play_system_beep(void *objCppBridge);
 
 #endif /* CBridge_h */

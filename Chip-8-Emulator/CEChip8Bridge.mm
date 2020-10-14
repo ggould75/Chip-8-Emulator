@@ -84,4 +84,9 @@ void play_system_beep(void *objCppBridge)
     NSBeep();
 }
 
+- (void)keyboardKeyDidPress:(const char)key
+{
+    _chip8->keyboardKeyDidPress(key);
+}
+
 @end

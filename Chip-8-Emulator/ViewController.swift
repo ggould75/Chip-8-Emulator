@@ -22,6 +22,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         
         let viewRenderer = ViewRenderer()
+        viewRenderer.keyboardHandler = self
         viewRenderer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewRenderer)
         
@@ -38,5 +39,11 @@ class ViewController: NSViewController {
         runningQueue.async {
             self.chip8Bridge?.run()
         }
+    }
+}
+
+extension ViewController: KeyboardEventsHandler {
+    func keyboardKeyDidPress(cChar: Int8) {
+        chip8Bridge?.keyboardKeyDidPress(cChar)
     }
 }

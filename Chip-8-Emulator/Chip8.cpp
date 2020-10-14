@@ -119,6 +119,27 @@ void Chip8::runLoop()
     }
 }
 
+void Chip8::keyboardKeyDidPress(const char key)
+{
+    cout << "Pressed: " << key << endl;
+    if (key == '0') { pressedKeys[0x0] = 1; }
+    else if (key == '1') { pressedKeys[0x1] = 1; }
+    else if (key == '2') { pressedKeys[0x2] = 1; }
+    else if (key == '3') { pressedKeys[0x3] = 1; }
+    else if (key == '4') { pressedKeys[0x4] = 1; }
+    else if (key == '5') { pressedKeys[0x5] = 1; }
+    else if (key == '6') { pressedKeys[0x6] = 1; }
+    else if (key == '7') { pressedKeys[0x7] = 1; }
+    else if (key == '8') { pressedKeys[0x8] = 1; }
+    else if (key == '9') { pressedKeys[0x9] = 1; }
+    else if (key == 'a') { pressedKeys[0xA] = 1; }
+    else if (key == 'b') { pressedKeys[0xB] = 1; }
+    else if (key == 'c') { pressedKeys[0xC] = 1; }
+    else if (key == 'd') { pressedKeys[0xD] = 1; }
+    else if (key == 'e') { pressedKeys[0xE] = 1; }
+    else if (key == 'f') { pressedKeys[0xF] = 1; }
+}
+
 uint16_t Chip8::argVx(const uint16_t opcode) const
 {
     return (opcode & 0x0F00) >> 8;

@@ -18,13 +18,12 @@ public:
     Chip8(void *objCppBridge);
     ~Chip8();
     
-    bool shouldRedraw = false;
-    
     bool loadProgramIntoMemory(const char *filename);
     void processInstruction();
     void runLoop();
     void reset();
-
+    void keyboardKeyDidPress(const char key);
+    
 private:
     static const uint16_t kProgramStartAddress = 0x200;
     static const uint16_t kMemorySize = 4096;
@@ -50,7 +49,9 @@ private:
     uint8_t m_delayTimer = 0;
     uint8_t m_soundTimer = 0;
     bool pressedKeys[kNumberOfKeys]{};
-
+    
+    bool shouldRedraw = false;
+    
     uint16_t argVx(const uint16_t opcode) const;
     uint16_t argVy(const uint16_t opcode) const;
     uint16_t argN(const uint16_t opcode) const;

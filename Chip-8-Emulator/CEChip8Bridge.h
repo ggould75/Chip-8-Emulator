@@ -1,5 +1,5 @@
 //
-//  CEChip8Bridge.hpp
+//  CEChip8Bridge.h
 //  Chip-8-Emulator
 //
 //  Created by Marco Mussini on 06/09/2020.

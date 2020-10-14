@@ -15,10 +15,8 @@ protocol Renderer {
 }
 
 protocol KeyboardEventsHandler: class {
-    func keyDownEvent(cChar: Int8)
-    func keyUpEvent(cChar: Int8)
-}
-
+    func keyDownEvent(_ cChar: CChar)
+    func keyUpEvent(_ cChar: CChar)
 }
 
 class ViewRenderer: NSView {
@@ -64,32 +62,25 @@ class ViewRenderer: NSView {
     }
     
     override func keyDown(with event: NSEvent) {
-        guard let firstChar = event.characters?.first else {
+        guard let firstChar = event.characters?.first,
+              let asciiValue = firstChar.asciiValue
+        else {
             super.keyDown(with: event)
             return
         }
         
-        keyboardHandler?.keyDownEvent(cChar: cChar(from: firstChar))
+        keyboardHandler?.keyDownEvent(Int8(asciiValue))
     }
     
     override func keyUp(with event: NSEvent) {
-        guard let firstChar = event.characters?.first else {
+        guard let firstChar = event.characters?.first,
+              let asciiValue = firstChar.asciiValue
+        else {
             super.keyUp(with: event)
             return
         }
         
-        keyboardHandler?.keyUpEvent(cChar: cChar(from: firstChar))
-    }
-    
-    private func cChar(from character: Character) -> Int8 {
-        let cCharPointer = UnsafeMutablePointer<Int8>.allocate(capacity: 1)
-        String(character).withCString { unsafePointerInt8 in
-            cCharPointer.initialize(from: unsafePointerInt8, count: 1)
-        }
-        let cChar = cCharPointer.pointee
-        cCharPointer.deallocate()
-        
-        return cChar
+        keyboardHandler?.keyUpEvent(Int8(asciiValue))
     }
 }
 

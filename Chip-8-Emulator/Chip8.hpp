@@ -22,7 +22,8 @@ public:
     void processInstruction();
     void runLoop();
     void reset();
-    void keyboardKeyDidPress(const char key);
+    void keyDownEvent(const char key);
+    void keyUpEvent(const char key);
     
 private:
     static const uint16_t kProgramStartAddress = 0x200;

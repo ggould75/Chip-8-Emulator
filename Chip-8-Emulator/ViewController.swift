@@ -43,7 +43,11 @@ class ViewController: NSViewController {
 }
 
 extension ViewController: KeyboardEventsHandler {
-    func keyboardKeyDidPress(cChar: Int8) {
-        chip8Bridge?.keyboardKeyDidPress(cChar)
+    func keyDownEvent(cChar: Int8) {
+        chip8Bridge?.keyDownEvent(cChar)
+    }
+    
+    func keyUpEvent(cChar: Int8) {
+        chip8Bridge?.keyUpEvent(cChar)
     }
 }

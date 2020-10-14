@@ -20,6 +20,7 @@ NS_SWIFT_NAME(Chip8Bridge)
 - (void)redrawScreenWithBuffer:(uint8_t *)frameBuffer;
 - (void)playSystemBeep;
 - (void)run;
-- (void)keyboardKeyDidPress:(const char)key;
+- (void)keyDownEvent:(const char)key;
+- (void)keyUpEvent:(const char)key;
 
 @end

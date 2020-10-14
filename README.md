@@ -22,7 +22,16 @@ Eventually I will be able to load ROM files (mostly little games), have them dis
 
 ### Progress
 
-[01/10/20] Got drawing instruction working correctly!
+**[11/10/20]** Implemented a basic timer to allow programs to continue. No keyboard interactions possible yet, but this will come soon!
+
+<table>
+<tr>
+    <td><img src="Screenshots/spaceinvaders_animated.gif" width=500></td>
+    <td><img src="Screenshots/pong2_animated.gif" width=500></td>
+</tr>
+</table>
+
+**[01/10/20]** Got drawing instruction working correctly!
 
 <table>
 <tr>

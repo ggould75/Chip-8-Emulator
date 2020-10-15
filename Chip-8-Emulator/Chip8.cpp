@@ -353,7 +353,7 @@ void Chip8::processInstruction()
                 }
                     
                 // 8xyE - SHL Vx {, Vy}
-                case 0x0008: {
+                case 0x000E: {
                     uint8_t registerVxIndex = argVx(m_opcode);
                     m_registersV[0xF] = m_registersV[registerVxIndex] >> 7;
                     m_registersV[registerVxIndex] <<= 1;
@@ -362,6 +362,7 @@ void Chip8::processInstruction()
                 }
                     
                 default:
+                    cout << "Unknown 8x instruction!" << endl;
                     break;
             }
             break;

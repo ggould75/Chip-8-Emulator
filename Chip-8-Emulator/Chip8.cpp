@@ -440,7 +440,7 @@ void Chip8::processInstruction()
                 // Ex9E - SKP Vx
                 case 0x009E: {
                     uint8_t keyIndex = m_registersV[argVx(m_opcode)];
-                    if (pressedKeys[keyIndex]) {
+                    if (pressedKeys[keyIndex] > 0) {
                         m_programCounter += 4;
                     } else {
                         m_programCounter += 2;
@@ -451,7 +451,7 @@ void Chip8::processInstruction()
                 // ExA1 - SKNP Vx
                 case 0x00A1: {
                     uint8_t keyIndex = m_registersV[argVx(m_opcode)];
-                    if (!pressedKeys[keyIndex]) {
+                    if (pressedKeys[keyIndex] == 0) {
                         m_programCounter += 4;
                     } else {
                         m_programCounter += 2;

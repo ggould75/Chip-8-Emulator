@@ -327,9 +327,12 @@ void Chip8::processInstruction()
                 case 0x0005: {
                     uint8_t registerVxIndex = argVx(m_opcode);
                     uint8_t registerVyIndex = argVy(m_opcode);
-                    uint16_t result = (uint16_t)m_registersV[registerVxIndex] - (uint16_t)m_registersV[registerVyIndex];
-                    m_registersV[registerVxIndex] = (uint8_t)result;
-                    m_registersV[0xF] = result >= 0;
+                    if (m_registersV[registerVyIndex] > m_registersV[registerVxIndex]) {
+                        m_registersV[0xF] = 0;
+                    } else {
+                        m_registersV[0xF] = 1;
+                    }
+                    m_registersV[registerVxIndex] -= m_registersV[registerVyIndex];
                     m_programCounter += 2;
                     break;
                 }

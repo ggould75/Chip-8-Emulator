@@ -62,7 +62,7 @@ class ViewRenderer: NSView {
     }
     
     override func keyDown(with event: NSEvent) {
-        guard let firstChar = event.characters?.first,
+        guard let firstChar = event.characters?.lowercased().first,
               let asciiValue = firstChar.asciiValue
         else {
             super.keyDown(with: event)
@@ -73,7 +73,7 @@ class ViewRenderer: NSView {
     }
     
     override func keyUp(with event: NSEvent) {
-        guard let firstChar = event.characters?.first,
+        guard let firstChar = event.characters?.lowercased().first,
               let asciiValue = firstChar.asciiValue
         else {
             super.keyUp(with: event)

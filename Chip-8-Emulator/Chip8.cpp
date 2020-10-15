@@ -121,44 +121,34 @@ void Chip8::runLoop()
 
 void Chip8::keyDownEvent(const char key)
 {
-    cout << "Pressed: " << key << endl;
-    if (key == '0') { pressedKeys[0x0] = 1; }
-    else if (key == '1') { pressedKeys[0x1] = 1; }
-    else if (key == '2') { pressedKeys[0x2] = 1; }
-    else if (key == '3') { pressedKeys[0x3] = 1; }
-    else if (key == '4') { pressedKeys[0x4] = 1; }
-    else if (key == '5') { pressedKeys[0x5] = 1; }
-    else if (key == '6') { pressedKeys[0x6] = 1; }
-    else if (key == '7') { pressedKeys[0x7] = 1; }
-    else if (key == '8') { pressedKeys[0x8] = 1; }
-    else if (key == '9') { pressedKeys[0x9] = 1; }
-    else if (key == 'a') { pressedKeys[0xA] = 1; }
-    else if (key == 'b') { pressedKeys[0xB] = 1; }
-    else if (key == 'c') { pressedKeys[0xC] = 1; }
-    else if (key == 'd') { pressedKeys[0xD] = 1; }
-    else if (key == 'e') { pressedKeys[0xE] = 1; }
-    else if (key == 'f') { pressedKeys[0xF] = 1; }
+    updatePressedKey(key, true);
 }
 
 void Chip8::keyUpEvent(const char key)
 {
-    cout << "Pressed: " << key << endl;
-    if (key == '0') { pressedKeys[0x0] = 0; }
-    else if (key == '1') { pressedKeys[0x1] = 0; }
-    else if (key == '2') { pressedKeys[0x2] = 0; }
-    else if (key == '3') { pressedKeys[0x3] = 0; }
-    else if (key == '4') { pressedKeys[0x4] = 0; }
-    else if (key == '5') { pressedKeys[0x5] = 0; }
-    else if (key == '6') { pressedKeys[0x6] = 0; }
-    else if (key == '7') { pressedKeys[0x7] = 0; }
-    else if (key == '8') { pressedKeys[0x8] = 0; }
-    else if (key == '9') { pressedKeys[0x9] = 0; }
-    else if (key == 'a') { pressedKeys[0xA] = 0; }
-    else if (key == 'b') { pressedKeys[0xB] = 0; }
-    else if (key == 'c') { pressedKeys[0xC] = 0; }
-    else if (key == 'd') { pressedKeys[0xD] = 0; }
-    else if (key == 'e') { pressedKeys[0xE] = 0; }
-    else if (key == 'f') { pressedKeys[0xF] = 0; }
+    updatePressedKey(key, false);
+}
+
+void Chip8::updatePressedKey(const char key, const bool isPressed)
+{
+    cout << "Key: " << key << " (pressed: " << isPressed << ")" << endl;
+    
+    if (key == '0') { pressedKeys[0x0] = isPressed; }
+    else if (key == '1') { pressedKeys[0x1] = isPressed; }
+    else if (key == '2') { pressedKeys[0x2] = isPressed; }
+    else if (key == '3') { pressedKeys[0x3] = isPressed; }
+    else if (key == '4') { pressedKeys[0x4] = isPressed; }
+    else if (key == '5') { pressedKeys[0x5] = isPressed; }
+    else if (key == '6') { pressedKeys[0x6] = isPressed; }
+    else if (key == '7') { pressedKeys[0x7] = isPressed; }
+    else if (key == '8') { pressedKeys[0x8] = isPressed; }
+    else if (key == '9') { pressedKeys[0x9] = isPressed; }
+    else if (key == 'a') { pressedKeys[0xA] = isPressed; }
+    else if (key == 'b') { pressedKeys[0xB] = isPressed; }
+    else if (key == 'c') { pressedKeys[0xC] = isPressed; }
+    else if (key == 'd') { pressedKeys[0xD] = isPressed; }
+    else if (key == 'e') { pressedKeys[0xE] = isPressed; }
+    else if (key == 'f') { pressedKeys[0xF] = isPressed; }
 }
 
 uint16_t Chip8::argVx(const uint16_t opcode) const
@@ -313,6 +303,7 @@ void Chip8::processInstruction()
                 }
                  
                 // 8xy4 -  ADD Vx, Vy
+                // Note to myself: there could be an issue here similar to what I've fixed in 0x0005
                 case 0x0004: {
                     uint8_t registerVxIndex = argVx(m_opcode);
                     uint8_t registerVyIndex = argVy(m_opcode);

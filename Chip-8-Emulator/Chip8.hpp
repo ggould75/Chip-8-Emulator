@@ -49,7 +49,9 @@ private:
     uint8_t m_frameBuffer[kFrameBufferSize];
     uint8_t m_delayTimer = 0;
     uint8_t m_soundTimer = 0;
+    
     bool pressedKeys[kNumberOfKeys]{};
+    void updatePressedKey(const char key, const bool isPressed);
     
     bool shouldRedraw = false;
     

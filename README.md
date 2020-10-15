@@ -22,6 +22,14 @@ Eventually I will be able to load ROM files (mostly little games), have them dis
 
 ### Progress
 
+**[14/10/20]** Keyboard events are now forwarded and handled and somehow I can play! However there might be an issue with program jumps or with collision detection as the ball almost always doesn't bounce back :-(
+
+<table>
+<tr>
+    <td><img src="Screenshots/drafted_keyboard_events.gif" width=500></td>
+</tr>
+</table>
+
 **[11/10/20]** Implemented a basic timer to allow programs to continue. No keyboard interactions possible yet, but this will come soon!
 
 <table>

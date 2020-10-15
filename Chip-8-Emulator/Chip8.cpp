@@ -192,6 +192,8 @@ void Chip8::processInstruction()
     m_opcode = m_memory[m_programCounter] << 8 | m_memory[m_programCounter + 1];
     
     cout << "Processing " << m_opcode << ", PC: " << m_programCounter << endl;
+    cout.flags(ios::hex | ios::showbase);
+    cout << "Processing " << m_opcode << dec << " (" << m_opcode << "), PC: " << m_programCounter << endl;
     
     // TODO: extract instructions out of the switch and refactor
     switch (m_opcode & 0xF000) {

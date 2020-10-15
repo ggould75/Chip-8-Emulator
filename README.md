@@ -22,11 +22,19 @@ Eventually I will be able to load ROM files (mostly little games), have them dis
 
 ### Progress
 
+**[15/10/20]** Fixed issue in 0x8xy5 instruction, so now the ball in pong bounce back correctly! :-)
+
+<table>
+<tr>
+    <td><img src="Screenshots/ball_bounce.gif" width=400></td>
+</tr>
+</table>
+
 **[14/10/20]** Keyboard events are now forwarded and handled and somehow I can play! However there might be an issue with program jumps or with collision detection as the ball almost always doesn't bounce back :-(
 
 <table>
 <tr>
-    <td><img src="Screenshots/drafted_keyboard_events.gif" width=500></td>
+    <td><img src="Screenshots/drafted_keyboard_events.gif" width=400></td>
 </tr>
 </table>
 

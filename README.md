@@ -20,38 +20,24 @@ Normally you wouldn't want to do that because of the bridging complications that
 
 Eventually I will be able to load ROM files (mostly little games), have them displayed on a window, plus some basic interactions using the small keyboard set.
 
+### Latest screenshots
+
+<table>
+<tr>
+    <td><img src="Screenshots/space_invaders.png"></td>
+    <td><img src="Screenshots/pong.png"></td>
+    <td><img src="Screenshots/tetris.png"></td>
+</tr>
+</table>
+
+<img src="Screenshots/16-10-20.gif">
+
 ### Progress
 
 **[15/10/20]** Fixed issue in 0x8xy5 instruction, so now the ball in pong bounce back correctly! :-)
 
-<table>
-<tr>
-    <td><img src="Screenshots/ball_bounce.gif" width=400></td>
-</tr>
-</table>
-
 **[14/10/20]** Keyboard events are now forwarded and handled and somehow I can play! However there might be an issue with program jumps or with collision detection as the ball almost always doesn't bounce back :-(
-
-<table>
-<tr>
-    <td><img src="Screenshots/drafted_keyboard_events.gif" width=400></td>
-</tr>
-</table>
 
 **[11/10/20]** Implemented a basic timer to allow programs to continue. No keyboard interactions possible yet, but this will come soon!
 
-<table>
-<tr>
-    <td><img src="Screenshots/spaceinvaders_animated.gif" width=500></td>
-    <td><img src="Screenshots/pong2_animated.gif" width=500></td>
-</tr>
-</table>
-
 **[01/10/20]** Got drawing instruction working correctly!
-
-<table>
-<tr>
-    <td><img src="Screenshots/space_invaders.png" width=500></td>
-    <td><img src="Screenshots/pong.png" width=500></td>
-</tr>
-</table>

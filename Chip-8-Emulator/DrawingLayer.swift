@@ -20,7 +20,8 @@ protocol KeyboardEventsHandler: class {
 }
 
 class ViewRenderer: NSView {
-    static let pixelSize = 6
+    let virtualMachineScreenSize: CGSize
+    
     var drawingBuffer: UnsafePointer<UInt8>?
     
     weak var keyboardHandler: KeyboardEventsHandler?
@@ -28,9 +29,17 @@ class ViewRenderer: NSView {
     override var isFlipped: Bool { return true }
     override var acceptsFirstResponder: Bool { return true }
     
+    init(virtualMachineScreenSize: CGSize) {
+        self.virtualMachineScreenSize = virtualMachineScreenSize
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         guard let buffer = drawingBuffer else {
-            print("Empty buffer!")
             return
         }
         
@@ -42,7 +51,6 @@ class ViewRenderer: NSView {
         let squaresPath = CGMutablePath()
         context.setFillColor(NSColor.white.cgColor)
         
-        let virtualMachineScreenSize = CGSize(width: 64, height: 32)
         let rectSize = dirtyRect.size
         let pixelSizeH = rectSize.width / virtualMachineScreenSize.width
         let pixelSizeV = rectSize.height / virtualMachineScreenSize.height

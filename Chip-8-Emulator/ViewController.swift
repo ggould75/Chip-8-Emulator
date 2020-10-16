@@ -14,12 +14,15 @@ class ViewController: NSViewController {
     lazy var runningQueue = DispatchQueue(label: "com.chip8.running-queue")
     
     override func loadView() {
-        let rect = NSRect(x: 0, y: 0, width: 500, height: 300)
+        let rect = NSRect(x: 0, y: 0, width: 640, height: 320)
         view = NSView(frame: rect)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor(calibratedWhite: 0.8, alpha: 1.0).cgColor
         
         let viewRenderer = ViewRenderer()
         viewRenderer.keyboardHandler = self
@@ -29,8 +32,9 @@ class ViewController: NSViewController {
         NSLayoutConstraint.activate([
             viewRenderer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             viewRenderer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            viewRenderer.topAnchor.constraint(equalTo: view.topAnchor),
-            viewRenderer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            viewRenderer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            viewRenderer.heightAnchor.constraint(equalTo: viewRenderer.widthAnchor, multiplier: 0.5),
+            viewRenderer.widthAnchor.constraint(greaterThanOrEqualToConstant: 64),
         ])
         
         chip8Bridge = Chip8Bridge(screenRenderer: viewRenderer)

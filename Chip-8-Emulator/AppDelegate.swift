@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                           styleMask: [.resizable, .closable, .titled],
                           backing: .buffered,
                           defer: false)
+        window?.contentAspectRatio = CGSize(width: 2, height: 1)
         window?.title = "Chip8 Emulator"
         window?.makeKeyAndOrderFront(nil)
         

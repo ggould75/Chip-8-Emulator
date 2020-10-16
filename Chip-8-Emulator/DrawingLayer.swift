@@ -42,16 +42,20 @@ class ViewRenderer: NSView {
         let squaresPath = CGMutablePath()
         context.setFillColor(NSColor.white.cgColor)
         
-        let pixelSize = ViewRenderer.pixelSize
-        for y in 0 ..< 32 {
-            for x in 0 ..< 64 {
-                let pixelIndex = x + y * 64
+        let virtualMachineScreenSize = CGSize(width: 64, height: 32)
+        let rectSize = dirtyRect.size
+        let pixelSizeH = rectSize.width / virtualMachineScreenSize.width
+        let pixelSizeV = rectSize.height / virtualMachineScreenSize.height
+        
+        for y in 0 ..< Int(virtualMachineScreenSize.height) {
+            for x in 0 ..< Int(virtualMachineScreenSize.width) {
+                let pixelIndex = x + y * Int(virtualMachineScreenSize.width)
                 let pixelValue = buffer[pixelIndex]
                 if pixelValue > 0 {
-                    let rect = CGRect(x: pixelSize * x,
-                                      y: pixelSize * y,
-                                      width: pixelSize,
-                                      height: pixelSize)
+                    let rect = CGRect(x: pixelSizeH * CGFloat(x),
+                                      y: pixelSizeV * CGFloat(y),
+                                      width: pixelSizeH,
+                                      height: pixelSizeV)
                     squaresPath.addRect(rect)
                 }
             }

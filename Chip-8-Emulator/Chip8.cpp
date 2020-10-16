@@ -81,7 +81,7 @@ bool Chip8::loadProgramIntoMemory(const char *filename)
 {
     FILE *file = fopen(filename, "rb");
     if (file == nullptr) {
-        printf("%s\n", strerror(errno));
+        cerr << "Cannot find ROM image file: " << strerror(errno) << endl;
         return false;
     }
 
@@ -115,7 +115,7 @@ void Chip8::runLoop()
             shouldRedraw = false;
         }
         
-        this_thread::sleep_for(chrono::milliseconds(1));
+        this_thread::sleep_for(chrono::milliseconds(3));
     }
 }
 
@@ -131,7 +131,9 @@ void Chip8::keyUpEvent(const char key)
 
 void Chip8::updatePressedKey(const char key, const bool isPressed)
 {
+#ifdef ENABLE_DEBUG
     cout << "Key: " << key << " (pressed: " << isPressed << ")" << endl;
+#endif
     
     if (key == '0') { pressedKeys[0x0] = isPressed; }
     else if (key == '1') { pressedKeys[0x1] = isPressed; }
@@ -181,9 +183,10 @@ void Chip8::processInstruction()
     // Fetch instruction
     m_opcode = m_memory[m_programCounter] << 8 | m_memory[m_programCounter + 1];
     
-    cout << "Processing " << m_opcode << ", PC: " << m_programCounter << endl;
+#ifdef ENABLE_DEBUG
     cout.flags(ios::hex | ios::showbase);
     cout << "Processing " << m_opcode << dec << " (" << m_opcode << "), PC: " << m_programCounter << endl;
+#endif
     
     // TODO: extract instructions out of the switch and refactor
     switch (m_opcode & 0xF000) {
@@ -358,7 +361,7 @@ void Chip8::processInstruction()
                 }
                     
                 default:
-                    cout << "Unknown 8x instruction!" << endl;
+                    cerr << "Unknown 8x instruction!" << endl;
                     break;
             }
             break;
@@ -400,15 +403,15 @@ void Chip8::processInstruction()
             uint8_t spriteHeight = argN(m_opcode);
             uint8_t pixelValue;
             
+#ifdef ENABLE_DEBUG
             printf("Drawing sprite at (%d, %d), height: %d\n", x, y, spriteHeight);
-            
+#endif
             m_registersV[0xF] = 0;
             
             for (uint8_t lineY = 0; lineY < spriteHeight; lineY++) {
                 uint8_t line = m_memory[m_registerI + lineY];
                 
                 for (uint8_t lineX = 0; lineX < 8; lineX++) {
-                    printf("processing (%d, %d)\n", lineX, lineY);
                     pixelValue = line & (0x80 >> lineX);
                     uint16_t bufferIndex = x + lineX + (y + lineY) * 64;
                     if (pixelValue > 0) {
@@ -417,9 +420,10 @@ void Chip8::processInstruction()
                         }
                         m_frameBuffer[bufferIndex] ^= 1;
                     }
-
+#ifdef ENABLE_DEBUG
                     printf("(%d, %d): pixelValue: %d, index: %d, buffer: %d\n",
                            lineX, lineY, pixelValue, bufferIndex, m_frameBuffer[bufferIndex]);
+#endif
                 }
             }
             

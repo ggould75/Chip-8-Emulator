@@ -60,12 +60,12 @@ void play_system_beep(void *objCppBridge)
     _chip8->reset();
 }
 
-- (void)loadRomWithName:(NSString *)name
+- (BOOL)loadRomWithName:(NSString *)name
 {
     NSString *romFilePath = [[NSBundle mainBundle] pathForResource:name ofType:@"c8"];
     const char *romFileCString = [romFilePath cStringUsingEncoding:NSUTF8StringEncoding];
 
-    _chip8->loadProgramIntoMemory(romFileCString);
+    return _chip8->loadProgramIntoMemory(romFileCString);
 }
 
 - (void)redrawScreenWithBuffer:(uint8_t *)frameBuffer

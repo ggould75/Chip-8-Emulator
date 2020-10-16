@@ -16,7 +16,7 @@ NS_SWIFT_NAME(Chip8Bridge)
 - (instancetype)initWithScreenRenderer:(id<CERenderer>)renderer;
 
 - (void)reset;
-- (void)loadRomWithName:(NSString *)name;
+- (BOOL)loadRomWithName:(NSString *)name;
 - (void)redrawScreenWithBuffer:(uint8_t *)frameBuffer;
 - (void)playSystemBeep;
 - (void)run;

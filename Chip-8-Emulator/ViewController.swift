@@ -39,11 +39,23 @@ class ViewController: NSViewController {
         ])
         
         chip8Bridge = Chip8Bridge(screenRenderer: viewRenderer)
-        chip8Bridge?.loadRom(withName: "invaders")
-        
+        guard chip8Bridge?.loadRom(withName: "pong2") == true else {
+            showAlertWithMessage("Unable to find the ROM image.")
+            return
+        }
+
         runningQueue.async {
             self.chip8Bridge?.run()
         }
+    }
+    
+    private func showAlertWithMessage(_ msg: String) {
+        guard let window = NSApp.mainWindow else { return }
+        
+        let alert = NSAlert()
+        alert.messageText = msg
+        alert.alertStyle = .warning
+        alert.beginSheetModal(for: window, completionHandler: nil)
     }
 }
 

@@ -1,9 +1,5 @@
 # Chip 8 Emulator
 
-**Disclaimer:** this is still a WIP that I'm building in my spare time.
-
-While I'm getting interested in the theory behind emulators, I thought it would be fun to try writing a very simple emulator: Chip-8.
-
 Chip-8 is an interpreted programming language from the 1970s. It ran on the COSMAC VIP, and supported many programs such as Pac-Man, Pong, Space Invaders, and Tetris.
 The Chip-8 specification requires the use of sixteen 8-bit registers (V0-VF), a 16-bit index register, a 64-byte stack with 8-bit stack pointer, an 8-bit delay timer, an 8-bit sound timer, a 64x32 bit frame buffer, and a 16-bit program counter. The Chip8 specification also supported 4096 bytes of addressable memory. All of the supported programs will start at memory location 0x200. All setting of pixels on the display are done through the use of sprites, which are also used for building a small font set. The architecture handles a 16-key keyboard (0 − 9, A − F). 
 

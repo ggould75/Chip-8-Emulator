@@ -115,7 +115,7 @@ void Chip8::runLoop()
             shouldRedraw = false;
         }
         
-        this_thread::sleep_for(chrono::milliseconds(3));
+        this_thread::sleep_for(chrono::milliseconds(2));
     }
 }
 

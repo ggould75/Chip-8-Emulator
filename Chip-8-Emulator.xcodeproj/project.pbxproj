@@ -12,11 +12,34 @@
 		021560682505479800621310 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 021560672505479800621310 /* Assets.xcassets */; };
 		0215607625054BDF00621310 /* Chip8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215607425054BDF00621310 /* Chip8.cpp */; };
 		0215607E25055BF100621310 /* CEChip8Bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0215607C25055BF100621310 /* CEChip8Bridge.mm */; };
-		0244806E25110C0D00F7664A /* invaders.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806B25110C0D00F7664A /* invaders.c8 */; };
-		0244806F25110C0D00F7664A /* tetris.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806C25110C0D00F7664A /* tetris.c8 */; };
-		0244807025110C0D00F7664A /* pong2.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806D25110C0D00F7664A /* pong2.c8 */; };
+		0244806E25110C0D00F7664A /* invaders.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0244806B25110C0D00F7664A /* invaders.rom */; };
+		0244806F25110C0D00F7664A /* tetris.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0244806C25110C0D00F7664A /* tetris.rom */; };
+		0244807025110C0D00F7664A /* pong2.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0244806D25110C0D00F7664A /* pong2.rom */; };
 		02448072251164B900F7664A /* RendererView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02448071251164B900F7664A /* RendererView.swift */; };
 		027C612D253D8AF0003274A0 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027C612C253D8AF0003274A0 /* BackgroundView.swift */; };
+		0283B1EA2542CF4A00B007CE /* blitz.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D32542CF4A00B007CE /* blitz.rom */; };
+		0283B1EB2542CF4A00B007CE /* merlin.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D42542CF4A00B007CE /* merlin.rom */; };
+		0283B1EC2542CF4A00B007CE /* missile.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D52542CF4A00B007CE /* missile.rom */; };
+		0283B1ED2542CF4A00B007CE /* ufo.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D62542CF4A00B007CE /* ufo.rom */; };
+		0283B1EE2542CF4A00B007CE /* vbrix.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D72542CF4A00B007CE /* vbrix.rom */; };
+		0283B1EF2542CF4A00B007CE /* wall.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D82542CF4A00B007CE /* wall.rom */; };
+		0283B1F02542CF4A00B007CE /* wipeoff.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D92542CF4A00B007CE /* wipeoff.rom */; };
+		0283B1F12542CF4A00B007CE /* guess.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1DA2542CF4A00B007CE /* guess.rom */; };
+		0283B1F22542CF4A00B007CE /* blinky.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1DB2542CF4A00B007CE /* blinky.rom */; };
+		0283B1F32542CF4A00B007CE /* hidden.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1DC2542CF4A00B007CE /* hidden.rom */; };
+		0283B1F42542CF4A00B007CE /* maze.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1DD2542CF4A00B007CE /* maze.rom */; };
+		0283B1F52542CF4A00B007CE /* puzzle.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1DE2542CF4A00B007CE /* puzzle.rom */; };
+		0283B1F62542CF4A00B007CE /* tictac.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1DF2542CF4A00B007CE /* tictac.rom */; };
+		0283B1F72542CF4A00B007CE /* vers.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E02542CF4A00B007CE /* vers.rom */; };
+		0283B1F82542CF4A00B007CE /* pong.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E12542CF4A00B007CE /* pong.rom */; };
+		0283B1F92542CF4A00B007CE /* breakout.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E22542CF4A00B007CE /* breakout.rom */; };
+		0283B1FA2542CF4A00B007CE /* tank.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E32542CF4A00B007CE /* tank.rom */; };
+		0283B1FB2542CF4A00B007CE /* syzygy.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E42542CF4A00B007CE /* syzygy.rom */; };
+		0283B1FC2542CF4A00B007CE /* connect4.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E52542CF4A00B007CE /* connect4.rom */; };
+		0283B1FD2542CF4A00B007CE /* squash.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E62542CF4A00B007CE /* squash.rom */; };
+		0283B1FE2542CF4A00B007CE /* brix.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E72542CF4A00B007CE /* brix.rom */; };
+		0283B1FF2542CF4A00B007CE /* 15puzzle.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E82542CF4A00B007CE /* 15puzzle.rom */; };
+		0283B2002542CF4A00B007CE /* kaleid.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E92542CF4A00B007CE /* kaleid.rom */; };
 		02AE57962510EC0F002AC8BD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AE57952510EC0F002AC8BD /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,11 +55,34 @@
 		0215607525054BDF00621310 /* Chip8.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Chip8.hpp; sourceTree = "<group>"; };
 		0215607C25055BF100621310 /* CEChip8Bridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CEChip8Bridge.mm; sourceTree = "<group>"; };
 		0215607D25055BF100621310 /* CEChip8Bridge.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = CEChip8Bridge.h; sourceTree = "<group>"; };
-		0244806B25110C0D00F7664A /* invaders.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = invaders.c8; sourceTree = "<group>"; };
-		0244806C25110C0D00F7664A /* tetris.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tetris.c8; sourceTree = "<group>"; };
-		0244806D25110C0D00F7664A /* pong2.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pong2.c8; sourceTree = "<group>"; };
+		0244806B25110C0D00F7664A /* invaders.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = invaders.rom; sourceTree = "<group>"; };
+		0244806C25110C0D00F7664A /* tetris.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = tetris.rom; sourceTree = "<group>"; };
+		0244806D25110C0D00F7664A /* pong2.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = pong2.rom; sourceTree = "<group>"; };
 		02448071251164B900F7664A /* RendererView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererView.swift; sourceTree = "<group>"; };
 		027C612C253D8AF0003274A0 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		0283B1D32542CF4A00B007CE /* blitz.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = blitz.rom; sourceTree = "<group>"; };
+		0283B1D42542CF4A00B007CE /* merlin.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = merlin.rom; sourceTree = "<group>"; };
+		0283B1D52542CF4A00B007CE /* missile.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = missile.rom; sourceTree = "<group>"; };
+		0283B1D62542CF4A00B007CE /* ufo.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = ufo.rom; sourceTree = "<group>"; };
+		0283B1D72542CF4A00B007CE /* vbrix.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = vbrix.rom; sourceTree = "<group>"; };
+		0283B1D82542CF4A00B007CE /* wall.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = wall.rom; sourceTree = "<group>"; };
+		0283B1D92542CF4A00B007CE /* wipeoff.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = wipeoff.rom; sourceTree = "<group>"; };
+		0283B1DA2542CF4A00B007CE /* guess.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = guess.rom; sourceTree = "<group>"; };
+		0283B1DB2542CF4A00B007CE /* blinky.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = blinky.rom; sourceTree = "<group>"; };
+		0283B1DC2542CF4A00B007CE /* hidden.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = hidden.rom; sourceTree = "<group>"; };
+		0283B1DD2542CF4A00B007CE /* maze.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = maze.rom; sourceTree = "<group>"; };
+		0283B1DE2542CF4A00B007CE /* puzzle.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = puzzle.rom; sourceTree = "<group>"; };
+		0283B1DF2542CF4A00B007CE /* tictac.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = tictac.rom; sourceTree = "<group>"; };
+		0283B1E02542CF4A00B007CE /* vers.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = vers.rom; sourceTree = "<group>"; };
+		0283B1E12542CF4A00B007CE /* pong.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = pong.rom; sourceTree = "<group>"; };
+		0283B1E22542CF4A00B007CE /* breakout.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = breakout.rom; sourceTree = "<group>"; };
+		0283B1E32542CF4A00B007CE /* tank.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = tank.rom; sourceTree = "<group>"; };
+		0283B1E42542CF4A00B007CE /* syzygy.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = syzygy.rom; sourceTree = "<group>"; };
+		0283B1E52542CF4A00B007CE /* connect4.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = connect4.rom; sourceTree = "<group>"; };
+		0283B1E62542CF4A00B007CE /* squash.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = squash.rom; sourceTree = "<group>"; };
+		0283B1E72542CF4A00B007CE /* brix.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = brix.rom; sourceTree = "<group>"; };
+		0283B1E82542CF4A00B007CE /* 15puzzle.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = 15puzzle.rom; sourceTree = "<group>"; };
+		0283B1E92542CF4A00B007CE /* kaleid.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = kaleid.rom; sourceTree = "<group>"; };
 		02A953352513D98500E83D9E /* CBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBridge.h; sourceTree = "<group>"; };
 		02AE57952510EC0F002AC8BD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,9 +139,32 @@
 		0244806A25110C0D00F7664A /* Roms */ = {
 			isa = PBXGroup;
 			children = (
-				0244806B25110C0D00F7664A /* invaders.c8 */,
-				0244806C25110C0D00F7664A /* tetris.c8 */,
-				0244806D25110C0D00F7664A /* pong2.c8 */,
+				0283B1E82542CF4A00B007CE /* 15puzzle.rom */,
+				0283B1DB2542CF4A00B007CE /* blinky.rom */,
+				0283B1D32542CF4A00B007CE /* blitz.rom */,
+				0283B1E22542CF4A00B007CE /* breakout.rom */,
+				0283B1E72542CF4A00B007CE /* brix.rom */,
+				0283B1D72542CF4A00B007CE /* vbrix.rom */,
+				0283B1E52542CF4A00B007CE /* connect4.rom */,
+				0283B1DA2542CF4A00B007CE /* guess.rom */,
+				0283B1DC2542CF4A00B007CE /* hidden.rom */,
+				0283B1E92542CF4A00B007CE /* kaleid.rom */,
+				0283B1DD2542CF4A00B007CE /* maze.rom */,
+				0283B1D42542CF4A00B007CE /* merlin.rom */,
+				0283B1D52542CF4A00B007CE /* missile.rom */,
+				0283B1E12542CF4A00B007CE /* pong.rom */,
+				0244806D25110C0D00F7664A /* pong2.rom */,
+				0283B1DE2542CF4A00B007CE /* puzzle.rom */,
+				0283B1E62542CF4A00B007CE /* squash.rom */,
+				0283B1E42542CF4A00B007CE /* syzygy.rom */,
+				0283B1E32542CF4A00B007CE /* tank.rom */,
+				0283B1DF2542CF4A00B007CE /* tictac.rom */,
+				0283B1D62542CF4A00B007CE /* ufo.rom */,
+				0283B1E02542CF4A00B007CE /* vers.rom */,
+				0283B1D82542CF4A00B007CE /* wall.rom */,
+				0283B1D92542CF4A00B007CE /* wipeoff.rom */,
+				0244806B25110C0D00F7664A /* invaders.rom */,
+				0244806C25110C0D00F7664A /* tetris.rom */,
 			);
 			path = Roms;
 			sourceTree = "<group>";
@@ -159,10 +228,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0244806E25110C0D00F7664A /* invaders.c8 in Resources */,
+				0283B1FF2542CF4A00B007CE /* 15puzzle.rom in Resources */,
+				0283B1F52542CF4A00B007CE /* puzzle.rom in Resources */,
+				0283B1F32542CF4A00B007CE /* hidden.rom in Resources */,
+				0283B1F12542CF4A00B007CE /* guess.rom in Resources */,
+				0244806E25110C0D00F7664A /* invaders.rom in Resources */,
 				021560682505479800621310 /* Assets.xcassets in Resources */,
-				0244806F25110C0D00F7664A /* tetris.c8 in Resources */,
-				0244807025110C0D00F7664A /* pong2.c8 in Resources */,
+				0283B1EA2542CF4A00B007CE /* blitz.rom in Resources */,
+				0283B1F82542CF4A00B007CE /* pong.rom in Resources */,
+				0283B1EB2542CF4A00B007CE /* merlin.rom in Resources */,
+				0283B1EE2542CF4A00B007CE /* vbrix.rom in Resources */,
+				0283B1FC2542CF4A00B007CE /* connect4.rom in Resources */,
+				0283B1F92542CF4A00B007CE /* breakout.rom in Resources */,
+				0283B1EC2542CF4A00B007CE /* missile.rom in Resources */,
+				0283B1F22542CF4A00B007CE /* blinky.rom in Resources */,
+				0283B1F72542CF4A00B007CE /* vers.rom in Resources */,
+				0283B1F02542CF4A00B007CE /* wipeoff.rom in Resources */,
+				0283B1ED2542CF4A00B007CE /* ufo.rom in Resources */,
+				0283B1F62542CF4A00B007CE /* tictac.rom in Resources */,
+				0283B1FA2542CF4A00B007CE /* tank.rom in Resources */,
+				0283B1FE2542CF4A00B007CE /* brix.rom in Resources */,
+				0283B1FB2542CF4A00B007CE /* syzygy.rom in Resources */,
+				0283B1FD2542CF4A00B007CE /* squash.rom in Resources */,
+				0244806F25110C0D00F7664A /* tetris.rom in Resources */,
+				0283B2002542CF4A00B007CE /* kaleid.rom in Resources */,
+				0283B1EF2542CF4A00B007CE /* wall.rom in Resources */,
+				0283B1F42542CF4A00B007CE /* maze.rom in Resources */,
+				0244807025110C0D00F7664A /* pong2.rom in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,7 +37,7 @@ class ViewController: NSViewController {
         ])
         
         chip8Bridge = Chip8Bridge(screenRenderer: viewRenderer)
-        guard chip8Bridge?.loadRom(withName: "pong2") == true else {
+        guard chip8Bridge?.loadRom(withName: "brix") == true else {
             showAlertWithMessage("Unable to find the ROM image.")
             return
         }

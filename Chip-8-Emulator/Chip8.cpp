@@ -153,27 +153,27 @@ void Chip8::updatePressedKey(const char key, const bool isPressed)
     else if (key == 'f') { pressedKeys[0xF] = isPressed; }
 }
 
-uint16_t Chip8::argVx(const uint16_t opcode) const
+inline uint16_t Chip8::argVx(const uint16_t opcode) const
 {
     return (opcode & 0x0F00) >> 8;
 }
 
-uint16_t Chip8::argVy(const uint16_t opcode) const
+inline uint16_t Chip8::argVy(const uint16_t opcode) const
 {
     return (opcode & 0x00F0) >> 4;
 }
 
-uint16_t Chip8::argN(const uint16_t opcode) const
+inline uint16_t Chip8::argN(const uint16_t opcode) const
 {
     return opcode & 0x000F;
 }
 
-uint16_t Chip8::argNN(const uint16_t opcode) const
+inline uint16_t Chip8::argNN(const uint16_t opcode) const
 {
     return opcode & 0x00FF;
 }
 
-uint16_t Chip8::argNNN(const uint16_t opcode) const
+inline uint16_t Chip8::argNNN(const uint16_t opcode) const
 {
     return opcode & 0x0FFF;
 }

@@ -76,8 +76,6 @@
 				02AE57952510EC0F002AC8BD /* main.swift */,
 				021560632505479600621310 /* AppDelegate.swift */,
 				021560652505479600621310 /* ViewController.swift */,
-				0215606D2505479800621310 /* Chip_8_Emulator.entitlements */,
-				0215606C2505479800621310 /* Info.plist */,
 				0215607425054BDF00621310 /* Chip8.cpp */,
 				0215607525054BDF00621310 /* Chip8.hpp */,
 				0215607325054BDE00621310 /* Chip-8-Emulator-Bridging-Header.h */,
@@ -86,6 +84,8 @@
 				02A953352513D98500E83D9E /* CBridge.h */,
 				02448071251164B900F7664A /* RendererView.swift */,
 				027C612C253D8AF0003274A0 /* BackgroundView.swift */,
+				0215606C2505479800621310 /* Info.plist */,
+				0215606D2505479800621310 /* Chip_8_Emulator.entitlements */,
 			);
 			path = "Chip-8-Emulator";
 			sourceTree = "<group>";

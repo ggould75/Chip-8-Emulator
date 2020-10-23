@@ -103,6 +103,7 @@ You can find many more links on Wikipedia.
 ### Progress
 
 **[23/10/20]** Added more roms and small code polishing
+
 **[16/10/20]** 
 - Virtual machine rendering now uses the entire window space, constrained to 2:1 ratio
 - Machine is not started when ROM image is not found. An alert is also displayed

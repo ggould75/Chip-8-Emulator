@@ -15,7 +15,8 @@
 		0244806E25110C0D00F7664A /* invaders.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806B25110C0D00F7664A /* invaders.c8 */; };
 		0244806F25110C0D00F7664A /* tetris.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806C25110C0D00F7664A /* tetris.c8 */; };
 		0244807025110C0D00F7664A /* pong2.c8 in Resources */ = {isa = PBXBuildFile; fileRef = 0244806D25110C0D00F7664A /* pong2.c8 */; };
-		02448072251164B900F7664A /* DrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02448071251164B900F7664A /* DrawingLayer.swift */; };
+		02448072251164B900F7664A /* RendererView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02448071251164B900F7664A /* RendererView.swift */; };
+		027C612D253D8AF0003274A0 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027C612C253D8AF0003274A0 /* BackgroundView.swift */; };
 		02AE57962510EC0F002AC8BD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AE57952510EC0F002AC8BD /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +35,8 @@
 		0244806B25110C0D00F7664A /* invaders.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = invaders.c8; sourceTree = "<group>"; };
 		0244806C25110C0D00F7664A /* tetris.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tetris.c8; sourceTree = "<group>"; };
 		0244806D25110C0D00F7664A /* pong2.c8 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pong2.c8; sourceTree = "<group>"; };
-		02448071251164B900F7664A /* DrawingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingLayer.swift; sourceTree = "<group>"; };
+		02448071251164B900F7664A /* RendererView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererView.swift; sourceTree = "<group>"; };
+		027C612C253D8AF0003274A0 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		02A953352513D98500E83D9E /* CBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBridge.h; sourceTree = "<group>"; };
 		02AE57952510EC0F002AC8BD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				021560672505479800621310 /* Assets.xcassets */,
+				02AE57952510EC0F002AC8BD /* main.swift */,
 				021560632505479600621310 /* AppDelegate.swift */,
 				021560652505479600621310 /* ViewController.swift */,
 				0215606D2505479800621310 /* Chip_8_Emulator.entitlements */,
@@ -80,9 +83,9 @@
 				0215607325054BDE00621310 /* Chip-8-Emulator-Bridging-Header.h */,
 				0215607C25055BF100621310 /* CEChip8Bridge.mm */,
 				0215607D25055BF100621310 /* CEChip8Bridge.h */,
-				02AE57952510EC0F002AC8BD /* main.swift */,
-				02448071251164B900F7664A /* DrawingLayer.swift */,
 				02A953352513D98500E83D9E /* CBridge.h */,
+				02448071251164B900F7664A /* RendererView.swift */,
+				027C612C253D8AF0003274A0 /* BackgroundView.swift */,
 			);
 			path = "Chip-8-Emulator";
 			sourceTree = "<group>";
@@ -173,8 +176,9 @@
 				021560662505479600621310 /* ViewController.swift in Sources */,
 				02AE57962510EC0F002AC8BD /* main.swift in Sources */,
 				0215607625054BDF00621310 /* Chip8.cpp in Sources */,
+				027C612D253D8AF0003274A0 /* BackgroundView.swift in Sources */,
 				0215607E25055BF100621310 /* CEChip8Bridge.mm in Sources */,
-				02448072251164B900F7664A /* DrawingLayer.swift in Sources */,
+				02448072251164B900F7664A /* RendererView.swift in Sources */,
 				021560642505479600621310 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,5 @@
 //
-//  DrawingLayer.swift
+//  RendererView.swift
 //  Chip-8-Emulator
 //
 //  Created by Marco Mussini on 15/09/2020.
@@ -19,10 +19,10 @@ protocol KeyboardEventsHandler: class {
     func keyUpEvent(_ cChar: CChar)
 }
 
-class ViewRenderer: NSView {
-    let virtualMachineScreenSize: CGSize
+class RendererView: NSView {
+    private let virtualMachineScreenSize: CGSize
     
-    var drawingBuffer: UnsafePointer<UInt8>?
+    private var drawingBuffer: UnsafePointer<UInt8>?
     
     weak var keyboardHandler: KeyboardEventsHandler?
     
@@ -42,19 +42,19 @@ class ViewRenderer: NSView {
         guard let buffer = drawingBuffer else {
             return
         }
-        
+
         guard let context = NSGraphicsContext.current?.cgContext else { return }
-        
+
         context.setFillColor(NSColor.black.cgColor)
         context.fill(dirtyRect)
-        
+
         let squaresPath = CGMutablePath()
         context.setFillColor(NSColor.white.cgColor)
-        
+
         let rectSize = dirtyRect.size
         let pixelSizeH = rectSize.width / virtualMachineScreenSize.width
         let pixelSizeV = rectSize.height / virtualMachineScreenSize.height
-        
+
         for y in 0 ..< Int(virtualMachineScreenSize.height) {
             for x in 0 ..< Int(virtualMachineScreenSize.width) {
                 let pixelIndex = x + y * Int(virtualMachineScreenSize.width)
@@ -68,7 +68,7 @@ class ViewRenderer: NSView {
                 }
             }
         }
-        
+
         context.addPath(squaresPath)
         context.drawPath(using: .fill)
     }
@@ -96,7 +96,7 @@ class ViewRenderer: NSView {
     }
 }
 
-extension ViewRenderer: Renderer {
+extension RendererView: Renderer {
     func draw(buffer: UnsafePointer<UInt8>) {
         drawingBuffer = buffer
         

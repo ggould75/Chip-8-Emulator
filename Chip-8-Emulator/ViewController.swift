@@ -15,17 +15,15 @@ class ViewController: NSViewController {
     
     override func loadView() {
         let rect = NSRect(x: 0, y: 0, width: 640, height: 320)
-        view = NSView(frame: rect)
+        view = BackgroundView(frame: rect)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor(calibratedWhite: 0.8, alpha: 1.0).cgColor
-        
         let vmScreenSize = CGSize(width: 64, height: 32)
-        let viewRenderer = ViewRenderer(virtualMachineScreenSize: vmScreenSize)
+        let viewRenderer = RendererView(virtualMachineScreenSize: vmScreenSize)
+        viewRenderer.layer?.drawsAsynchronously = true
         viewRenderer.keyboardHandler = self
         viewRenderer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewRenderer)

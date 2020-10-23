@@ -98,7 +98,7 @@ You can find many more links on Wikipedia.
 </tr>
 </table>
 
-<img src="Screenshots/16-10-20.gif">
+<img src="Screenshots/window_resize_pong2.gif">
 
 ### Progress
 

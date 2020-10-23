@@ -12,7 +12,7 @@ Here is just a short description of its specs:
 - 64-Byte stack with 8-Bit stack pointer
 - 8-Bit delay timer
 - 8-Bit sound timer
-- An exciting 64x32 Bits frame buffer! All setting of pixels on the display were done through the use of sprites, which were always 8 bits wide but height could be variable
+- An exciting 64x32 Bits frame buffer! All setting of pixels on the display were done through the use of sprites, 8 bits wide but height could be variable
 - Sprites were also used for displaying a very small font set (0-9, A-F)... Yes, the hexadecimal numbers!
 - It also handled a 16-key keyboard, for the same keys available in the font set
 - Program counter was a 16-bit value

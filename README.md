@@ -1,9 +1,5 @@
 # Chip 8 Emulator
 
-**Disclaimer:** this is still a WIP that I'm building in my spare time.
-
-While I'm getting interested in the theory behind emulators, I thought it would be fun to try writing a very simple emulator: Chip-8.
-
 Chip-8 is an interpreted programming language from the 1970s. It ran on the COSMAC VIP, and supported many programs such as Pac-Man, Pong, Space Invaders, and Tetris.
 The Chip-8 specification requires the use of sixteen 8-bit registers (V0-VF), a 16-bit index register, a 64-byte stack with 8-bit stack pointer, an 8-bit delay timer, an 8-bit sound timer, a 64x32 bit frame buffer, and a 16-bit program counter. The Chip8 specification also supported 4096 bytes of addressable memory. All of the supported programs will start at memory location 0x200. All setting of pixels on the display are done through the use of sprites, which are also used for building a small font set. The architecture handles a 16-key keyboard (0 − 9, A − F). 
 
@@ -20,38 +16,29 @@ Normally you wouldn't want to do that because of the bridging complications that
 
 Eventually I will be able to load ROM files (mostly little games), have them displayed on a window, plus some basic interactions using the small keyboard set.
 
+### Latest screenshots
+
+<table>
+<tr>
+    <td><img src="Screenshots/space_invaders.png"></td>
+    <td><img src="Screenshots/pong.png"></td>
+    <td><img src="Screenshots/tetris.png"></td>
+</tr>
+</table>
+
+<img src="Screenshots/16-10-20.gif">
+
 ### Progress
+
+**[16/10/20]** 
+- Virtual machine rendering now uses the entire window space, constrained to 2:1 ratio
+- Machine is not started when ROM image is not found. An alert is also displayed
+- Made possible to disable debug console logs
 
 **[15/10/20]** Fixed issue in 0x8xy5 instruction, so now the ball in pong bounce back correctly! :-)
 
-<table>
-<tr>
-    <td><img src="Screenshots/ball_bounce.gif" width=400></td>
-</tr>
-</table>
-
 **[14/10/20]** Keyboard events are now forwarded and handled and somehow I can play! However there might be an issue with program jumps or with collision detection as the ball almost always doesn't bounce back :-(
-
-<table>
-<tr>
-    <td><img src="Screenshots/drafted_keyboard_events.gif" width=400></td>
-</tr>
-</table>
 
 **[11/10/20]** Implemented a basic timer to allow programs to continue. No keyboard interactions possible yet, but this will come soon!
 
-<table>
-<tr>
-    <td><img src="Screenshots/spaceinvaders_animated.gif" width=500></td>
-    <td><img src="Screenshots/pong2_animated.gif" width=500></td>
-</tr>
-</table>
-
 **[01/10/20]** Got drawing instruction working correctly!
-
-<table>
-<tr>
-    <td><img src="Screenshots/space_invaders.png" width=500></td>
-    <td><img src="Screenshots/pong.png" width=500></td>
-</tr>
-</table>

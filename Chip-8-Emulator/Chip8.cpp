@@ -65,7 +65,7 @@ void Chip8::reset()
     m_programCounter = kProgramStartAddress;
     
     for (int i = 0; i < kNumberOfKeys; i++) {
-        pressedKeys[i] = false;
+        m_pressedKeys[i] = false;
     }
     for (int i = 0; i < 80; i++) {
         m_memory[i] = chip8_fontset[i];
@@ -74,7 +74,7 @@ void Chip8::reset()
     m_delayTimer = 0;
     m_soundTimer = 0;
     
-    shouldRedraw = true;
+    m_shouldRedraw = true;
 }
 
 bool Chip8::loadProgramIntoMemory(const char *filename)
@@ -110,9 +110,9 @@ void Chip8::runLoop()
         
         processInstruction();
         
-        if (shouldRedraw) {
+        if (m_shouldRedraw) {
             redraw_screen(objCppBridge, m_frameBuffer);
-            shouldRedraw = false;
+            m_shouldRedraw = false;
         }
         
         this_thread::sleep_for(chrono::milliseconds(2));
@@ -135,22 +135,22 @@ void Chip8::updatePressedKey(const char key, const bool isPressed)
     cout << "Key: " << key << " (pressed: " << isPressed << ")" << endl;
 #endif
     
-    if (key == '0') { pressedKeys[0x0] = isPressed; }
-    else if (key == '1') { pressedKeys[0x1] = isPressed; }
-    else if (key == '2') { pressedKeys[0x2] = isPressed; }
-    else if (key == '3') { pressedKeys[0x3] = isPressed; }
-    else if (key == '4') { pressedKeys[0x4] = isPressed; }
-    else if (key == '5') { pressedKeys[0x5] = isPressed; }
-    else if (key == '6') { pressedKeys[0x6] = isPressed; }
-    else if (key == '7') { pressedKeys[0x7] = isPressed; }
-    else if (key == '8') { pressedKeys[0x8] = isPressed; }
-    else if (key == '9') { pressedKeys[0x9] = isPressed; }
-    else if (key == 'a') { pressedKeys[0xA] = isPressed; }
-    else if (key == 'b') { pressedKeys[0xB] = isPressed; }
-    else if (key == 'c') { pressedKeys[0xC] = isPressed; }
-    else if (key == 'd') { pressedKeys[0xD] = isPressed; }
-    else if (key == 'e') { pressedKeys[0xE] = isPressed; }
-    else if (key == 'f') { pressedKeys[0xF] = isPressed; }
+    if (key == '0') { m_pressedKeys[0x0] = isPressed; }
+    else if (key == '1') { m_pressedKeys[0x1] = isPressed; }
+    else if (key == '2') { m_pressedKeys[0x2] = isPressed; }
+    else if (key == '3') { m_pressedKeys[0x3] = isPressed; }
+    else if (key == '4') { m_pressedKeys[0x4] = isPressed; }
+    else if (key == '5') { m_pressedKeys[0x5] = isPressed; }
+    else if (key == '6') { m_pressedKeys[0x6] = isPressed; }
+    else if (key == '7') { m_pressedKeys[0x7] = isPressed; }
+    else if (key == '8') { m_pressedKeys[0x8] = isPressed; }
+    else if (key == '9') { m_pressedKeys[0x9] = isPressed; }
+    else if (key == 'a') { m_pressedKeys[0xA] = isPressed; }
+    else if (key == 'b') { m_pressedKeys[0xB] = isPressed; }
+    else if (key == 'c') { m_pressedKeys[0xC] = isPressed; }
+    else if (key == 'd') { m_pressedKeys[0xD] = isPressed; }
+    else if (key == 'e') { m_pressedKeys[0xE] = isPressed; }
+    else if (key == 'f') { m_pressedKeys[0xF] = isPressed; }
 }
 
 inline uint16_t Chip8::argVx(const uint16_t opcode) const
@@ -198,7 +198,7 @@ void Chip8::processInstruction()
                 case 0x00E0:
                     memset(m_frameBuffer, 0, sizeof(uint8_t) * kFrameBufferSize);
                     m_programCounter += 2;
-                    shouldRedraw = true;
+                    m_shouldRedraw = true;
                     break;
                 
                 // 00EE - RET
@@ -428,7 +428,7 @@ void Chip8::processInstruction()
             }
             
             m_programCounter += 2;
-            shouldRedraw = true;
+            m_shouldRedraw = true;
             break;
         }
     
@@ -438,7 +438,7 @@ void Chip8::processInstruction()
                 // Ex9E - SKP Vx
                 case 0x009E: {
                     uint8_t keyIndex = m_registersV[argVx(m_opcode)];
-                    if (pressedKeys[keyIndex] > 0) {
+                    if (m_pressedKeys[keyIndex] > 0) {
                         m_programCounter += 4;
                     } else {
                         m_programCounter += 2;
@@ -449,7 +449,7 @@ void Chip8::processInstruction()
                 // ExA1 - SKNP Vx
                 case 0x00A1: {
                     uint8_t keyIndex = m_registersV[argVx(m_opcode)];
-                    if (pressedKeys[keyIndex] == 0) {
+                    if (m_pressedKeys[keyIndex] == 0) {
                         m_programCounter += 4;
                     } else {
                         m_programCounter += 2;
@@ -473,7 +473,7 @@ void Chip8::processInstruction()
                 case 0x000A: {
                     bool keyPress = false;
                     for (int i = 0; i < kNumberOfKeys; i++) {
-                        if (pressedKeys[i]) {
+                        if (m_pressedKeys[i]) {
                             m_registersV[argVx(m_opcode)] = i;
                             keyPress = true;
                         }

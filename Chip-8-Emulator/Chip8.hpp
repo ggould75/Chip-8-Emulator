@@ -50,10 +50,10 @@ private:
     uint8_t m_delayTimer = 0;
     uint8_t m_soundTimer = 0;
     
-    bool pressedKeys[kNumberOfKeys]{};
+    bool m_pressedKeys[kNumberOfKeys]{};
     void updatePressedKey(const char key, const bool isPressed);
     
-    bool shouldRedraw = false;
+    bool m_shouldRedraw = false;
     
     uint16_t argVx(const uint16_t opcode) const;
     uint16_t argVy(const uint16_t opcode) const;

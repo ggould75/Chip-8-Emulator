@@ -10,23 +10,7 @@
 
 #import "Chip_8_Emulator-Swift.h"
 #import "CEChip8Bridge.h"
-#import "Chip8.hpp"
-
-#pragma mark - C code
-
-void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
-{
-    assert(objCppBridge);
-    CEChip8Bridge *bridge = (__bridge CEChip8Bridge *)objCppBridge;
-    [bridge redrawScreenWithBuffer:frameBuffer];
-}
-
-void play_system_beep(void *objCppBridge)
-{
-    assert(objCppBridge);
-    CEChip8Bridge *bridge = (__bridge CEChip8Bridge *)objCppBridge;
-    [bridge playSystemBeep];
-}
+#import "Chip8.h"
 
 #pragma mark - Objective-C++ code
 
@@ -44,7 +28,7 @@ void play_system_beep(void *objCppBridge)
 {
     if (self = [super init]) {
         _screenRenderer = renderer;
-        _chip8 = new Chip8((__bridge void *)self);
+        _chip8 = new Chip8(self);
     }
 
     return self;

@@ -1,12 +1,12 @@
 //
-//  Chip8.cpp
+//  Chip8.mm
 //  Chip-8-Emulator
 //
 //  Created by Marco Mussini on 14/06/2020.
 //  Copyright © 2020 Marco Mussini. All rights reserved.
 //
 
-#include "Chip8.hpp"
+#include "Chip8.h"
 
 #include <iostream>
 #include <thread>
@@ -16,8 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/errno.h>
-
-#include "CBridge.h"
 
 using namespace std;
 
@@ -41,7 +39,7 @@ unsigned char chip8_fontset[80] =
     0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-Chip8::Chip8(void *objCppBridge)
+Chip8::Chip8(CEChip8Bridge *objCppBridge)
 {
     this->objCppBridge = objCppBridge;
     reset();
@@ -104,14 +102,14 @@ void Chip8::runLoop()
             m_delayTimer -= 1;
         }
         if (m_soundTimer > 0) {
-            play_system_beep(objCppBridge);
+            [objCppBridge playSystemBeep];
             m_soundTimer = 0;
         }
         
         processInstruction();
         
         if (m_shouldRedraw) {
-            redraw_screen(objCppBridge, m_frameBuffer);
+            [objCppBridge redrawScreenWithBuffer:m_frameBuffer];
             m_shouldRedraw = false;
         }
         

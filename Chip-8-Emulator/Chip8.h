@@ -1,5 +1,5 @@
 //
-//  Chip8.hpp
+//  Chip8.h
 //  Chip-8-Emulator
 //
 //  Created by Marco Mussini on 14/06/2020.
@@ -12,10 +12,12 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#import "CEChip8Bridge.h"
+
 class Chip8
 {
 public:
-    Chip8(void *objCppBridge);
+    Chip8(CEChip8Bridge *objCppBridge);
     ~Chip8();
     
     bool loadProgramIntoMemory(const char *filename);
@@ -61,7 +63,7 @@ private:
     uint16_t argNN(const uint16_t opcode) const;
     uint16_t argNNN(const uint16_t opcode) const;
     
-    void *objCppBridge;
+    CEChip8Bridge *objCppBridge;
 };
 
 #endif /* Chip8_hpp */

@@ -39,9 +39,9 @@ unsigned char chip8_fontset[80] =
     0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-Chip8::Chip8(CEChip8Bridge *objCppBridge)
+Chip8::Chip8(NSObject<C8Bridge> *swiftBridge)
 {
-    this->objCppBridge = objCppBridge;
+    this->swiftBridge = swiftBridge;
     reset();
 }
 
@@ -102,14 +102,14 @@ void Chip8::runLoop()
             m_delayTimer -= 1;
         }
         if (m_soundTimer > 0) {
-            [objCppBridge playSystemBeep];
+            [swiftBridge playSystemBeep];
             m_soundTimer = 0;
         }
         
         processInstruction();
         
         if (m_shouldRedraw) {
-            [objCppBridge redrawScreenWithBuffer:m_frameBuffer];
+            [swiftBridge redrawScreenWithBuffer:m_frameBuffer];
             m_shouldRedraw = false;
         }
         

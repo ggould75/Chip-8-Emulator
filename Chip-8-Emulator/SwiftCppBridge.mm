@@ -9,22 +9,20 @@
 #import <Cocoa/Cocoa.h>
 
 #import "Chip_8_Emulator-Swift.h"
-#import "CEChip8Bridge.h"
+#import "SwiftCppBridge.h"
 #import "Chip8.h"
 
-#pragma mark - Objective-C++ code
-
-@interface CEChip8Bridge () {
+@interface SwiftCppBridge () {
     Chip8 *_chip8;
 }
 
-@property (nonatomic, weak) id<CERenderer> screenRenderer;
+@property (nonatomic, weak) id<C8Renderer> screenRenderer;
 
 @end
 
-@implementation CEChip8Bridge
+@implementation SwiftCppBridge
 
-- (instancetype)initWithScreenRenderer:(id<CERenderer>)renderer
+- (instancetype)initWithScreenRenderer:(id<C8Renderer>)renderer
 {
     if (self = [super init]) {
         _screenRenderer = renderer;

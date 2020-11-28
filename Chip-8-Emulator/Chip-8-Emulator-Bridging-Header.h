@@ -1,2 +1,2 @@
 
-#import "CEChip8Bridge.h"
+#import "SwiftCppBridge.h"

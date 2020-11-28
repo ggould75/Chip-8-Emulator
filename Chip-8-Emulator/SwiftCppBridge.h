@@ -8,12 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol CERenderer;
-
-NS_SWIFT_NAME(Chip8Bridge)
-@interface CEChip8Bridge : NSObject
-
-- (instancetype)initWithScreenRenderer:(id<CERenderer>)renderer;
+@protocol C8Bridge
 
 - (void)reset;
 - (BOOL)loadRomWithName:(NSString *)name;
@@ -22,5 +17,13 @@ NS_SWIFT_NAME(Chip8Bridge)
 - (void)run;
 - (void)keyDownEvent:(const char)key;
 - (void)keyUpEvent:(const char)key;
+
+@end
+
+@protocol C8Renderer;
+
+@interface SwiftCppBridge : NSObject<C8Bridge>
+
+- (instancetype)initWithScreenRenderer:(id<C8Renderer>)renderer;
 
 @end

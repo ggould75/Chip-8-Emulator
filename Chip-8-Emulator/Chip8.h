@@ -12,12 +12,12 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#import "CEChip8Bridge.h"
+#import "SwiftCppBridge.h"
 
 class Chip8
 {
 public:
-    Chip8(CEChip8Bridge *objCppBridge);
+    Chip8(NSObject<C8Bridge> *swiftBridge);
     ~Chip8();
     
     bool loadProgramIntoMemory(const char *filename);
@@ -63,7 +63,7 @@ private:
     uint16_t argNN(const uint16_t opcode) const;
     uint16_t argNNN(const uint16_t opcode) const;
     
-    CEChip8Bridge *objCppBridge;
+    NSObject<C8Bridge> *swiftBridge;
 };
 
 #endif /* Chip8_hpp */

@@ -10,7 +10,7 @@ import Cocoa
 
 class ViewController: NSViewController {
 
-    var chip8Bridge: Chip8Bridge?
+    var cppBridge: SwiftCppBridge?
     lazy var runningQueue = DispatchQueue(label: "com.chip8.running-queue")
     
     override func loadView() {
@@ -36,14 +36,14 @@ class ViewController: NSViewController {
             viewRenderer.widthAnchor.constraint(greaterThanOrEqualToConstant: vmScreenSize.width),
         ])
         
-        chip8Bridge = Chip8Bridge(screenRenderer: viewRenderer)
-        guard chip8Bridge?.loadRom(withName: "brix") == true else {
+        cppBridge = SwiftCppBridge(screenRenderer: viewRenderer)
+        guard cppBridge?.loadRom(withName: "brix") == true else {
             showAlertWithMessage("Unable to find the ROM image.")
             return
         }
 
         runningQueue.async {
-            self.chip8Bridge?.run()
+            self.cppBridge?.run()
         }
     }
     
@@ -59,10 +59,10 @@ class ViewController: NSViewController {
 
 extension ViewController: KeyboardEventsHandler {
     func keyDownEvent(_ cChar: CChar) {
-        chip8Bridge?.keyDownEvent(cChar)
+        cppBridge?.keyDownEvent(cChar)
     }
     
     func keyUpEvent(_ cChar: CChar) {
-        chip8Bridge?.keyUpEvent(cChar)
+        cppBridge?.keyUpEvent(cChar)
     }
 }

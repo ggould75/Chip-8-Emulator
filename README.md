@@ -102,6 +102,11 @@ You can find many more links on Wikipedia.
 
 ### Progress
 
+**[28/11/20]**
+- The bridge class is now protocol based, and C++/Swift only know about the protocol.
+- Switched from .hpp/.cpp extensions to h/mm in order to call ObjC directly from C++ and get rid of the intermediate C functions.
+- Improved naming of some classes.
+
 **[23/10/20]** Added more roms and small code polishing
 
 **[16/10/20]** 

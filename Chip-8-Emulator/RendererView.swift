@@ -9,7 +9,7 @@
 import Cocoa
 import CoreGraphics
 
-@objc(CERenderer)
+@objc(C8Renderer)
 protocol Renderer {
     func draw(buffer: UnsafePointer<UInt8>)
 }

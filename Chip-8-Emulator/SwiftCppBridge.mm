@@ -9,42 +9,24 @@
 #import <Cocoa/Cocoa.h>
 
 #import "Chip_8_Emulator-Swift.h"
-#import "CEChip8Bridge.h"
-#import "Chip8.hpp"
+#import "SwiftCppBridge.h"
+#import "Chip8.h"
 
-#pragma mark - C code
-
-void redraw_screen(void *objCppBridge, uint8_t *frameBuffer)
-{
-    assert(objCppBridge);
-    CEChip8Bridge *bridge = (__bridge CEChip8Bridge *)objCppBridge;
-    [bridge redrawScreenWithBuffer:frameBuffer];
-}
-
-void play_system_beep(void *objCppBridge)
-{
-    assert(objCppBridge);
-    CEChip8Bridge *bridge = (__bridge CEChip8Bridge *)objCppBridge;
-    [bridge playSystemBeep];
-}
-
-#pragma mark - Objective-C++ code
-
-@interface CEChip8Bridge () {
+@interface SwiftCppBridge () {
     Chip8 *_chip8;
 }
 
-@property (nonatomic, weak) id<CERenderer> screenRenderer;
+@property (nonatomic, weak) id<C8Renderer> screenRenderer;
 
 @end
 
-@implementation CEChip8Bridge
+@implementation SwiftCppBridge
 
-- (instancetype)initWithScreenRenderer:(id<CERenderer>)renderer
+- (instancetype)initWithScreenRenderer:(id<C8Renderer>)renderer
 {
     if (self = [super init]) {
         _screenRenderer = renderer;
-        _chip8 = new Chip8((__bridge void *)self);
+        _chip8 = new Chip8(self);
     }
 
     return self;

@@ -88,14 +88,16 @@ extension RendererView: Renderer {
 
             let width = 640
             let height = 320
-//            let width = 64
-//            let height = 32
+//            let width = 320
+//            let height = 160
+//            let width = 1280
+//            let height = 640
             let retinaFactor = 2
             let scale = 10
             let ctx = CGContext(data: nil,
 //                                width: width, height: height,
                                 width: width * retinaFactor, height: height * retinaFactor,
-                                bitsPerComponent: 8, bytesPerRow: 0, //64x32
+                                bitsPerComponent: 8, bytesPerRow: 1280, //64x32
 //                                bitsPerComponent: 16, bytesPerRow: 0, //1280x640
                                 space: colorSpace,
 //                                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) //1280x640 - 16/0 - rgb

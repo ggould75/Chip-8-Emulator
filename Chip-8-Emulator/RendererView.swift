@@ -14,16 +14,20 @@ protocol Renderer {
     func draw(buffer: UnsafePointer<UInt8>)
 }
 
-protocol KeyboardEventsHandler: class {
+protocol KeyboardEventsHandler: AnyObject {
     func keyDownEvent(_ cChar: CChar)
     func keyUpEvent(_ cChar: CChar)
 }
 
 class RendererView: NSView {
     private let virtualMachineScreenSize: CGSize
-    
-    private var drawingBuffer: UnsafePointer<UInt8>?
-    
+
+    private static let maxDrawingBuffers = 2
+    private let drawingBufferSize: Int
+    private var drawingBuffers = [UnsafeMutablePointer<UInt8>]()
+    private let drawingDispatchQueue = DispatchQueue(label: "com.chip8.drawing-queue")
+    private let drawingDispatchSemaphore = DispatchSemaphore(value: maxDrawingBuffers)
+
     weak var keyboardHandler: KeyboardEventsHandler?
     
     override var isFlipped: Bool { return true }
@@ -31,6 +35,8 @@ class RendererView: NSView {
     
     init(virtualMachineScreenSize: CGSize) {
         self.virtualMachineScreenSize = virtualMachineScreenSize
+        self.drawingBufferSize = Int(virtualMachineScreenSize.width * virtualMachineScreenSize.height)
+        
         super.init(frame: .zero)
     }
     
@@ -39,6 +45,11 @@ class RendererView: NSView {
     }
     
     override func draw(_ dirtyRect: NSRect) {
+        var drawingBuffer: UnsafeMutablePointer<UInt8>?
+        drawingDispatchQueue.sync {
+            drawingBuffer = drawingBuffers.first
+        }
+
         guard let buffer = drawingBuffer else {
             return
         }
@@ -71,6 +82,25 @@ class RendererView: NSView {
 
         context.addPath(squaresPath)
         context.drawPath(using: .fill)
+        
+        drawingDispatchQueue.sync {
+            // At least one buffer should always exists, otherwise we can't redraw anything at the next pass.
+            // This is especially necessary when a game end since draw operations will stop to be emitted
+            if drawingBuffers.count > 1 {
+                drawingBuffers.removeFirst()
+                drawingBuffer?.deinitialize(count: drawingBufferSize)
+                drawingBuffer?.deallocate()
+                drawingBuffer = nil
+            }
+            
+            // Since signal() increments the counting semaphore, we have to ensure we don't increment it if
+            // we are already at max capacity, since this would cause a new buffer to be appended from draw(buffer:)
+            // and go over the max capacity for the buffers. This can occur in particular if the window is
+            // resized as resizing would cause draw() to be called repeatedly
+            if drawingBuffers.count < Self.maxDrawingBuffers {
+                drawingDispatchSemaphore.signal()
+            }
+        }
     }
     
     override func keyDown(with event: NSEvent) {
@@ -98,10 +128,24 @@ class RendererView: NSView {
 
 extension RendererView: Renderer {
     func draw(buffer: UnsafePointer<UInt8>) {
-        drawingBuffer = buffer
+        // We need some form of synchronization when processing the buffers produced by the emulator.
+        // Without that, one buffer could be mutated by the emulator while being redrawn, or we could loose
+        // buffers (frames) if NSView redraw is not scheduled at the right time.
+        // We also have to ensure that we don't enqueue too many buffers otherwise the simulation will quickly go
+        // out of sync with keyboard events, beeps (resizing would also consumes buffers too quickly and cause
+        // weird issues). Note that this is not quite the same as double buffering.
+
+        drawingDispatchSemaphore.wait()
+
+        let bufferCopy = UnsafeMutablePointer<UInt8>.allocate(capacity: drawingBufferSize)
+        bufferCopy.initialize(from: buffer, count: drawingBufferSize)
         
-        DispatchQueue.main.async {
-            self.needsDisplay = true
+        drawingDispatchQueue.async {
+            self.drawingBuffers.append(bufferCopy)
+
+            DispatchQueue.main.async {
+                self.needsDisplay = true
+            }
         }
     }
 }

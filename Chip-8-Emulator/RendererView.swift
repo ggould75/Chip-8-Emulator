@@ -99,6 +99,17 @@ class RendererView: NSView {
             // resized as resizing would cause draw() to be called repeatedly
             if drawingBuffers.count < Self.maxDrawingBuffers {
                 drawingDispatchSemaphore.signal()
+            } else {
+                // If we are here it means that more buffers need to be consumed before we can let the emulator
+                // producing new buffers. Scheduling a new redraw will consume the next buffer in the list.
+                // This won't lead to a loop since we stop scheduling redraws as soon as all the required
+                // buffers have been consumed. Note that eventually we are signaling the semaphore and
+                // unblocking the emulator to produce new buffers; without it there are cases where the emulation
+                // might stop due to redraw(buffer:) waiting and signal never invoked
+                // (when switching to/from fullscreen for example)
+                DispatchQueue.main.async {
+                    self.needsDisplay = true
+                }
             }
         }
     }

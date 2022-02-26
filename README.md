@@ -60,14 +60,14 @@ It can be difficult to get which keyboard key to use for which game, so you may 
 - _pong2_: 1-4 to move one pad, d-c for the other
 
 ### Known issues
-- Some games get stuck after a while
+- <strike>Some games get stuck after a while</strike> (Fixed 30/12/21)
+- <strike>Occasional crashes</strike> (Fixed 30/12/21)
 - Reproduction speed sometimes feels too fast or too slow depending on the ROM loaded
-- Occasional crashes
 
 ### Future improvements
 - Right now I'm just using a delay between each instruction, which isn't great
 - Perhaps better drawing performance
-- Why some games get stuck?
+- <strike>Why some games get stuck?</strike> (Hopefully fixed 30/12/21)
 
 ### Specifications and others useful resourses
 
@@ -101,6 +101,9 @@ You can find many more links on Wikipedia.
 <img src="Screenshots/window_resize_pong2.gif">
 
 ### Progress
+
+**[30/12/21]**
+- Drawing buffers are copied and redrawn in a thread-safe queue. A semaphore is also used to ensure coordination between NSView drawing function and the number of actual buffers produced. This slightly improves drawing performance.
 
 **[28/11/20]**
 - The bridge class is now protocol based, and C++/Swift only know about the protocol.

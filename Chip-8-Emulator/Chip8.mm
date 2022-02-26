@@ -45,11 +45,6 @@ Chip8::Chip8(NSObject<C8Bridge> *swiftBridge)
     reset();
 }
 
-Chip8::~Chip8()
-{
-    // TODO
-}
-
 void Chip8::reset()
 {
     memset(m_memory, 0, sizeof(uint8_t) * kMemorySize);

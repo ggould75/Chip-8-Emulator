@@ -18,7 +18,6 @@ class Chip8
 {
 public:
     Chip8(NSObject<C8Bridge> *swiftBridge);
-    ~Chip8();
     
     bool loadProgramIntoMemory(const char *filename);
     void processInstruction();

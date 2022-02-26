@@ -20,7 +20,6 @@ public:
     Chip8(NSObject<C8Bridge> *swiftBridge);
     
     bool loadProgramIntoMemory(const char *filename);
-    void processInstruction();
     void runLoop();
     void reset();
     void keyDownEvent(const char key);
@@ -50,6 +49,8 @@ private:
     uint8_t m_frameBuffer[kFrameBufferSize];
     uint8_t m_delayTimer = 0;
     uint8_t m_soundTimer = 0;
+    
+    void processInstruction();
     
     bool m_pressedKeys[kNumberOfKeys]{};
     void updatePressedKey(const char key, const bool isPressed);

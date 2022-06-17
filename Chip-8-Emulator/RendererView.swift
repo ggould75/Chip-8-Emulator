@@ -50,11 +50,12 @@ class RendererView: NSView {
             drawingBuffer = drawingBuffers.first
         }
 
-        guard let buffer = drawingBuffer else {
+        guard
+            let buffer = drawingBuffer,
+            let context = NSGraphicsContext.current?.cgContext
+        else {
             return
         }
-
-        guard let context = NSGraphicsContext.current?.cgContext else { return }
 
         context.setFillColor(NSColor.black.cgColor)
         context.fill(dirtyRect)

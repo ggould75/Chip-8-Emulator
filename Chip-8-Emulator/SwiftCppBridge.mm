@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <MetalKit/MetalKit.h>
 
 #import "Chip_8_Emulator-Swift.h"
 #import "SwiftCppBridge.h"

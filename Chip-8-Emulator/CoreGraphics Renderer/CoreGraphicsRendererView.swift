@@ -9,18 +9,8 @@
 import Cocoa
 import CoreGraphics
 
-@objc(C8Renderer)
-protocol Renderer {
-    func draw(buffer: UnsafePointer<UInt8>)
-}
-
-protocol KeyboardEventsHandler: AnyObject {
-    func keyDownEvent(_ cChar: CChar)
-    func keyUpEvent(_ cChar: CChar)
-}
-
-class RendererView: NSView {
-    private let virtualMachineScreenSize: CGSize
+final class CoreGraphicsRendererView: NSView {
+    private let frameBufferSize: CGSize
 
     private static let maxDrawingBuffers = 2
     private let drawingBufferSize: Int
@@ -33,9 +23,9 @@ class RendererView: NSView {
     override var isFlipped: Bool { return true }
     override var acceptsFirstResponder: Bool { return true }
     
-    init(virtualMachineScreenSize: CGSize) {
-        self.virtualMachineScreenSize = virtualMachineScreenSize
-        self.drawingBufferSize = Int(virtualMachineScreenSize.width * virtualMachineScreenSize.height)
+    init(_ frameBufferSize: CGSize) {
+        self.frameBufferSize = frameBufferSize
+        self.drawingBufferSize = Int(frameBufferSize.width * frameBufferSize.height)
         
         super.init(frame: .zero)
     }
@@ -64,12 +54,12 @@ class RendererView: NSView {
         context.setFillColor(NSColor.white.cgColor)
 
         let rectSize = dirtyRect.size
-        let pixelSizeH = rectSize.width / virtualMachineScreenSize.width
-        let pixelSizeV = rectSize.height / virtualMachineScreenSize.height
+        let pixelSizeH = rectSize.width / frameBufferSize.width
+        let pixelSizeV = rectSize.height / frameBufferSize.height
 
-        for y in 0 ..< Int(virtualMachineScreenSize.height) {
-            for x in 0 ..< Int(virtualMachineScreenSize.width) {
-                let pixelIndex = x + y * Int(virtualMachineScreenSize.width)
+        for y in 0 ..< Int(frameBufferSize.height) {
+            for x in 0 ..< Int(frameBufferSize.width) {
+                let pixelIndex = x + y * Int(frameBufferSize.width)
                 let pixelValue = buffer[pixelIndex]
                 if pixelValue > 0 {
                     let rect = CGRect(x: pixelSizeH * CGFloat(x),
@@ -115,6 +105,8 @@ class RendererView: NSView {
         }
     }
     
+    // MARK: - NSResponder
+    
     override func keyDown(with event: NSEvent) {
         guard let firstChar = event.characters?.lowercased().first,
               let asciiValue = firstChar.asciiValue
@@ -138,7 +130,7 @@ class RendererView: NSView {
     }
 }
 
-extension RendererView: Renderer {
+extension CoreGraphicsRendererView: Renderer {
     func draw(buffer: UnsafePointer<UInt8>) {
         // We need some form of synchronization when processing the buffers produced by the emulator.
         // Without that, one buffer could be mutated by the emulator while being redrawn, or we could loose

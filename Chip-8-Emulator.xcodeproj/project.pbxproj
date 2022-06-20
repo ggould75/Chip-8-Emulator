@@ -15,7 +15,7 @@
 		0244806E25110C0D00F7664A /* invaders.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0244806B25110C0D00F7664A /* invaders.rom */; };
 		0244806F25110C0D00F7664A /* tetris.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0244806C25110C0D00F7664A /* tetris.rom */; };
 		0244807025110C0D00F7664A /* pong2.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0244806D25110C0D00F7664A /* pong2.rom */; };
-		02448072251164B900F7664A /* RendererView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02448071251164B900F7664A /* RendererView.swift */; };
+		02448072251164B900F7664A /* CoreGraphicsRendererView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02448071251164B900F7664A /* CoreGraphicsRendererView.swift */; };
 		027C612D253D8AF0003274A0 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027C612C253D8AF0003274A0 /* BackgroundView.swift */; };
 		0283B1EA2542CF4A00B007CE /* blitz.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D32542CF4A00B007CE /* blitz.rom */; };
 		0283B1EB2542CF4A00B007CE /* merlin.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1D42542CF4A00B007CE /* merlin.rom */; };
@@ -40,7 +40,12 @@
 		0283B1FE2542CF4A00B007CE /* brix.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E72542CF4A00B007CE /* brix.rom */; };
 		0283B1FF2542CF4A00B007CE /* 15puzzle.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E82542CF4A00B007CE /* 15puzzle.rom */; };
 		0283B2002542CF4A00B007CE /* kaleid.rom in Resources */ = {isa = PBXBuildFile; fileRef = 0283B1E92542CF4A00B007CE /* kaleid.rom */; };
+		0285ECA028609BFD00C12120 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0285EC9F28609BFD00C12120 /* MetalRenderer.swift */; };
+		0285ECA52860E4D100C12120 /* FrameBufferTexture.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0285ECA42860E4D100C12120 /* FrameBufferTexture.metal */; };
 		02AE57962510EC0F002AC8BD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AE57952510EC0F002AC8BD /* main.swift */; };
+		02DED4A4285FA3AC00FF936E /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DED4A3285FA3AC00FF936E /* Renderer.swift */; };
+		02DED4A6285FA3CA00FF936E /* KeyboardEventsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DED4A5285FA3CA00FF936E /* KeyboardEventsHandler.swift */; };
+		02DED4A8285FA40700FF936E /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DED4A7285FA40700FF936E /* MetalView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,7 +63,7 @@
 		0244806B25110C0D00F7664A /* invaders.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = invaders.rom; sourceTree = "<group>"; };
 		0244806C25110C0D00F7664A /* tetris.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = tetris.rom; sourceTree = "<group>"; };
 		0244806D25110C0D00F7664A /* pong2.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = pong2.rom; sourceTree = "<group>"; };
-		02448071251164B900F7664A /* RendererView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererView.swift; sourceTree = "<group>"; };
+		02448071251164B900F7664A /* CoreGraphicsRendererView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphicsRendererView.swift; sourceTree = "<group>"; };
 		027C612C253D8AF0003274A0 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		0283B1D32542CF4A00B007CE /* blitz.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = blitz.rom; sourceTree = "<group>"; };
 		0283B1D42542CF4A00B007CE /* merlin.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = merlin.rom; sourceTree = "<group>"; };
@@ -83,7 +88,13 @@
 		0283B1E72542CF4A00B007CE /* brix.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = brix.rom; sourceTree = "<group>"; };
 		0283B1E82542CF4A00B007CE /* 15puzzle.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = 15puzzle.rom; sourceTree = "<group>"; };
 		0283B1E92542CF4A00B007CE /* kaleid.rom */ = {isa = PBXFileReference; lastKnownFileType = file; path = kaleid.rom; sourceTree = "<group>"; };
+		0285EC9F28609BFD00C12120 /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
+		0285ECA42860E4D100C12120 /* FrameBufferTexture.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = FrameBufferTexture.metal; sourceTree = "<group>"; };
+		0285ECA62860E8B200C12120 /* ShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
 		02AE57952510EC0F002AC8BD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		02DED4A3285FA3AC00FF936E /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		02DED4A5285FA3CA00FF936E /* KeyboardEventsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEventsHandler.swift; sourceTree = "<group>"; };
+		02DED4A7285FA40700FF936E /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +128,6 @@
 		021560622505479600621310 /* Chip-8-Emulator */ = {
 			isa = PBXGroup;
 			children = (
-				021560672505479800621310 /* Assets.xcassets */,
 				02AE57952510EC0F002AC8BD /* main.swift */,
 				021560632505479600621310 /* AppDelegate.swift */,
 				021560652505479600621310 /* ViewController.swift */,
@@ -126,9 +136,13 @@
 				0215607325054BDE00621310 /* Chip-8-Emulator-Bridging-Header.h */,
 				0215607C25055BF100621310 /* SwiftCppBridge.mm */,
 				0215607D25055BF100621310 /* SwiftCppBridge.h */,
-				02448071251164B900F7664A /* RendererView.swift */,
+				02DED4A5285FA3CA00FF936E /* KeyboardEventsHandler.swift */,
+				02DED4A3285FA3AC00FF936E /* Renderer.swift */,
+				0285ECAA286117A800C12120 /* CoreGraphics Renderer */,
+				0285ECA92861176800C12120 /* Metal Renderer */,
 				027C612C253D8AF0003274A0 /* BackgroundView.swift */,
 				0215606C2505479800621310 /* Info.plist */,
+				021560672505479800621310 /* Assets.xcassets */,
 				0215606D2505479800621310 /* Chip_8_Emulator.entitlements */,
 			);
 			path = "Chip-8-Emulator";
@@ -165,6 +179,25 @@
 				0244806C25110C0D00F7664A /* tetris.rom */,
 			);
 			path = Roms;
+			sourceTree = "<group>";
+		};
+		0285ECA92861176800C12120 /* Metal Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				02DED4A7285FA40700FF936E /* MetalView.swift */,
+				0285EC9F28609BFD00C12120 /* MetalRenderer.swift */,
+				0285ECA42860E4D100C12120 /* FrameBufferTexture.metal */,
+				0285ECA62860E8B200C12120 /* ShaderTypes.h */,
+			);
+			path = "Metal Renderer";
+			sourceTree = "<group>";
+		};
+		0285ECAA286117A800C12120 /* CoreGraphics Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				02448071251164B900F7664A /* CoreGraphicsRendererView.swift */,
+			);
+			path = "CoreGraphics Renderer";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,13 +296,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0285ECA028609BFD00C12120 /* MetalRenderer.swift in Sources */,
+				02DED4A4285FA3AC00FF936E /* Renderer.swift in Sources */,
+				02DED4A8285FA40700FF936E /* MetalView.swift in Sources */,
+				02DED4A6285FA3CA00FF936E /* KeyboardEventsHandler.swift in Sources */,
 				021560662505479600621310 /* ViewController.swift in Sources */,
 				02AE57962510EC0F002AC8BD /* main.swift in Sources */,
 				0215607625054BDF00621310 /* Chip8.mm in Sources */,
 				027C612D253D8AF0003274A0 /* BackgroundView.swift in Sources */,
 				0215607E25055BF100621310 /* SwiftCppBridge.mm in Sources */,
-				02448072251164B900F7664A /* RendererView.swift in Sources */,
+				02448072251164B900F7664A /* CoreGraphicsRendererView.swift in Sources */,
 				021560642505479600621310 /* AppDelegate.swift in Sources */,
+				0285ECA52860E4D100C12120 /* FrameBufferTexture.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

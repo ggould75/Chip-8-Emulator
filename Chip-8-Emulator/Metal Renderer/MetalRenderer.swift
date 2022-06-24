@@ -34,12 +34,7 @@ final class MetalRenderer {
         self.commandQueue = commandQueue
 
         self.renderPipelineState = try makeRenderPipelineState()
-
-        guard let vertexPositionsBuffer = makeBuffer() else {
-            throw MetalRendererError.couldNotBuildBuffer
-        }
-        
-        self.vertexPositionsBuffer = vertexPositionsBuffer
+        self.vertexPositionsBuffer = try makeBuffer()
     }
     
     private func makeRenderPipelineState() throws -> MTLRenderPipelineState {
@@ -55,7 +50,7 @@ final class MetalRenderer {
         return try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
     }
     
-    private func makeBuffer() -> MTLBuffer? {
+    private func makeBuffer() throws -> MTLBuffer {
         let positions: [ScreenVertex] = [
             ScreenVertex(position: vector_float2(-1,  1), textureCoordinate: vector_float2(0, 0)),
             ScreenVertex(position: vector_float2( 1,  1), textureCoordinate: vector_float2(1, 0)),
@@ -65,7 +60,7 @@ final class MetalRenderer {
 
         let positionsSize = positions.count * MemoryLayout<ScreenVertex>.size
         guard let positionsBuffer = device.makeBuffer(length: positionsSize, options: .storageModeManaged) else {
-            return nil
+            throw MetalRendererError.couldNotBuildBuffer
         }
         
         memcpy(positionsBuffer.contents(), positions, positionsSize)

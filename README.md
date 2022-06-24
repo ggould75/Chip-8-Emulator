@@ -102,6 +102,9 @@ You can find many more links on Wikipedia.
 
 ### Progress
 
+**[24/06/22]**
+- Introduced Metal renderer and the ability to switch between CoreGraphics/Metal renderer
+
 **[30/12/21]**
 - Drawing buffers are copied and redrawn in a thread-safe queue. A semaphore is also used to ensure coordination between NSView drawing function and the number of actual buffers produced. This slightly improves drawing performance.
 

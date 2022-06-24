@@ -8,35 +8,79 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+final class ViewController: NSViewController {
+    private var cppBridge: SwiftCppBridge?
+    private lazy var runningQueue = DispatchQueue(label: "com.chip8.running-queue")
 
-    var cppBridge: SwiftCppBridge?
-    lazy var runningQueue = DispatchQueue(label: "com.chip8.running-queue")
+    private static let vmScreenSize = CGSize(width: 64, height: 32)
+    private static let windowRect = CGRect(x: 0, y: 0, width: 640, height: 320)
+    
+    private enum RendererType {
+        case coreGraphics
+        case metal
+    }
+    
+    // Change this property to test the other renderer
+    private let rendererType: RendererType = .metal
+    
+    private lazy var rendererView: NSView = {
+        let view: NSView
+        switch rendererType {
+        case .coreGraphics:
+            let cgView = CoreGraphicsRendererView(Self.vmScreenSize)
+            cgView.keyboardHandler = self
+            cgView.layer?.drawsAsynchronously = true
+            view = cgView
+            
+        case .metal:
+            guard let device = MTLCreateSystemDefaultDevice() else {
+                fatalError("Unable to create the Metal device")
+            }
+
+            let metalRenderer: MetalRenderer
+            do {
+                metalRenderer = try MetalRenderer(Self.vmScreenSize, device)
+            } catch {
+                fatalError("Unable to instantiate the Metal renderer: \(error)")
+            }
+            
+            let metalView = MetalView(frame: Self.windowRect, device, metalRenderer)
+            metalView.keyboardHandler = self
+            metalView.colorPixelFormat = .bgra8Unorm
+            metalView.clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1)
+            metalView.isPaused = true
+            metalView.enableSetNeedsDisplay = false
+            view = metalView
+        }
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     
     override func loadView() {
-        let rect = NSRect(x: 0, y: 0, width: 640, height: 320)
-        view = BackgroundView(frame: rect)
+        view = BackgroundView(frame: Self.windowRect)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let vmScreenSize = CGSize(width: 64, height: 32)
-        let viewRenderer = RendererView(virtualMachineScreenSize: vmScreenSize)
-        viewRenderer.layer?.drawsAsynchronously = true
-        viewRenderer.keyboardHandler = self
-        viewRenderer.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(viewRenderer)
+        view.addSubview(rendererView)
         
         NSLayoutConstraint.activate([
-            viewRenderer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            viewRenderer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            viewRenderer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            viewRenderer.heightAnchor.constraint(equalTo: viewRenderer.widthAnchor, multiplier: 0.5),
-            viewRenderer.widthAnchor.constraint(greaterThanOrEqualToConstant: vmScreenSize.width),
+            rendererView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            rendererView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            rendererView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            rendererView.heightAnchor.constraint(equalTo: rendererView.widthAnchor, multiplier: 0.5),
+            rendererView.widthAnchor.constraint(greaterThanOrEqualToConstant: Self.vmScreenSize.width),
         ])
         
-        cppBridge = SwiftCppBridge(screenRenderer: viewRenderer)
+        guard let rendererView = rendererView as? Renderer else {
+            print("Renderer view doesn't conform to the required protocol.")
+            return
+        }
+        
+        cppBridge = SwiftCppBridge(screenRenderer: rendererView)
         guard cppBridge?.loadRom(withName: "brix") == true else {
             showAlertWithMessage("Unable to find the ROM image.")
             return

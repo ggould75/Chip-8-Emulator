@@ -19,6 +19,7 @@ final class ViewController: NSViewController {
         case coreGraphics
         case metal
     }
+    
     // Change this property to test the other renderer
     private let rendererType: RendererType = .metal
     
@@ -33,11 +34,17 @@ final class ViewController: NSViewController {
             
         case .metal:
             guard let device = MTLCreateSystemDefaultDevice() else {
-                assertionFailure("Unable to create the default Metal device")
-                return NSView()
+                fatalError("Unable to create the Metal device")
             }
 
-            let metalView = MetalView(frame: Self.windowRect,  Self.vmScreenSize, device)
+            let metalRenderer: MetalRenderer
+            do {
+                metalRenderer = try MetalRenderer(Self.vmScreenSize, device)
+            } catch {
+                fatalError("Unable to instantiate the Metal renderer: \(error)")
+            }
+            
+            let metalView = MetalView(frame: Self.windowRect, device, metalRenderer)
             metalView.keyboardHandler = self
             metalView.colorPixelFormat = .bgra8Unorm
             metalView.clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 1)

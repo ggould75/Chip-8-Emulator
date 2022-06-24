@@ -9,6 +9,11 @@
 import Metal
 import MetalKit
 
+enum MetalRendererError: Error {
+    case couldNotBuildCommandQueue
+    case couldNotBuildBuffer
+}
+
 final class MetalRenderer {
     private let device: MTLDevice
     private let commandQueue: MTLCommandQueue
@@ -17,29 +22,28 @@ final class MetalRenderer {
     private var currentTexture: MTLTexture?
     
     private let frameBufferSize: CGSize
-    
-    init?(_ frameBufferSize: CGSize, _ device: MTLDevice) {
+
+    init(_ frameBufferSize: CGSize, _ device: MTLDevice) throws {
         self.device = device
         self.frameBufferSize = frameBufferSize
 
         guard let commandQueue = device.makeCommandQueue() else {
-            return nil
+            throw MetalRendererError.couldNotBuildCommandQueue
         }
+        
         self.commandQueue = commandQueue
-        do {
-            try buildShaders()
-        } catch {
-            return nil
-        }
 
-        buildBuffers()
+        self.renderPipelineState = try makeRenderPipelineState()
+
+        guard let vertexPositionsBuffer = makeBuffer() else {
+            throw MetalRendererError.couldNotBuildBuffer
+        }
+        
+        self.vertexPositionsBuffer = vertexPositionsBuffer
     }
     
-    private func buildShaders() throws {
-        guard let library = device.makeDefaultLibrary() else {
-            assertionFailure("Could not build default library.")
-            return
-        }
+    private func makeRenderPipelineState() throws -> MTLRenderPipelineState {
+        let library = try device.makeDefaultLibrary(bundle: Bundle.main)
         
         let vertexFn = library.makeFunction(name: "vertexMain")
         let fragmentFn = library.makeFunction(name: "fragmentMainNearest")
@@ -48,10 +52,10 @@ final class MetalRenderer {
         pipelineDescriptor.fragmentFunction = fragmentFn
         pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
 
-        self.renderPipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
+        return try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
     }
     
-    private func buildBuffers() {
+    private func makeBuffer() -> MTLBuffer? {
         let positions: [ScreenVertex] = [
             ScreenVertex(position: vector_float2(-1,  1), textureCoordinate: vector_float2(0, 0)),
             ScreenVertex(position: vector_float2( 1,  1), textureCoordinate: vector_float2(1, 0)),
@@ -60,12 +64,14 @@ final class MetalRenderer {
         ]
 
         let positionsSize = positions.count * MemoryLayout<ScreenVertex>.size
-        vertexPositionsBuffer = device.makeBuffer(length: positionsSize, options: .storageModeManaged)! // FIXME
+        guard let positionsBuffer = device.makeBuffer(length: positionsSize, options: .storageModeManaged) else {
+            return nil
+        }
         
-        memcpy(vertexPositionsBuffer?.contents(), positions, positionsSize)
+        memcpy(positionsBuffer.contents(), positions, positionsSize)
+        positionsBuffer.didModifyRange(0..<positionsBuffer.length)
         
-        // FIXME
-        vertexPositionsBuffer?.didModifyRange(0..<vertexPositionsBuffer!.length)
+        return positionsBuffer
     }
     
     private func updateTexture(from buffer: UnsafePointer<UInt8>) {
@@ -108,27 +114,26 @@ final class MetalRenderer {
         guard
             let passDescriptor = view.currentRenderPassDescriptor,
             let currentDrawable = view.currentDrawable,
-            let renderPipelineState = renderPipelineState
+            let renderPipelineState = renderPipelineState,
+            let command = commandQueue.makeCommandBuffer(),
+            let commandEncoder = command.makeRenderCommandEncoder(descriptor: passDescriptor)
         else {
-            assertionFailure("Missing parameter for drawing with Metal")
+            assertionFailure("Missing parameters for drawing with Metal")
             return
         }
         
         updateTexture(from: buffer)
         
-        let command = commandQueue.makeCommandBuffer()
-        let commandEncoder = command?.makeRenderCommandEncoder(descriptor: passDescriptor)
-
-        commandEncoder?.setRenderPipelineState(renderPipelineState)
-        commandEncoder?.setVertexBuffer(vertexPositionsBuffer, offset: 0, index: 0)
-        commandEncoder?.setFragmentTexture(currentTexture, index: 0)
+        commandEncoder.setRenderPipelineState(renderPipelineState)
+        commandEncoder.setVertexBuffer(vertexPositionsBuffer, offset: 0, index: 0)
+        commandEncoder.setFragmentTexture(currentTexture, index: 0)
         
-        commandEncoder?.drawPrimitives(type: MTLPrimitiveType.triangleStrip, vertexStart: 0, vertexCount: 4)
+        commandEncoder.drawPrimitives(type: MTLPrimitiveType.triangleStrip, vertexStart: 0, vertexCount: 4)
 
-        commandEncoder?.endEncoding()
+        commandEncoder.endEncoding()
         
-        command?.present(currentDrawable)
-        command?.commit()
+        command.present(currentDrawable)
+        command.commit()
         
         view.draw()
     }

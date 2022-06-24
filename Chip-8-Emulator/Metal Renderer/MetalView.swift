@@ -17,12 +17,12 @@ final class MetalView: MTKView {
     override var isFlipped: Bool { return true }
     override var acceptsFirstResponder: Bool { return true }
   
-    init(frame frameRect: CGRect, _ frameBufferSize: CGSize, _ device: MTLDevice) {
-        self.metalRenderer = MetalRenderer(frameBufferSize, device)! // FIXME
+    init(frame frameRect: CGRect, _ device: MTLDevice, _ metalRenderer: MetalRenderer) {
+        self.metalRenderer = metalRenderer
         
         super.init(frame: frameRect, device: device)
     }
-    
+        
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

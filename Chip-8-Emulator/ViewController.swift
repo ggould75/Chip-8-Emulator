@@ -21,7 +21,7 @@ final class ViewController: NSViewController {
     }
     
     // Change this property to test the other renderer
-    private let rendererType: RendererType = .metal
+    private let rendererType: RendererType = .coreGraphics
     
     private lazy var rendererView: NSView = {
         let view: NSView
@@ -29,7 +29,6 @@ final class ViewController: NSViewController {
         case .coreGraphics:
             let cgView = CoreGraphicsRendererView(Self.vmScreenSize)
             cgView.keyboardHandler = self
-            cgView.layer?.drawsAsynchronously = true
             view = cgView
             
         case .metal:

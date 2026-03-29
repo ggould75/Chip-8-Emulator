@@ -47,32 +47,46 @@ final class CoreGraphicsRendererView: NSView {
             return
         }
 
-        context.setFillColor(NSColor.black.cgColor)
-        context.fill(dirtyRect)
+        let width = Int(frameBufferSize.width)
+        let height = Int(frameBufferSize.height)
 
-        let squaresPath = CGMutablePath()
-        context.setFillColor(NSColor.white.cgColor)
-
-        let rectSize = dirtyRect.size
-        let pixelSizeH = rectSize.width / frameBufferSize.width
-        let pixelSizeV = rectSize.height / frameBufferSize.height
-
-        for y in 0 ..< Int(frameBufferSize.height) {
-            for x in 0 ..< Int(frameBufferSize.width) {
-                let pixelIndex = x + y * Int(frameBufferSize.width)
-                let pixelValue = buffer[pixelIndex]
-                if pixelValue > 0 {
-                    let rect = CGRect(x: pixelSizeH * CGFloat(x),
-                                      y: pixelSizeV * CGFloat(y),
-                                      width: pixelSizeH,
-                                      height: pixelSizeV)
-                    squaresPath.addRect(rect)
-                }
-            }
+        // Build a grayscale pixel buffer: 0x00 (black) for off, 0xFF (white) for on
+        let pixelData = UnsafeMutablePointer<UInt8>.allocate(capacity: width * height)
+        for i in 0 ..< width * height {
+            pixelData[i] = buffer[i] > 0 ? 0xFF : 0x00
         }
 
-        context.addPath(squaresPath)
-        context.drawPath(using: .fill)
+        let colorSpace = CGColorSpaceCreateDeviceGray()
+        guard let dataProvider = CGDataProvider(dataInfo: nil,
+                                                data: pixelData,
+                                                size: width * height,
+                                                releaseData: { _, data, _ in
+                                                    data.deallocate()
+                                                }),
+              let image = CGImage(width: width,
+                                  height: height,
+                                  bitsPerComponent: 8,
+                                  bitsPerPixel: 8,
+                                  bytesPerRow: width,
+                                  space: colorSpace,
+                                  bitmapInfo: CGBitmapInfo(rawValue: 0),
+                                  provider: dataProvider,
+                                  decode: nil,
+                                  shouldInterpolate: false,
+                                  intent: .defaultIntent)
+        else {
+            pixelData.deallocate()
+            return
+        }
+
+        // Draw the full frame in one atomic
+        // Counteract the flipped coordinate system (isFlipped = true) so the image is not upside down
+        context.saveGState()
+        context.translateBy(x: 0, y: bounds.height)
+        context.scaleBy(x: 1, y: -1)
+        context.interpolationQuality = .none
+        context.draw(image, in: CGRect(origin: .zero, size: bounds.size))
+        context.restoreGState()
         
         drawingDispatchQueue.sync {
             // At least one buffer should always exists, otherwise we can't redraw anything at the next pass.

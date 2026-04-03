@@ -37,7 +37,7 @@ Because of the odd couple (C++/Swift), some boilerplate code is needed in order 
 
 Normally you wouldn't want to do that because of the bridging complications that are involved, and because this can potentially force you to use "unsafe" Swift for accessing C/C++ data structures. However, this is meant to be a learning project about emulators, but also a playground for brushing up my C++ and Swift interoperability skills.
 
-Drawing the buffer is currently implemented by simply drawing with CoreGraphics big pixels, but I may change my mind at some point. 
+Drawing the buffer is currently implemented by rendering a CGImage from the pixel buffer, with an alternative Metal renderer also available.
 
 ### Building and running
 
@@ -47,12 +47,7 @@ In case you run into any build issue I'm happy to know about it.
 
 ### Loading and playing with a specific ROM
 
-Right now ROM files can only be selected from the application bundle, and you can only play with 1 ROM per run.
-The name of the ROM to load is currently hardcoded in `ViewController.swift`, in order to load a different ROM:
-- Open `ViewController.swift`
-- Replace `loadRom(withName: "brix")...bla bla` with one of the others ROMs that you find under ROMS/ folder 
-
-This is a bit annoying. Eventually I want to be able to open any external ROMs simply by selecting a file.
+Games can be selected from the **Games** menu in the menu bar. All ROMs bundled in the application are listed there.
 
 It can be difficult to get which keyboard key to use for which game, so you may want to try first the following ROMs:
 - _brix_: Use 4-6 to move left-right
@@ -62,11 +57,11 @@ It can be difficult to get which keyboard key to use for which game, so you may 
 ### Known issues
 - <strike>Some games get stuck after a while</strike> (Fixed 30/12/21)
 - <strike>Occasional crashes</strike> (Fixed 30/12/21)
-- Reproduction speed sometimes feels too fast or too slow depending on the ROM loaded
+- <strike>Reproduction speed sometimes feels too fast or too slow depending on the ROM loaded</strike> (Configurable speed added 03/04/26)
 
 ### Future improvements
-- Right now I'm just using a delay between each instruction, which isn't great
-- Perhaps better drawing performance
+- <strike>Right now I'm just using a delay between each instruction, which isn't great</strike> (Batched instruction execution added 03/04/26)
+- <strike>Perhaps better drawing performance</strike> (CGImage rendering added 03/04/26)
 - <strike>Why some games get stuck?</strike> (Hopefully fixed 30/12/21)
 
 ### Specifications and others useful resourses
@@ -100,7 +95,15 @@ You can find many more links on Wikipedia.
 
 <img src="Screenshots/window_resize_pong2.gif">
 
-### Progress
+### Change log
+
+**[03/04/26]**
+- Render frame buffer as CGImage instead of drawing individual rects, reducing flicker
+- Removed drawsAsynchronously which could cause partial frame rendering
+- Batched instruction execution per frame with decoupled 60 Hz timer for more accurate emulation timing
+- Added Games menu to switch between ROMs without restarting the app
+- Added Play menu with Pause/Resume (Cmd+P) and Reset (Cmd+R)
+- Added configurable Speed submenu with presets and Faster/Slower shortcuts (Cmd+/Cmd-)
 
 **[24/06/22]**
 - Introduced Metal renderer and the ability to switch between CoreGraphics/Metal renderer

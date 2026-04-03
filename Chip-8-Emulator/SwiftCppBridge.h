@@ -18,6 +18,9 @@
 - (void)keyDownEvent:(const char)key;
 - (void)keyUpEvent:(const char)key;
 - (void)setInstructionsPerFrame:(int)value;
+- (void)stop;
+- (void)setPaused:(BOOL)paused;
+- (BOOL)isPaused;
 
 @end
 

@@ -12,6 +12,7 @@ final class ViewController: NSViewController {
     private var cppBridge: SwiftCppBridge?
     private lazy var runningQueue = DispatchQueue(label: "com.chip8.running-queue")
     private var currentSpeedIndex: Int = SpeedPresets.index(of: SpeedPresets.defaultValue) ?? 3
+    private var currentGameName: String = ""
 
     private static let vmScreenSize = CGSize(width: 64, height: 32)
     private static let windowRect = CGRect(x: 0, y: 0, width: 640, height: 320)
@@ -81,16 +82,25 @@ final class ViewController: NSViewController {
         }
         
         cppBridge = SwiftCppBridge(screenRenderer: rendererView)
-        guard cppBridge?.loadRom(withName: "brix") == true else {
+        loadGame("brix")
+    }
+
+    private func loadGame(_ name: String) {
+        cppBridge?.stop()
+        cppBridge?.reset()
+
+        guard cppBridge?.loadRom(withName: name) == true else {
             showAlertWithMessage("Unable to find the ROM image.")
             return
         }
+
+        currentGameName = name
 
         runningQueue.async {
             self.cppBridge?.run()
         }
     }
-    
+
     private func showAlertWithMessage(_ msg: String) {
         guard let window = NSApp.mainWindow else { return }
         
@@ -111,9 +121,27 @@ extension ViewController: KeyboardEventsHandler {
     }
 }
 
-// MARK: - Speed menu actions
+// MARK: - Games menu actions
+
+extension ViewController {
+    @objc func selectGame(_ sender: NSMenuItem) {
+        guard let name = sender.representedObject as? String else { return }
+        loadGame(name)
+    }
+
+    @objc func resetGame(_ sender: NSMenuItem) {
+        loadGame(currentGameName)
+    }
+}
+
+// MARK: - Play menu actions
 
 extension ViewController: NSMenuItemValidation {
+    @objc func togglePause(_ sender: NSMenuItem) {
+        guard let bridge = cppBridge else { return }
+        bridge.setPaused(!bridge.isPaused())
+    }
+
     @objc func selectSpeedPreset(_ sender: NSMenuItem) {
         guard let index = SpeedPresets.index(of: sender.tag) else { return }
         currentSpeedIndex = index
@@ -137,6 +165,19 @@ extension ViewController: NSMenuItemValidation {
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.action == #selector(togglePause(_:)) {
+            let paused = cppBridge?.isPaused() ?? false
+            menuItem.title = paused ? "Resume" : "Pause"
+            return true
+        }
+        if menuItem.action == #selector(resetGame(_:)) {
+            return !currentGameName.isEmpty
+        }
+        if menuItem.action == #selector(selectGame(_:)) {
+            let name = menuItem.representedObject as? String ?? ""
+            menuItem.state = name == currentGameName ? .on : .off
+            return true
+        }
         if menuItem.action == #selector(selectSpeedPreset(_:)) {
             let currentValue = SpeedPresets.all[currentSpeedIndex].value
             menuItem.state = menuItem.tag == currentValue ? .on : .off

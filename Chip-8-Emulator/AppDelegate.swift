@@ -47,34 +47,75 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         appMenuItem.submenu = appMenu
         mainMenu.addItem(appMenuItem)
 
-        // Speed menu
-        let speedMenuItem = NSMenuItem()
-        let speedMenu = NSMenu(title: "Speed")
+        // Games menu
+        let gamesMenuItem = NSMenuItem()
+        let gamesMenu = NSMenu(title: "Games")
+
+        let romURLs = Bundle.main.urls(forResourcesWithExtension: "rom", subdirectory: nil) ?? []
+        let romNames = romURLs
+            .map { $0.deletingPathExtension().lastPathComponent }
+            .sorted()
+
+        for name in romNames {
+            let item = NSMenuItem(title: name.capitalized,
+                                  action: #selector(ViewController.selectGame(_:)),
+                                  keyEquivalent: "")
+            item.representedObject = name
+            gamesMenu.addItem(item)
+        }
+
+        gamesMenu.addItem(.separator())
+
+        let resetItem = NSMenuItem(title: "Reset",
+                                   action: #selector(ViewController.resetGame(_:)),
+                                   keyEquivalent: "r")
+        resetItem.keyEquivalentModifierMask = [.command]
+        gamesMenu.addItem(resetItem)
+
+        gamesMenuItem.submenu = gamesMenu
+        mainMenu.addItem(gamesMenuItem)
+
+        // Play menu
+        let playMenuItem = NSMenuItem()
+        let playMenu = NSMenu(title: "Play")
+
+        let pauseItem = NSMenuItem(title: "Pause",
+                                   action: #selector(ViewController.togglePause(_:)),
+                                   keyEquivalent: "p")
+        pauseItem.keyEquivalentModifierMask = [.command]
+        playMenu.addItem(pauseItem)
+
+        // Speed submenu
+        let speedSubMenuItem = NSMenuItem(title: "Speed", action: nil, keyEquivalent: "")
+        let speedSubMenu = NSMenu(title: "Speed")
 
         for preset in SpeedPresets.all {
             let item = NSMenuItem(title: preset.label,
                                   action: #selector(ViewController.selectSpeedPreset(_:)),
                                   keyEquivalent: "")
             item.tag = preset.value
-            speedMenu.addItem(item)
+            speedSubMenu.addItem(item)
         }
 
-        speedMenu.addItem(.separator())
+        speedSubMenu.addItem(.separator())
 
         let fasterItem = NSMenuItem(title: "Faster",
                                     action: #selector(ViewController.increaseSpeed(_:)),
                                     keyEquivalent: "+")
         fasterItem.keyEquivalentModifierMask = [.command]
-        speedMenu.addItem(fasterItem)
+        speedSubMenu.addItem(fasterItem)
 
         let slowerItem = NSMenuItem(title: "Slower",
                                     action: #selector(ViewController.decreaseSpeed(_:)),
                                     keyEquivalent: "-")
         slowerItem.keyEquivalentModifierMask = [.command]
-        speedMenu.addItem(slowerItem)
+        speedSubMenu.addItem(slowerItem)
 
-        speedMenuItem.submenu = speedMenu
-        mainMenu.addItem(speedMenuItem)
+        speedSubMenuItem.submenu = speedSubMenu
+        playMenu.addItem(speedSubMenuItem)
+
+        playMenuItem.submenu = playMenu
+        mainMenu.addItem(playMenuItem)
 
         NSApplication.shared.mainMenu = mainMenu
     }

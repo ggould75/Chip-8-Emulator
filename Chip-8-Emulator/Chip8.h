@@ -26,6 +26,9 @@ public:
     void keyDownEvent(const char key);
     void keyUpEvent(const char key);
     void setInstructionsPerFrame(int value);
+    void stop();
+    void setPaused(bool paused);
+    bool isPaused() const;
     
 private:
     static const uint16_t kProgramStartAddress = 0x200;
@@ -59,6 +62,8 @@ private:
     
     bool m_shouldRedraw = false;
     std::atomic<int> m_instructionsPerFrame{15};
+    std::atomic<bool> m_running{false};
+    std::atomic<bool> m_paused{false};
     
     uint16_t argVx(const uint16_t opcode) const;
     uint16_t argVy(const uint16_t opcode) const;

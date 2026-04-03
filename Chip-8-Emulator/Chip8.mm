@@ -101,7 +101,13 @@ void Chip8::runLoop()
 
     auto nextTimerTick = chrono::steady_clock::now() + kTimerInterval;
 
-    while (true) {
+    m_running.store(true);
+    while (m_running.load()) {
+        if (m_paused.load()) {
+            this_thread::sleep_for(kFrameDuration);
+            continue;
+        }
+
         int instructionsPerFrame = m_instructionsPerFrame.load();
 
         for (int i = 0; i < instructionsPerFrame; i++) {
@@ -128,6 +134,21 @@ void Chip8::runLoop()
 
         this_thread::sleep_for(kFrameDuration);
     }
+}
+
+void Chip8::stop()
+{
+    m_running.store(false);
+}
+
+void Chip8::setPaused(bool paused)
+{
+    m_paused.store(paused);
+}
+
+bool Chip8::isPaused() const
+{
+    return m_paused.load();
 }
 
 void Chip8::setInstructionsPerFrame(int value)

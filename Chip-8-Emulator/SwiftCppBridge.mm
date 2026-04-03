@@ -82,4 +82,19 @@
     _chip8->setInstructionsPerFrame(value);
 }
 
+- (void)stop
+{
+    _chip8->stop();
+}
+
+- (void)setPaused:(BOOL)paused
+{
+    _chip8->setPaused(paused);
+}
+
+- (BOOL)isPaused
+{
+    return _chip8->isPaused();
+}
+
 @end

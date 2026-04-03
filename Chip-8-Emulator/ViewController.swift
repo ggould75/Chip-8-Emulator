@@ -101,6 +101,16 @@ final class ViewController: NSViewController {
     }
 }
 
+extension ViewController: KeyboardEventsHandler {
+    func keyDownEvent(_ cChar: CChar) {
+        cppBridge?.keyDownEvent(cChar)
+    }
+    
+    func keyUpEvent(_ cChar: CChar) {
+        cppBridge?.keyUpEvent(cChar)
+    }
+}
+
 // MARK: - Speed menu actions
 
 extension ViewController: NSMenuItemValidation {
@@ -139,15 +149,5 @@ extension ViewController: NSMenuItemValidation {
             return currentSpeedIndex > 0
         }
         return true
-    }
-}
-
-extension ViewController: KeyboardEventsHandler {
-    func keyDownEvent(_ cChar: CChar) {
-        cppBridge?.keyDownEvent(cChar)
-    }
-    
-    func keyUpEvent(_ cChar: CChar) {
-        cppBridge?.keyUpEvent(cChar)
     }
 }

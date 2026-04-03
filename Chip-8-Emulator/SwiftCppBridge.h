@@ -17,6 +17,7 @@
 - (void)run;
 - (void)keyDownEvent:(const char)key;
 - (void)keyUpEvent:(const char)key;
+- (void)setInstructionsPerFrame:(int)value;
 
 @end
 

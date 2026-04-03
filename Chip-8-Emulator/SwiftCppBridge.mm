@@ -77,4 +77,9 @@
     _chip8->keyUpEvent(key);
 }
 
+- (void)setInstructionsPerFrame:(int)value
+{
+    _chip8->setInstructionsPerFrame(value);
+}
+
 @end

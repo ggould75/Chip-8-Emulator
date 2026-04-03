@@ -44,6 +44,7 @@
 		0285ECA52860E4D100C12120 /* FrameBufferTexture.metal in Sources */ = {isa = PBXBuildFile; fileRef = 0285ECA42860E4D100C12120 /* FrameBufferTexture.metal */; };
 		02AE57962510EC0F002AC8BD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AE57952510EC0F002AC8BD /* main.swift */; };
 		02DED4A4285FA3AC00FF936E /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DED4A3285FA3AC00FF936E /* Renderer.swift */; };
+		90FDD27902AE1F086E597BF0 /* SpeedPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217707B666F73FBF2D0D3C00 /* SpeedPresets.swift */; };
 		02DED4A6285FA3CA00FF936E /* KeyboardEventsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DED4A5285FA3CA00FF936E /* KeyboardEventsHandler.swift */; };
 		02DED4A8285FA40700FF936E /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DED4A7285FA40700FF936E /* MetalView.swift */; };
 /* End PBXBuildFile section */
@@ -93,6 +94,7 @@
 		0285ECA62860E8B200C12120 /* ShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
 		02AE57952510EC0F002AC8BD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		02DED4A3285FA3AC00FF936E /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		217707B666F73FBF2D0D3C00 /* SpeedPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedPresets.swift; sourceTree = "<group>"; };
 		02DED4A5285FA3CA00FF936E /* KeyboardEventsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEventsHandler.swift; sourceTree = "<group>"; };
 		02DED4A7285FA40700FF936E /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -138,6 +140,7 @@
 				0215607D25055BF100621310 /* SwiftCppBridge.h */,
 				02DED4A5285FA3CA00FF936E /* KeyboardEventsHandler.swift */,
 				02DED4A3285FA3AC00FF936E /* Renderer.swift */,
+				217707B666F73FBF2D0D3C00 /* SpeedPresets.swift */,
 				0285ECAA286117A800C12120 /* CoreGraphics Renderer */,
 				0285ECA92861176800C12120 /* Metal Renderer */,
 				027C612C253D8AF0003274A0 /* BackgroundView.swift */,
@@ -298,6 +301,7 @@
 			files = (
 				0285ECA028609BFD00C12120 /* MetalRenderer.swift in Sources */,
 				02DED4A4285FA3AC00FF936E /* Renderer.swift in Sources */,
+				90FDD27902AE1F086E597BF0 /* SpeedPresets.swift in Sources */,
 				02DED4A8285FA40700FF936E /* MetalView.swift in Sources */,
 				02DED4A6285FA3CA00FF936E /* KeyboardEventsHandler.swift in Sources */,
 				021560662505479600621310 /* ViewController.swift in Sources */,

@@ -11,6 +11,7 @@ import Cocoa
 final class ViewController: NSViewController {
     private var cppBridge: SwiftCppBridge?
     private lazy var runningQueue = DispatchQueue(label: "com.chip8.running-queue")
+    private var currentSpeedIndex: Int = SpeedPresets.index(of: SpeedPresets.defaultValue) ?? 3
 
     private static let vmScreenSize = CGSize(width: 64, height: 32)
     private static let windowRect = CGRect(x: 0, y: 0, width: 640, height: 320)
@@ -80,7 +81,7 @@ final class ViewController: NSViewController {
         }
         
         cppBridge = SwiftCppBridge(screenRenderer: rendererView)
-        guard cppBridge?.loadRom(withName: "brix") == true else {
+        guard cppBridge?.loadRom(withName: "vbrix") == true else {
             showAlertWithMessage("Unable to find the ROM image.")
             return
         }
@@ -97,6 +98,47 @@ final class ViewController: NSViewController {
         alert.messageText = msg
         alert.alertStyle = .warning
         alert.beginSheetModal(for: window, completionHandler: nil)
+    }
+}
+
+// MARK: - Speed menu actions
+
+extension ViewController: NSMenuItemValidation {
+    @objc func selectSpeedPreset(_ sender: NSMenuItem) {
+        guard let index = SpeedPresets.index(of: sender.tag) else { return }
+        currentSpeedIndex = index
+        applySpeed(SpeedPresets.all[index].value)
+    }
+
+    @objc func increaseSpeed(_ sender: NSMenuItem) {
+        guard currentSpeedIndex < SpeedPresets.all.count - 1 else { return }
+        currentSpeedIndex += 1
+        applySpeed(SpeedPresets.all[currentSpeedIndex].value)
+    }
+
+    @objc func decreaseSpeed(_ sender: NSMenuItem) {
+        guard currentSpeedIndex > 0 else { return }
+        currentSpeedIndex -= 1
+        applySpeed(SpeedPresets.all[currentSpeedIndex].value)
+    }
+
+    private func applySpeed(_ value: Int) {
+        cppBridge?.setInstructionsPerFrame(Int32(value))
+    }
+
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.action == #selector(selectSpeedPreset(_:)) {
+            let currentValue = SpeedPresets.all[currentSpeedIndex].value
+            menuItem.state = menuItem.tag == currentValue ? .on : .off
+            return true
+        }
+        if menuItem.action == #selector(increaseSpeed(_:)) {
+            return currentSpeedIndex < SpeedPresets.all.count - 1
+        }
+        if menuItem.action == #selector(decreaseSpeed(_:)) {
+            return currentSpeedIndex > 0
+        }
+        return true
     }
 }
 

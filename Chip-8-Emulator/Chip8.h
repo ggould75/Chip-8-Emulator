@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <atomic>
 
 #import "SwiftCppBridge.h"
 
@@ -24,6 +25,7 @@ public:
     void reset();
     void keyDownEvent(const char key);
     void keyUpEvent(const char key);
+    void setInstructionsPerFrame(int value);
     
 private:
     static const uint16_t kProgramStartAddress = 0x200;
@@ -56,6 +58,7 @@ private:
     void updatePressedKey(const char key, const bool isPressed);
     
     bool m_shouldRedraw = false;
+    std::atomic<int> m_instructionsPerFrame{15};
     
     uint16_t argVx(const uint16_t opcode) const;
     uint16_t argVy(const uint16_t opcode) const;

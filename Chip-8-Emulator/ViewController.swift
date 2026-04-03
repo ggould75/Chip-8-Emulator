@@ -81,7 +81,7 @@ final class ViewController: NSViewController {
         }
         
         cppBridge = SwiftCppBridge(screenRenderer: rendererView)
-        guard cppBridge?.loadRom(withName: "vbrix") == true else {
+        guard cppBridge?.loadRom(withName: "brix") == true else {
             showAlertWithMessage("Unable to find the ROM image.")
             return
         }

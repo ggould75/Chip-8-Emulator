@@ -92,24 +92,47 @@ bool Chip8::loadProgramIntoMemory(const char *filename)
 
 void Chip8::runLoop()
 {
+    // Execute a batch of instructions per frame at a fixed frame rate.
+    // Higher values = faster game + less flicker (more XOR pairs per frame).
+    // Lower values = slower game + more flicker.
+    // At 33 Hz with 15 inst/frame ≈ 500 inst/sec (original Chip-8 speed).
+    static const auto kFrameDuration = chrono::microseconds(30000); // ~33 Hz
+    static const auto kTimerInterval = chrono::microseconds(16667); // 60 Hz
+
+    auto nextTimerTick = chrono::steady_clock::now() + kTimerInterval;
+
     while (true) {
-        if (m_delayTimer > 0) {
-            m_delayTimer -= 1;
+        int instructionsPerFrame = m_instructionsPerFrame.load();
+
+        for (int i = 0; i < instructionsPerFrame; i++) {
+            processInstruction();
         }
-        if (m_soundTimer > 0) {
-            [swiftBridge playSystemBeep];
-            m_soundTimer = 0;
+
+        // Decrement timers at 60 Hz via wall clock, independent of frame rate
+        auto now = chrono::steady_clock::now();
+        if (now >= nextTimerTick) {
+            if (m_delayTimer > 0) {
+                m_delayTimer -= 1;
+            }
+            if (m_soundTimer > 0) {
+                [swiftBridge playSystemBeep];
+                m_soundTimer = 0;
+            }
+            nextTimerTick = now + kTimerInterval;
         }
-        
-        processInstruction();
-        
+
         if (m_shouldRedraw) {
             [swiftBridge redrawScreenWithBuffer:m_frameBuffer];
             m_shouldRedraw = false;
         }
-        
-        this_thread::sleep_for(chrono::milliseconds(2));
+
+        this_thread::sleep_for(kFrameDuration);
     }
+}
+
+void Chip8::setInstructionsPerFrame(int value)
+{
+    m_instructionsPerFrame.store(value);
 }
 
 void Chip8::keyDownEvent(const char key)
